@@ -1,6 +1,6 @@
-# ECSFinder
+ ECSFinder
 
-##SCAN MULTIPLE ALIGNMENTS FOR CONSERVED RNA STRUCTURES
+SCAN MULTIPLE ALIGNMENTS FOR CONSERVED RNA STRUCTURES
 Reads a set of maf files, calculates stats, scans with SISSIz or RNAz, outputs bed coordonates of high-confidence predictions
                     Usage:     java  ECSFinder.jar [options] -o output/directory -i input.maf (last parameter must be -i)
                     Output: 	Two types of results are produced:
