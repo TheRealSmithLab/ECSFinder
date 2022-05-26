@@ -7,7 +7,7 @@ Reads a set of maf files, calculates stats, scans with SISSIz or RNAz, outputs b
                             &ensp;&ensp;   (1)  the multiple sequence alignments associated to significant predictions<br />
                             &ensp;&ensp;        are saved to files in the folder specified with the -o option.<br />
                             &ensp;&ensp;        File names correspond to their genomic coordinates in a .bed-compatible format. <br />
-                            &ensp;&ensp;        Ex: output/directory/chrX_12345_12500_80:75:23:14:8:z_300_+.aln/n
+                            &ensp;&ensp;        Ex: output/directory/chrX_12345_12500_80:75:23:14:8:z_300_+.aln<br />
                             &ensp;&ensp;   (2)  The genomic coordinates (.bed format) of ECSs are also written to the SDOUT<br />
                             &ensp;&ensp;        (see additional options below).<br />
                &ensp;     output: Number chromosome start loci  end loci number of species MPI standard deviation Normalized shannon entropy<br />
