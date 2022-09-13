@@ -16,14 +16,13 @@ java ECSFinder [options] -o output/directory -i input.maf (last parameter must b
 
 ```
 
- ## Output: Two types of results are produced:<br />
-                              (1)  the multiple sequence alignments associated to significant predictions<br />
-                                   are saved to files in the folder specified with the -o option.<br />
-                                    File names correspond to their genomic coordinates in a .bed-compatible format. <br />
-                                    Ex: output/directory/chrX_12345_12500_80:75:23:14:8:z_300_+.aln<br />
-                              (2)  The genomic coordinates (.bed format) of ECSs are also written to the SDOUT<br />
-                                    (see additional options below).<br />
- 
+ ## Output: Two types of results are produced:
+                              (1)  the multiple sequence alignments associated to significant predictions
+                                   are saved to files in the folder specified with the -o option
+                                    File names correspond to their genomic coordinates in a .bed-compatible format
+                                    Ex: output/directory/chrX_12345_12500_80:75:23:14:8:z_300_+.aln
+                              (2)  The genomic coordinates (.bed format) of ECSs are also written to the SDOUT
+                                    (see additional options below)
  
  
  
