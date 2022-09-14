@@ -241,8 +241,7 @@ public class ECSFinder {
                                                 currentLine = reader.readLine();
                                                 continue;
                                             }
-                                            ScanItFast aln = new ScanItFast(associativeList,
-                                                    arrayLociChrm, Path,
+                                            ScanItFast aln = new ScanItFast(associativeList, arrayLociChrm, Path,
                                                     SSZBINARY, VERBOSE);
                                             aln.setSszR(SSZR);
 
