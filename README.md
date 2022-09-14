@@ -12,7 +12,6 @@ java ECSFinder [options] -o output/directory -i input.maf (last parameter must b
    -g int max gap percentage of sequences for 2D prediction (default 50)
    -sszr double report SISSIz+RIBOSUM hits below this Z-score (default -3)
    -v verbose (messy but detailed) output
-   -r R-scape option
 
 ```
 
