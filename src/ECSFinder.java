@@ -5,8 +5,15 @@
   Created by Vanda Gaonac'h-Lovejoy on 26/05/2022.
   Copyright 2022 All rights reserved.
 */
-import java.util.*; import java.util.concurrent.* ; import java.io.*;
-import java.lang.*;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 public class ECSFinder {
 
@@ -135,6 +142,7 @@ public class ECSFinder {
                     /************************************************************************
                      ****   RNALalifold       ****
                      ************************************************************************/
+
                     String cmd = ALIFOLDBINARY + " --id-prefix=alifold" + " --noLP" + " --maxBPspan=300" + " --ribosum_scoring"
                             + " --aln-stk " + Args[Args.length - 1];
                     String Path2 = OUT_PATH + "/stockholm" + nameAlifold[nameAlifold.length - 1];
@@ -348,7 +356,9 @@ public class ECSFinder {
 
             BufferedReader reader =
                     new BufferedReader(new InputStreamReader(process.getInputStream()));
+
             while ((reader.readLine()) != null) {
+
             }
             process.waitFor();
         } catch (IOException | InterruptedException e) {

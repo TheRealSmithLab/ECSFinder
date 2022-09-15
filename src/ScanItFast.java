@@ -310,6 +310,7 @@ public class ScanItFast implements Runnable {
 
         try {
             SissizOutTab = ScanSSZ( Path, BedFile, random);
+
             if (SissizOutTab == null) { // timeout
                 Aln.delete();
             }
