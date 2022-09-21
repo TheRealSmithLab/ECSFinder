@@ -76,21 +76,23 @@ public class ECSFinder {
             System.exit(0);
         }
         // get binary paths
-        Process GetBinary = Runtime.getRuntime().exec("which RNALalifold");
-        BufferedReader ReadBin = new BufferedReader(new InputStreamReader(GetBinary.getInputStream()));
+        ProcessBuilder pbCmd = new ProcessBuilder("which","RNALalifold");
+        Process pbCmdRNAL = pbCmd.start();
+        BufferedReader ReadBin = new BufferedReader(new InputStreamReader(pbCmdRNAL.getInputStream()));
         if ((ALIFOLDBINARY = ReadBin.readLine()) == null) {
             System.out.println("Please install RNALalifold and link it to your $PATH");
             System.exit(0);
         }
 
-        GetBinary = Runtime.getRuntime().exec("which SISSIz") ;
-        ReadBin = new BufferedReader(new InputStreamReader(GetBinary.getInputStream()));
+        ProcessBuilder pbCmdSISSIz = new ProcessBuilder("which", "SISSIz") ;
+        Process pbCmdSISSIz2 = pbCmdSISSIz.start();
+        ReadBin = new BufferedReader(new InputStreamReader(pbCmdSISSIz2.getInputStream()));
         if ( (SSZBINARY = ReadBin.readLine() ) == null ) {
             System.out.println("Please install SISSIz (version 2.0), and link it to your $PATH" );
             System.exit(0);
         }
 
-        ReadBin = new BufferedReader(new InputStreamReader(GetBinary.getInputStream()));
+        //ReadBin = new BufferedReader(new InputStreamReader(GetBinary.getInputStream()));
 
         ReadBin.close();
 
