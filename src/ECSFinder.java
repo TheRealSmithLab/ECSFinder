@@ -21,7 +21,6 @@ public class ECSFinder {
             GAPS = 50,
             NTHREDS = 4;
     static boolean
-            FILTER_ID = true, //for removing identical sequences
             VERBOSE = false;
     static String
             FILENAME = "",
@@ -72,7 +71,7 @@ public class ECSFinder {
                     "Options:\n" +
                     "  -c     int       number of CPUs for calculations (default 4)\n" +
                     "  -g     int       max gap percentage of sequences for 2D prediction (default 50)\n" +
-                    "  -sszr  double    report SISSIz+RIBOSUM hits below this Z-score (default -3)\n" +
+                    "  -sszr  double    report SISSIz+RIBOSUM hits below this Z-score (default -3.0)\n" +
                     "  -v               verbose (messy but detailed) output\n");
             System.exit(0);
         }
@@ -102,10 +101,6 @@ public class ECSFinder {
                     NTHREDS = Integer.parseInt(Args[i + 1]);
                     i++;
                     break;
-                case "-f":   // Threads
-                    FILTER_ID = false;
-                    i++;
-                    break;
                 case "-g":   // gap content
                     GAPS = Integer.parseInt(Args[i + 1]);
                     i++;
@@ -122,6 +117,9 @@ public class ECSFinder {
                     break;
                 case "-v":  // verbose output
                     VERBOSE = true;
+                    break;
+                case "-sszr":  // verbose output
+                    SSZR=Double.valueOf(Args[i + 1]);
                     break;
                 case "-i":
                     i++;
@@ -143,14 +141,13 @@ public class ECSFinder {
                      ****   RNALalifold       ****
                      ************************************************************************/
 
-                    String cmd = ALIFOLDBINARY + " --id-prefix=alifold" + " --noLP" + " --maxBPspan=300" + " --ribosum_scoring"
-                            + " --aln-stk " + Args[Args.length - 1];
+
                     String Path2 = OUT_PATH + "/stockholm" + nameAlifold[nameAlifold.length - 1];
                     File stockholmFolder = new File(Path2);
                     if (!stockholmFolder.exists()) {
                         stockholmFolder.mkdir();
                     }
-                    executeCommand(cmd, nameAlifold);
+                    executeCommand(Args[Args.length - 1],nameAlifold);
 
                     ReadFile = new BufferedReader(new FileReader(Args[i]));
                     // fill in array from file
@@ -252,6 +249,7 @@ public class ECSFinder {
                                             ScanItFast aln = new ScanItFast(associativeList, arrayLociChrm, Path,
                                                     SSZBINARY, VERBOSE);
                                             aln.setSszR(SSZR);
+                                            aln.setGap(GAPS);
 
                                             Future<?> f =  MultiThreads.submit(aln);
                                             futures.add(f);
@@ -279,9 +277,9 @@ public class ECSFinder {
                                     g.get();
 
 
-                                } catch (Exception Fuck) {
+                                } catch (Exception Err) {
                                     System.err.println("MultiThreads took too long!  OOps!");
-                                    Fuck.printStackTrace();
+                                    Err.printStackTrace();
                                 }
                             }
 
@@ -306,7 +304,6 @@ public class ECSFinder {
                     break;
             }
         }
-
 
 
 
@@ -343,12 +340,22 @@ public class ECSFinder {
     }
 
 
-    private static void executeCommand(final String command, String[] nameAlifold) {
+    private static void executeCommand(final String file, String[] nameAlifold) {
         String Path = OUT_PATH + "/stockholm" + nameAlifold[nameAlifold.length - 1];
-        System.out.println("Executing command " + command);
+       // if (!(new File(Path)).isDirectory())
+         //   (new File(Path)).mkdirs();
+
         try {
 
-            Process process = Runtime.getRuntime().exec(command, null, new File(Path));
+            ProcessBuilder pb = new ProcessBuilder(ALIFOLDBINARY, "--id-prefix=alifold", "--noLP",
+                    "--maxBPspan=300","--ribosum_scoring", "--aln-stk", file );
+            String cmd =ALIFOLDBINARY + " --id-prefix=alifold"+ " --noLP"+
+                    " --maxBPspan=300"+" --ribosum_scoring"+ " --aln-stk "+ file;
+            if (VERBOSE)
+            System.out.println("Executing command " + cmd);
+
+            pb.directory(new File(Path));
+            Process process = pb.start();
             InputStream error = process.getInputStream();
             for(int i=0; i<error.available(); i++){
                 System.out.println(""+ error.read());

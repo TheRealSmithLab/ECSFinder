@@ -5,13 +5,12 @@ public class ScanItFast implements Runnable {
     static boolean VERBOSE = false;
     private final String[] key;
     private final ArrayList<String[]> associativeList;
-    ArrayList<char[]> alnTab;
     private static String Path;
     private static String SSZBINARY;
     private double
             shannon = 0;
-    private double SSZR_THRESHOLD = -3.0;        // alignments scoring below this will be kept (Z-score)
-
+    private double SSZR_THRESHOLD = -3.0;// alignments scoring below this will be kept (Z-score)
+    private int GAP_THRESHOLD = 50;
 
     ScanItFast(ArrayList<String[]> associativeList, String[] key, String Path,
                String SSZBINARY, boolean VERBOSE) {
@@ -25,10 +24,7 @@ public class ScanItFast implements Runnable {
     public void run() {
         if (VERBOSE)
             System.out.println("- - -> Starting Scan");
-        if (VERBOSE && alnTab.size() != associativeList.size()) {
-            System.out.println(" #### Maf and AlnTab aren't same length");
-            System.out.println(associativeList.size() + " " + alnTab.size());
-        }
+
 
         int startPos = Integer.parseInt(key[1]);
 //converts nucleotides to numbers
@@ -264,7 +260,8 @@ public class ScanItFast implements Runnable {
         File Aln = new File(Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + random),    //
                 AlnRC = new File(Path + "/" + BedFile.replaceAll("\t", "_") + "rc.aln." + random);  //
         // v v v v v v v v    INCLUSION STATS     v v v v v v v v v v v v v
-       if ( stats[4] <= 75 && stats[0] > 50){
+       //MPI greater than 50 and Gap content smaller than 75
+        if ( GAP_THRESHOLD <= 75 && stats[0] > 50){
             // Write Sequences to ALN Format
             try {
                 BufferedWriter WriteClustal = new BufferedWriter(new FileWriter( Aln )),
@@ -279,10 +276,10 @@ public class ScanItFast implements Runnable {
                 }
                 WriteClustal.close() ;
                 WriteClustalRC.close() ;
-            } catch (IOException Fuck) {
+            } catch (IOException Err) {
                 if (VERBOSE)
                     System.err.println("Arrgh... Couldn't write clustal file!");
-                Fuck.printStackTrace();
+                Err.printStackTrace();
                 Aln.delete() ;
                 AlnRC.delete() ;
                 return;
@@ -314,8 +311,8 @@ public class ScanItFast implements Runnable {
             if (SissizOutTab == null) { // timeout
                 Aln.delete();
             }
-        } catch (IOException Fuck) {
-            Fuck.printStackTrace();
+        } catch (IOException Err) {
+            Err.printStackTrace();
             System.err.println("ScanSSZ failed with ");
             for (int y = 0; y != goodSeqs; y++) {
                 if (!isNotUnique[y]) {
@@ -336,7 +333,7 @@ public class ScanItFast implements Runnable {
 
             Aln.delete();
 
-                    System.out.println(FinalBedFile.replaceAll("_", "\t"));
+                   // System.out.println(FinalBedFile.replaceAll("_", "\t"));
 
             } else {
                 //write bed and rename alignment
@@ -359,8 +356,8 @@ public class ScanItFast implements Runnable {
             if (SissizOutTab == null) {
                 AlnRC.delete();
             }
-        } catch (IOException Fuck) {
-            Fuck.printStackTrace();
+        } catch (IOException Err) {
+            Err.printStackTrace();
             System.err.println("ScanSSZ failed in RC with ");
             for (int y = 0; y != goodSeqs; y++) {
                 if (!isNotUnique[y]) {
@@ -377,7 +374,7 @@ public class ScanItFast implements Runnable {
             if (Double.parseDouble(SissizOutTab[10]) > SSZR_THRESHOLD) {
                 AlnRC.delete();
 
-                    System.out.println(FinalBedFileRC.replaceAll("_", "\t"));
+                //    System.out.println(FinalBedFileRC.replaceAll("_", "\t"));
             } else {
 
                     //write bedRC and rename alignment
@@ -418,7 +415,9 @@ public class ScanItFast implements Runnable {
                 long timeoutInMillis = 1000L * 300;                          // max 5 minutes
                 long finish = now + timeoutInMillis;
                 // launch initial SISSIz call
-                Process Sissiz = Runtime.getRuntime().exec(Command);
+                String name = Path+ "/" + BedFile.replaceAll("\t", "_")+ ".aln."+ id;
+                ProcessBuilder pb = new ProcessBuilder(SSZBINARY, "-j",name);
+                Process Sissiz = pb.start();
                 BufferedReader SissizErr = new BufferedReader(new InputStreamReader(Sissiz.getErrorStream()));
                 if (VERBOSE)
                     System.out.println(": Running " + Command);
@@ -443,62 +442,12 @@ public class ScanItFast implements Runnable {
                             if (VERBOSE)
                                 System.out.println(Output);
                             SissizOutTab = Output.split("\\s");
-                            SissizOutTab[1] = "r";
+                          //  SissizOutTab[1] = "r";
                         }
                     }
                     SissizOut.close();
                 }
-                // rerun SISSIz if output is dodgy
-                try {
-                    /*>>>>>>*/
-                    if (Double.parseDouble(SissizOutTab[7]) == 0
-                            || (Math.abs(Double.parseDouble(SissizOutTab[9])) < 0.5)){ // variance of simulated alignments
-                        if (VERBOSE)
-                            System.out.println("SISSIz gave dodgy output... retrying with RIBOSUM");
-                        SissizOutTab = new String[12];
-                        now = System.currentTimeMillis();
-                        finish = now + timeoutInMillis;
-                        Sissiz = Runtime.getRuntime().exec(SSZBINARY + " -j " + Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + id);
-                        if (VERBOSE)
-                            System.out.println("Running " + SSZBINARY + " -j " + Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + id);
-                        SissizErr = new BufferedReader(new InputStreamReader(Sissiz.getErrorStream()));
-                        while (isAlive(Sissiz)) {
-                            Thread.sleep(100);  // do we need this?
-                            if (System.currentTimeMillis() > finish) {
-                                if (VERBOSE)
-                                    System.out.println("SISSIz failed to run within time");
-                                SissizErr.close();
-                                Sissiz.destroy();
-                                return null;
-                            } else {
-                                // avoid infinity loop
-                                if (SissizErr.ready()) {
-                                    Error = SissizErr.readLine();
 
-                                }
-                            }
-                        }
-                        SissizErr.close();
-                        if (SissizOutTab[0] == null) {
-                            BufferedReader SissizOut = new BufferedReader(new InputStreamReader(Sissiz.getInputStream()));
-                            while ((Output = SissizOut.readLine()) != null) {
-                                if (Output.length() > 6 && Output.startsWith("sissiz")) {
-                                    if (VERBOSE)
-                                        System.out.println(Output + "  ...DONE !!\n");
-                                    SissizOutTab = Output.split("\\s");
-                                    SissizOutTab[1] = "r";
-                                }
-                            }
-                            SissizOut.close();
-                        }
-                    }
-
-                } catch (Exception Fuck) {
-                    System.err.println("  with file = " + BedFile.replaceAll("\t", "_") + ".aln");
-                    if (SissizOutTab[7] == null)
-                        System.err.println("Null output data");
-                    Fuck.printStackTrace();
-                }
             } catch (Exception err) {
                 System.out.println(" Caught Error!\n ----> " + Command + "\n  counter--> " );
                 System.err.println("!!!Caught Error!\n ----> " + Command + "\n  counter--> " );
@@ -521,5 +470,8 @@ public class ScanItFast implements Runnable {
     }
     public void setSszR(double newValue){
         SSZR_THRESHOLD = newValue;
+    }
+    public void setGap(int newGap){
+        GAP_THRESHOLD = newGap;
     }
 }
