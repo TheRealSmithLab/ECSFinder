@@ -92,7 +92,6 @@ public class ECSFinder {
             System.exit(0);
         }
 
-        //ReadBin = new BufferedReader(new InputStreamReader(GetBinary.getInputStream()));
 
         ReadBin.close();
 
@@ -263,7 +262,7 @@ public class ECSFinder {
                                     reader.close();
 
 
-                                    //     file.delete();
+
 
 
                                 } catch (FileNotFoundException e) {
@@ -344,8 +343,6 @@ public class ECSFinder {
 
     private static void executeCommand(final String file, String[] nameAlifold) {
         String Path = OUT_PATH + "/stockholm" + nameAlifold[nameAlifold.length - 1];
-       // if (!(new File(Path)).isDirectory())
-         //   (new File(Path)).mkdirs();
 
         try {
 
