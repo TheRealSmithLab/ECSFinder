@@ -1,4 +1,7 @@
- # ECSFinder
+![magnifying-glass-clipart](https://user-images.githubusercontent.com/44384386/195202620-94c9054e-3d51-4564-ad6a-10b01cfe0f62.jpg)
+
+
+# ECSFinder
 
 Scans multiple alignments for conserved RNA structures. Reads a set of maf files, calculates stats, scans with SISSIz or RNAz, outputs bed coordonates of high-confidence predictions
 
