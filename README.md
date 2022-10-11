@@ -1,5 +1,8 @@
-![magnifying-glass-clipart](https://user-images.githubusercontent.com/44384386/195202620-94c9054e-3d51-4564-ad6a-10b01cfe0f62.jpg)
 
+<p align="center">
+![magnifying-glass-clipart3](https://user-images.githubusercontent.com/44384386/195203658-1160836d-ddd7-4a04-b304-61c64fbdbdb0.jpg)
+
+</p>
 
 # ECSFinder
 
