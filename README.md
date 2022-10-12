@@ -1,6 +1,9 @@
 
 
-![magnifying-glass-clipart3](https://user-images.githubusercontent.com/44384386/195203658-1160836d-ddd7-4a04-b304-61c64fbdbdb0.jpg)
+
+<p align="center" width="100%">
+    <img width="33%" src="![magnifying-glass-clipart3](https://user-images.githubusercontent.com/44384386/195203658-1160836d-ddd7-4a04-b304-61c64fbdbdb0.jpg)"> 
+</p>
 
 
 
