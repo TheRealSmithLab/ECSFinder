@@ -2,7 +2,7 @@
 
 
 <p align="center" width="100%">
-    <img width="33%" src="![magnifying-glass-clipart3](https://user-images.githubusercontent.com/44384386/195203658-1160836d-ddd7-4a04-b304-61c64fbdbdb0.jpg)"> 
+    <img width="25%" src="https://user-images.githubusercontent.com/44384386/195381940-680064be-d53a-45b6-a5e1-a80ff1cb804e.jpg"> 
 </p>
 
 
