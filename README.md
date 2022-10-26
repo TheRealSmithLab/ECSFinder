@@ -15,6 +15,7 @@ Scans multiple alignments for conserved RNA structures. Reads a set of maf files
 - [Installation](#installation)
     - [SISSIz](#sissiz)
     - [ECSFinder](#ecsfinder)
+    - [MergeNFilter](#mergenfilter)
 - [Usage](#usage)
 - [Output](#output)
 - [Example](#example)
@@ -47,9 +48,19 @@ into a self-contained directory run configure for example like this:
 cd ECSFinder
 javac ECSFinder.java
 ```
-
+### MergeNFilter
+It is essential to use MergeNFilter prior to using ECSFinder as it will prepare your MAF file for our pipeline. It will remove duplicate sequence, duplicate sequence IDs as well as ancestor sequences from it's input file.
+```
+javac MergeNFilter.java
+```
 ## Usage
+### MergeNFilter
+```
+java MergeNFilter 46_mammals.epo.1_19.maf
+```
 
+
+### ECSFinder
 ```
 java ECSFinder [options] -o output/directory (absolute path required) -i input.maf (last parameter must be -i)
  Options:
@@ -60,6 +71,12 @@ java ECSFinder [options] -o output/directory (absolute path required) -i input.m
 ```
 
 ## Output
+### MergeNFilter
+Two outputs are produced: 
+* A filtered MAF ready to be used in our pipeline
+* A text file containing all filtered out content (_segmtl_dups.txt)
+
+### ECSFinder
  Two types of results are produced:
    *  The multiple sequence alignments associated to significant predictions are saved to files in the folder specified with the -o option
       File names correspond to their genomic coordinates in a .bed-compatible format
@@ -86,7 +103,17 @@ java ECSFinder [options] -o output/directory (absolute path required) -i input.m
                                     
 ## Example
  ```
-java ECSFinder -o output -c 10 -v -sszr 3.5 -i /home/vanda/chunk0.maf
+java MergeNFilter 46_mammals.epo.1_19.maf
+
+java ECSFinder -o output -c 10 -sszr 3.5 -i /home/vanda/46_mammals.epo.1.maf
+
+Stockholm file: alifold_0001.stk
+Stockholm file: alifold_0002.stk
+1       196390149       196390200       29      82.6    0.1     0.38    22.2    7.2     353     +
+1       196386763       196386824       29      83.9    0.2     0.34    36.5    0.5     388     +
+1       196386763       196386822       29      84.3    0.1     0.35    37.2    0.5     430     +
+1       196386763       196386827       29      84.7    0.1     0.33    35.8    0.4     355     +
+...
 ```
 
 ## Links
