@@ -14,6 +14,7 @@ Scans multiple alignments for conserved RNA structures. Reads a set of maf files
 
 - [Installation](#installation)
     - [SISSIz](#sissiz)
+    - [RNALalifold](#rnalalifold)
     - [ECSFinder](#ecsfinder)
     - [MergeNFilter](#mergenfilter)
 - [Usage](#usage)
@@ -42,6 +43,15 @@ into a self-contained directory run configure for example like this:
 ./configure --prefix=/opt/programs/SISSIz --datadir=/opt/programs/SISSIz/share
 ```
 
+### RNALalifold
+As explained on the ViennaRNA package [website](https://www.tbi.univie.ac.at/RNA/documentation.html#install)
+```
+tar -zxvf ViennaRNA-2.5.1.tar.gz
+cd ViennaRNA-2.5.1
+./configure
+make
+sudo make install
+```
 
 ### ECSFinder
 ```
