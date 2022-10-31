@@ -44,7 +44,7 @@ into a self-contained directory run configure for example like this:
 ```
 
 ### RNALalifold
-As explained on the ViennaRNA package [website](https://www.tbi.univie.ac.at/RNA/documentation.html#install)
+Download the package on the ViennaRNA package [website](https://www.tbi.univie.ac.at/RNA/) and follow the [instructions](https://www.tbi.univie.ac.at/RNA/documentation.html#install)
 ```
 tar -zxvf ViennaRNA-2.5.1.tar.gz
 cd ViennaRNA-2.5.1
