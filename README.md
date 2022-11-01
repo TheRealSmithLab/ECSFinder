@@ -55,7 +55,7 @@ sudo make install
 
 ### ECSFinder
 ```
-cd ECSFinder
+cd ECSFinder/src
 javac ECSFinder.java
 ```
 ### MergeNFilter
