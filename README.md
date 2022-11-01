@@ -73,7 +73,7 @@ java MergeNFilter 46_mammals.epo.1_19.maf
 
 ### ECSFinder
 ```
-java ECSFinder [options] -o output/directory (absolute path required) -i input.maf (last parameter must be -i)
+java ECSFinder [options] -o output/directory -i input.maf (last parameter must be -i, absolute path required)
  Options:
    -c int number of CPUs for calculations (default 4)
    -g int max gap percentage of sequences for 2D prediction (default 50)
