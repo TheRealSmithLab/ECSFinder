@@ -116,7 +116,7 @@ Two outputs are produced:
  ```
 java MergeNFilter 46_mammals.epo.1_19.maf
 
-java ECSFinder -o output -c 10 -sszr 3.5 -i /home/vanda/46_mammals.epo.1.maf
+java ECSFinder -o output -c 10 -sszr -3.5 -i /home/vanda/46_mammals.epo.1.maf
 
 Stockholm file: alifold_0001.stk
 Stockholm file: alifold_0002.stk
