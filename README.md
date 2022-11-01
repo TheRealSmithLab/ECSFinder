@@ -35,7 +35,7 @@ cd /somedir/SISSIz-0.1
 autoreconf -fvi
 ./configure
 make
-make install (as root)
+sudo make install (as root)
 ```
 If you have no root rights on your system or prefer to install SISSIz
 into a self-contained directory run configure for example like this:
