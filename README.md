@@ -64,6 +64,7 @@ It is essential to use MergeNFilter prior to using ECSFinder as it will prepare 
 javac MergeNFilter.java
 ```
 ## Usage
+the input file needs to be in the same folder as MergeNFilter 
 ### MergeNFilter
 ```
 java MergeNFilter 46_mammals.epo.1_19.maf
