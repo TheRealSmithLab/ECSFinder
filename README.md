@@ -31,7 +31,7 @@ Installation of SISSIz 2.0 is required for running ECSFinder. Version 1.0 can be
 
 To install SISSIz version 2.0:
 ```
-cd /somedir/SISSIz-0.1
+cd /SISSIz
 autoreconf -fvi
 ./configure
 make
