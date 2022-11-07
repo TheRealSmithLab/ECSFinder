@@ -14,13 +14,18 @@ public class MergeNFilter {
 			System.exit(-1);
 		}
 
+		if (args[0].split("/").length==1){
+			System.out.println("Please enter the full path of the input file");
+			System.exit(0);
+		}
+
 		try {
 
 			int input = 0;
-			BufferedWriter segDups = new BufferedWriter(new FileWriter(args[0].substring(0, args[0].lastIndexOf("_"))
-					+ "_segmtl_dups.txt"));
+			BufferedWriter segDups = new BufferedWriter(new FileWriter(args[0].substring(0, args[0].lastIndexOf("."))
+					+ "-removedLines.txt"));
 			BufferedWriter out = new BufferedWriter(new FileWriter(args[0].substring(0, args[0].lastIndexOf(
-					"_")) + ".maf"));
+					".")) + "-output.maf"));
 			;
 			out.write("##maf version=2 \n" +
 					"# original dump date: 2020-12-10 13:44:00\n# ensembl release: 103\n" +

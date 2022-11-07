@@ -125,6 +125,11 @@ public class ECSFinder {
                 case "-i":
                     i++;
                     FILENAME = Args[i].substring(Args[i].lastIndexOf("/") + 1);
+
+                    if (Args[i].split("/").length==1){
+                        System.out.println("Please enter the full path of the input file");
+                        System.exit(0);
+                    }
                     nameAlifold = FILENAME.split("\\.");
                     //parse out individual alignment blocks from a multi maf file
                     int lineCount = 0;
@@ -148,7 +153,7 @@ public class ECSFinder {
                     if (!stockholmFolder.exists()) {
                         stockholmFolder.mkdir();
                     }
-                    executeCommand(Args[Args.length - 1],nameAlifold);
+                    //executeCommand(Args[Args.length - 1],nameAlifold);
 
                     ReadFile = new BufferedReader(new FileReader(Args[i]));
                     // fill in array from file
@@ -200,7 +205,7 @@ public class ECSFinder {
 
                             if (file.exists()) {
                                 try {
-
+                                    if (VERBOSE)
                                     System.out.println("Stockholm file: " +
                                             file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("/")
                                                     + 1));
@@ -287,7 +292,7 @@ public class ECSFinder {
                         }
 
                     }
-                    //Delete file with stockholm info
+                    /*//Delete file with stockholm info
                     String[] entries = stockholmFolder.list();
                     assert entries != null;
                     if (entries.length > 0) {
@@ -297,7 +302,7 @@ public class ECSFinder {
                         }
                     }
                     stockholmFolder.delete();
-
+*/
                     ReadFile.close();
                     MultiThreads.shutdown();
                     MultiThreads.awaitTermination(60 * 10L, TimeUnit.SECONDS);

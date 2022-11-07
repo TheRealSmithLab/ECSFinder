@@ -245,10 +245,10 @@ public class ScanItFast implements Runnable {
         String BedFile = key[0] + "\t";
         BedFile = BedFile + key[1] + "\t" + key[2] + "\t";
 
-        BedFile = BedFile + goodSeqs + "\t" + ((double) (int) (10 * stats[0]) / 10) + "\t"      // MPI
-                + ((double) (int) (10 * stats[1]) / 10) + "\t"            // STDEV
-                + ((double) (int) (100 * stats[2]) / 100) + "\t"                // SHANNON
-                + ((double) (int) (10 * stats[3]) / 10) + "\t"                  //      GC
+        BedFile = BedFile + goodSeqs + ":" + ((double) (int) (10 * stats[0]) / 10) + ":"      // MPI
+                + ((double) (int) (10 * stats[1]) / 10) + ":"            // STDEV
+                + ((double) (int) (100 * stats[2]) / 100) + ":"                // SHANNON
+                + ((double) (int) (10 * stats[3]) / 10) + ":"                  //      GC
                 + ((double) (int) (10 * stats[4]) / 10);                     // GAPS
 
 
