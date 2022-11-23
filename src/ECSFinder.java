@@ -153,7 +153,7 @@ public class ECSFinder {
                     if (!stockholmFolder.exists()) {
                         stockholmFolder.mkdir();
                     }
-                    //executeCommand(Args[Args.length - 1],nameAlifold);
+                    executeCommand(Args[Args.length - 1],nameAlifold);
 
                     ReadFile = new BufferedReader(new FileReader(Args[i]));
                     // fill in array from file
