@@ -128,7 +128,7 @@ X	17713023	17713229	17:80.8:0.2:0.41:37.9:12.4	372	+
 Alignments generated in our evolutionarily conserved structures scan can be downloaded [here](https://de.cyverse.org/data/ds/iplant/home/vandalovejoy/Data?type=folder&resourceId=84919f88-4984-11ed-9d98-90e2ba675364)
 
 ### UCSC track hub
-To visualize the evolutionarily conserved structures using our UCSC track hub, click [here](https://genome.ucsc.edu/s/VandaLovejoy2/Paper%20ECS)
+To visualize the evolutionarily conserved structures using our UCSC track hub, you can enter this link: https://data.cyverse.org/dav-anon/iplant/home/vandalovejoy/ECS_hub.txt [here](https://genome.ucsc.edu/cgi-bin/hgHubConnect)
 - ECS1.0 track contains the hits generated from our previous [study](https://academic.oup.com/nar/article/41/17/8220/2411364) including the trimmed consensus secondary structure for each alignmnent block.
 - ECS2.0 track contains our new hits with the consensus secondary structure. The colors indicate that the ECS has one or more homologs of the same color.
 - Homologs track contains the homologs of a subset of ECS2.0. Color is the same as that of it's ECS.
