@@ -114,7 +114,7 @@ Two outputs are produced:
  ```
 java MergeNFilter 46_mammals.epo.1_19.maf
 
-java ECSFinder -o output -c 10 -sszr -3.5 -i /home/vanda/46_mammals.epo.1-output.maf
+java ECSFinder -o output -c 10 -sszr -3.5 -i /home/vanda/46_mammals.epo.1 -output.maf
 
 X	17713087	17713208	17:78.2:0.1:0.46:39.3:18.4	428	+
 X	17713085	17713241	17:83.0:0.1:0.38:38.8:42.2	367	+
