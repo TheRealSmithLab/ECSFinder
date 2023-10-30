@@ -138,7 +138,7 @@ public class ScanItFast implements Runnable {
 
         // Create new ArrayLists without columns containing only 1
         ArrayList<int[]> newArray1 = new ArrayList<>();
-        ArrayList<int[]> newArray2 = new ArrayList();
+        ArrayList<int[]> newArray2 = new ArrayList<>();
 
         for (int[] originalArray : intTab) {
             int[] modifiedArray = new int[numCols - columnsToRemove.size()];
