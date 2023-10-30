@@ -3,7 +3,7 @@
   - - reads a set of maf files, feeds them to RNALalifold calculates stats,
   - - scans with SISSIz, outputs bed coordinates of high-confidence predictions
   Created by Vanda Gaonac'h-Lovejoy on 26/05/2022.
-  Copyright 2022 All rights reserved.
+  Copyright 2023 All rights reserved.
 */
 
 import java.io.*;
