@@ -1,3 +1,5 @@
+package src;
+
 import java.util.*; import java.io.*;
 import java.lang.*;
 
@@ -26,9 +28,6 @@ public class ScanItFast implements Runnable {
             System.out.println("- - -> Starting Scan");
 
 
-        int startPos = Integer.parseInt(key[1]);
-//converts nucleotides to numbers
-
         Map <Character, Integer> letterMap = new HashMap<>();
         letterMap.put('A', 0);
         letterMap.put('T', 1);
@@ -46,40 +45,140 @@ public class ScanItFast implements Runnable {
         // remove identical rows or those with too many gaps & N's
         Iterator<String[]> iter = associativeList.iterator();
 
-        ArrayList<int[]> intTabNoGaps = new ArrayList<>();
+
         ArrayList<int[]> intTab = new ArrayList<>();
         ArrayList<int[]> intTabRC = new ArrayList<>();
         ArrayList<String> UniqueNames = new ArrayList<>();
         while (iter.hasNext()) {
             String[] line = iter.next();
-            String lineNoGap = line[1].replaceAll("[^ATCGUatcgu]", "").toUpperCase();
             String sequence = line[1].toUpperCase();
             int[] seqToInt = new int[sequence.length()];
             int[] seqToIntRC = new int[sequence.length()];
-            int[] seqToIntNoGap = new int[lineNoGap.length()];
+
+
             for (int i = 0; i < sequence.length(); i++) {
+                if (letterMap.get(sequence.charAt(i)) ==null){
+                    System.out.println("No sequence is found");
+                }
+                // convert char to int in the sequence
                 seqToInt[i] = letterMap.get(sequence.charAt(i));
                 seqToIntRC[sequence.length() - i - 1] = letterMapRC.get(sequence.charAt(i));
 
             }
-            for (int j = 0; j < lineNoGap.length(); j++) {
-                int nuc = letterMap.get(lineNoGap.charAt(j));
-                seqToIntNoGap[j] = nuc;
-            }
-            if (seqToIntNoGap.length > 0){
-                intTabNoGaps.add(seqToIntNoGap);
-                UniqueNames.add(line[0]);
+
+            String [] species_part = line[0].split("_");
+            String species_part_new =species_part[0]+"_"+species_part[1].split("\\.")[0];
+            if (! UniqueNames.contains(species_part_new)) {
+                UniqueNames.add(species_part_new);
                 intTabRC.add(seqToIntRC);
                 intTab.add(seqToInt);
             }
         }
+// Remove columns entirely made up of 1s or when 50% or more of a row is made up of gaps and Ns
+        int requiredCount = (int) (0.5 * intTab.get(0).length);
+
+        // Create a new ArrayList without arrays containing 50% or more 4s
+        ArrayList<int[]> newArray_gap = new ArrayList<>();
+        ArrayList<int[]> newArrayRC_gap = new ArrayList<>();
+        for (int i = 0; i < intTab.size(); i++) {
+            int[] originalArray = intTab.get(i);
+            int count4 = 0;
+            int count5 = 0;
+
+            for (int element : originalArray) {
+                if (element == 4) {
+                    count4++;
+                } if(element ==5){
+                    count5++;
+                }
+            }
+
+            if (count4 < requiredCount && count5 < requiredCount) {
+                newArray_gap.add(originalArray);
+                newArrayRC_gap.add(intTabRC.get(i));
+            }
+        }
+
+        intTab.clear();
+        intTab.addAll(newArray_gap);
+        intTabRC.clear();
+        intTabRC.addAll(newArrayRC_gap);
+        // Find columns with only the value 1 in either ArrayList
+        ArrayList<Integer> columnsToRemove = new ArrayList<>();
+        int numRows1 = intTab.size();
+        int numRows2 = intTabRC.size();
+        int numCols = intTab.get(0).length;
+
+        for (int col = 0; col < numCols; col++) {
+            boolean allOnes = true;
+
+            for (int row = 0; row < numRows1; row++) {
+                if (intTab.get(row)[col] != 4 ||intTab.get(row)[col] != 5) {
+                    allOnes = false;
+                    break;
+                }
+            }
+
+            if (allOnes) {
+                columnsToRemove.add(col);
+            } else {
+                // Check arrayList2 for columns with only the value 1
+                for (int row = 0; row < numRows2; row++) {
+                    if (intTabRC.get(row)[col] != 4 ||intTabRC.get(row)[col] != 5) {
+                        allOnes = false;
+                        break;
+                    }
+                }
+
+                if (allOnes) {
+                    columnsToRemove.add(col);
+                }
+            }
+        }
+
+        // Create new ArrayLists without columns containing only 1
+        ArrayList<int[]> newArray1 = new ArrayList<>();
+        ArrayList<int[]> newArray2 = new ArrayList();
+
+        for (int[] originalArray : intTab) {
+            int[] modifiedArray = new int[numCols - columnsToRemove.size()];
+            int colIndex = 0;
+
+            for (int col = 0; col < numCols; col++) {
+                if (!columnsToRemove.contains(col)) {
+                    modifiedArray[colIndex] = originalArray[col];
+                    colIndex++;
+                }
+            }
+
+            newArray1.add(modifiedArray);
+        }
+
+        for (int[] originalArray : intTabRC) {
+            int[] modifiedArray = new int[numCols - columnsToRemove.size()];
+            int colIndex = 0;
+
+            for (int col = 0; col < numCols; col++) {
+                if (!columnsToRemove.contains(col)) {
+                    modifiedArray[colIndex] = originalArray[col];
+                    colIndex++;
+                }
+            }
+
+            newArray2.add(modifiedArray);
+        }
+        intTab.clear();
+        intTab.addAll(newArray1);
+
+        intTabRC.clear();
+        intTabRC.addAll(newArray2);
 
         String[] nameTab = new String[UniqueNames.size()];
         nameTab = UniqueNames.toArray(nameTab);
 // first check for > 2 seqs
         int goodSeqs = intTab.size();
 
-        if (goodSeqs <= 3) {
+        if (intTab.size() <= 3) {
             if (VERBOSE)
                 System.out.println("-> Not Enough seqs ");
             return;
@@ -89,105 +188,85 @@ public class ScanItFast implements Runnable {
             return;
         }
 
-        // remove gappy sequences
-        if (VERBOSE)
-            System.out.println("- -> Gappy sequences");
-        boolean[] keepMe = new boolean[intTab.size()];
-        for (int seq = 0; seq != intTab.size(); seq++) {
-            if (intTabNoGaps.get(seq).length >= intTab.get(seq).length * ((double) 50 / 100)) {
-                keepMe[seq] = true;
-            } else {
-                keepMe[seq] = false;
-                goodSeqs--;
-            }
-
-        }
         // System.out.println("this is the end of block");
-        if (goodSeqs <= 3) {
+        if (intTab.size() <= 3) {
             if (VERBOSE)
                 System.out.println("-> Not Enough seqs in this window!");
             return;
         }
-        // exit when human is shit
-        if (!keepMe[0])
-            return;
 
-        // check for gap-only columns
-        if (VERBOSE)
-            System.out.println("- -> Gap only columns");
-        boolean[] hasChars = new boolean[intTab.get(0).length];
 
 
 /*********************************************************************
-        					calculate stats						*
-        *********************************************************************/
+ calculate stats						*
+ *********************************************************************/
         if (VERBOSE)
             System.out.println("- - -> calculating statistics");
         double uniqueSeqs = goodSeqs;
-        int outCols = intTab.get(0).length; //change last variable if CLUSTAL properties changes
+        int outCols = intTab.get(0).length; // Change last variable if CLUSTAL properties change
         double[] stats = new double[6];
-        double[] chars;
         double[] totalChars;
-        boolean[] isNotUnique = new boolean[goodSeqs];
+        // boolean[] isNotUnique = new boolean[outCols]; // Update to match the number of columns
+        double[] chars;
+        double[] column = new double[outCols];
 
-        double [] column = new double[(int) outCols];
-        // calculate mpi
+// Calculate MPI
         for (int k = 0; k < outCols; k++) {
-            double identicalNuc =0.0;
-            double totalNuc =0.0;
-            double [][] stats1 = new double[6][6];
-            for (int i = 0; i != goodSeqs; i++) {
-                for (int j = i + 1; j != goodSeqs; j++) {
-                    stats1[intTab.get(i)[k]][intTab.get(j)[k]] += 1.0;
+            double identicalNuc = 0.0;
+            double totalNuc = 0.0;
+            double[][] stats1 = new double[6][6];
 
-                }
-            }
-            for (int i=0; i<stats1.length; i++) {
-                for (int j = 0; j < stats1[i].length; j++) {
-                    totalNuc += stats1[i][j];
-                    if (i == j) {
-                        identicalNuc += stats1[i][j];
+
+            for (int i = 0; i < goodSeqs; i++) {
+                for (int j = i + 1; j < goodSeqs; j++) {
+                    int charI = intTab.get(i)[k];
+                    int charJ = intTab.get(j)[k];
+
+                    if (isValidNucleotide(charI) && isValidNucleotide(charJ)) {
+                        stats1[charI][charJ] += 1.0;
+                        totalNuc += 1.0;
+
+                        if (charI == charJ) {
+                            identicalNuc += 1.0;
+                        }
                     }
                 }
             }
-            column[k]= identicalNuc/totalNuc;
-            double totalGaps = 0.0;
-            for (double[] doubles : stats1) {
-                totalGaps += doubles[4] + doubles[5];
-            }
-            if (totalNuc != totalGaps){
-                hasChars[k] = true;
+            if (totalNuc > 0) {
+                column[k] = identicalNuc / totalNuc;
+            } else {
+                column[k] = 0.0; // Avoid division by zero
             }
 
         }
-        double sum=0.0;
+
+        double sum = 0.0;
         for (double value : column) {
             sum += value;
         }
-        double newMPI= sum/(column.length);
 
-
+        double newMPI = sum / column.length;
 
 
         totalChars = new double[]{0.0,0.0,0.0,0.0,0.0};
-        //Convert sequence into numbers, 0 is a, 1 is b, 2 is c, 3 is g, 4 is N
-        for (int i = 0; i < intTab.get(0).length; i++){
-        chars = new double[]{0.0,0.0,0.0,0.0,0.0};
-        for(int j = 0; j < goodSeqs; j++){
-            if(intTab.get(j)[i] == 5){
-                chars[4]+= 1.0;
-                totalChars[4]+= 1.0;
-            } else {
-                chars[intTab.get(j)[i]] += 1.0;
-                totalChars[intTab.get(j)[i]] += 1.0;
-            }
-        }
-        for (int z = 0; z != 5; z++) {
-            double probz = chars[z] / uniqueSeqs;
-            shannon = (chars[z] == 0) ? shannon + 0 : shannon + probz * (Math.log(probz) / Math.log(2));
-        }
 
-    }
+        for (int i = 0; i < intTab.get(0).length; i++){
+            chars = new double[]{0.0,0.0,0.0,0.0,0.0};
+            for(int j = 0; j < goodSeqs; j++){
+                if(intTab.get(j)[i] == 5){
+                    chars[4]+= 1.0;
+                    totalChars[4]+= 1.0;
+                } else {
+                    chars[intTab.get(j)[i]] += 1.0;
+                    totalChars[intTab.get(j)[i]] += 1.0;
+                }
+            }
+            for (int z = 0; z != 5; z++) {
+                double probz = chars[z] / uniqueSeqs;
+                shannon = (chars[z] == 0) ? shannon + 0 : shannon + probz * (Math.log(probz) / Math.log(2));
+            }
+
+        }
         Map<Integer, Character> reverseMap = new HashMap<>();
         reverseMap.put(0,'A');
         reverseMap.put(1,'T');
@@ -203,26 +282,25 @@ public class ScanItFast implements Runnable {
         String[] outAlnRC = new String[goodSeqs];
         int iterate = 0;
         for (int seq = 0; seq < intTab.size() ; seq++) { //removed x < goodseqs
-            if ( keepMe[ seq ] ) {
-                outAln[iterate] = nameTab[seq].substring(0, Math.min(nameTab[seq].length(), 20));
-                outAlnRC[iterate] = nameTab[seq].substring(0, Math.min(nameTab[seq].length(), 20));
-                for (int i = 0; i != 25 - Math.min(nameTab[seq].length(), 20); i++) {
-                    outAln[iterate] = outAln[iterate] + " ";
-                    outAlnRC[iterate] = outAlnRC[iterate] + " ";
-                }
-                for (int i = 0; i != intTab.get(0).length; i++) {
-                    if (hasChars[i]) {
-                        outAln[iterate] = outAln[iterate] + reverseMap.get(intTab.get(seq)[i]);
-                    }
-                    if (hasChars[intTabRC.get(0).length - i - 1]) {
-                        outAlnRC[iterate] = outAlnRC[iterate] + reverseMap.get(intTabRC.get(seq)[i]);
-                    }
-                }
-                outAln[iterate] = outAln[iterate] + "\n";
-                outAlnRC[iterate] = outAlnRC[iterate] + "\n";
-                iterate++;
+
+            outAln[iterate] = nameTab[seq].substring(0, Math.min(nameTab[seq].length(), 20));
+            outAlnRC[iterate] = nameTab[seq].substring(0, Math.min(nameTab[seq].length(), 20));
+            for (int i = 0; i != 25 - Math.min(nameTab[seq].length(), 20); i++) {
+                outAln[iterate] = outAln[iterate] + " ";
+                outAlnRC[iterate] = outAlnRC[iterate] + " ";
+            }
+            for (int i = 0; i != intTab.get(0).length; i++) {
+
+                outAln[iterate] = outAln[iterate] + reverseMap.get(intTab.get(seq)[i]);
+
+                outAlnRC[iterate] = outAlnRC[iterate] + reverseMap.get(intTabRC.get(seq)[i]);
 
             }
+            outAln[iterate] = outAln[iterate] + "\n";
+            outAlnRC[iterate] = outAlnRC[iterate] + "\n";
+            iterate++;
+
+
         }
 
         stats[0] = newMPI * 100;                                                                        // Mean Pairwise ID
@@ -260,8 +338,8 @@ public class ScanItFast implements Runnable {
         File Aln = new File(Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + random),    //
                 AlnRC = new File(Path + "/" + BedFile.replaceAll("\t", "_") + "rc.aln." + random);  //
         // v v v v v v v v    INCLUSION STATS     v v v v v v v v v v v v v
-       //MPI greater than 50 and Gap content smaller than 75
-        if ( GAP_THRESHOLD <= 75 && stats[0] > 50){
+        //MPI greater than 50 and Gap content smaller than 75
+        if ( stats[4] <= GAP_THRESHOLD  && stats[0] > 50){
             // Write Sequences to ALN Format
             try {
                 BufferedWriter WriteClustal = new BufferedWriter(new FileWriter( Aln )),
@@ -271,8 +349,8 @@ public class ScanItFast implements Runnable {
 
                 for (int y = 0; y != goodSeqs; y++ ) {
 
-                        WriteClustal.write( outAln[ y ] ) ;
-                        WriteClustalRC.write( outAlnRC[ y ] ) ;
+                    WriteClustal.write( outAln[ y ] ) ;
+                    WriteClustalRC.write( outAlnRC[ y ] ) ;
                 }
                 WriteClustal.close() ;
                 WriteClustalRC.close() ;
@@ -295,7 +373,7 @@ public class ScanItFast implements Runnable {
             Aln.delete();
             AlnRC.delete();
             return;
-       }
+        }
         String FinalBedFile,
                 FinalBedFileRC,
                 Antisense = (key[3].equals("+"))? "-" : "+";
@@ -314,11 +392,7 @@ public class ScanItFast implements Runnable {
         } catch (IOException Err) {
             Err.printStackTrace();
             System.err.println("ScanSSZ failed with ");
-            for (int y = 0; y != goodSeqs; y++) {
-                if (!isNotUnique[y]) {
-                    System.err.println(outAln[y]);
-                }
-            }
+
             Aln.delete();
         }
         // delete empty alignments
@@ -331,15 +405,14 @@ public class ScanItFast implements Runnable {
 
 
 
-            Aln.delete();
+                Aln.delete();
 
-                   // System.out.println(FinalBedFile.replaceAll("_", "\t"));
 
             } else {
                 //write bed and rename alignment
-
-                System.out.println(FinalBedFile.replaceAll("_", "\t"));
-
+                System.out.println(FinalBedFile.replaceAll("_", "\t")+"\t"+SissizOutTab[4]+"\t"+
+                        SissizOutTab[5]+"\t"+SissizOutTab[6]+"\t"+SissizOutTab[7]+"\t"+SissizOutTab[8]+"\t"+
+                        SissizOutTab[9]+"\t"+SissizOutTab[10]+"\t" +key[7]);
 
                 File NewFile = new File(Path + "/" + FinalBedFile.replaceAll("\t", "_") + ".aln");
                 int file_count = 0;
@@ -360,9 +433,9 @@ public class ScanItFast implements Runnable {
             Err.printStackTrace();
             System.err.println("ScanSSZ failed in RC with ");
             for (int y = 0; y != goodSeqs; y++) {
-                if (!isNotUnique[y]) {
-                    System.err.println(outAln[y]);
-                }
+                //  if (!isNotUnique[y]) {
+                //   System.err.println(outAln[y]);
+                // }
             }
             AlnRC.delete();
         }
@@ -377,8 +450,10 @@ public class ScanItFast implements Runnable {
                 //    System.out.println(FinalBedFileRC.replaceAll("_", "\t"));
             } else {
 
-                    //write bedRC and rename alignment
-                    System.out.println(FinalBedFileRC.replaceAll("_", "\t"));
+                //write bedRC and rename alignment
+                System.out.println(FinalBedFileRC.replaceAll("_", "\t")+"\t"+SissizOutTab[4]+"\t"+
+                        SissizOutTab[5]+"\t"+SissizOutTab[6]+"\t"+SissizOutTab[7]+"\t"+SissizOutTab[8]+"\t"+
+                        SissizOutTab[9]+"\t"+SissizOutTab[10]+"\t" +key[7]);
                 File NewFile = new File( Path + "/" + FinalBedFileRC.replaceAll("\t", "_") + ".aln");
                 int file_count = 0;
                 while (NewFile.exists()) {
@@ -393,69 +468,70 @@ public class ScanItFast implements Runnable {
     }
 
 
-        /*********************************************************************
-        					SISSIz scan & parse						*
-        //*********************************************************************/
-        // sissiz-di       cluster.109999_step.aln  8       150     0.8759  0.8542  0.0094  -13.88  -8.20   3.48    -1.63
-        protected static String[] ScanSSZ (String Path, String BedFile, int id ) throws
-        IOException {
-            //stats[0] Mean Pairwise ID
-            //stats[1] Variance
-            //stats[2] Normalized Shannon entropy
-            //stats[3] GC content
-            //stats[4] GAP content
-            String[] SissizOutTab = new String[12];
-            String Output, Error = "";
-            String Command = SSZBINARY;
+    /*********************************************************************
+     SISSIz scan & parse						*
+     //*********************************************************************/
+    // sissiz-di       cluster.109999_step.aln  8       150     0.8759  0.8542  0.0094  -13.88  -8.20   3.48    -1.63
+    protected static String[] ScanSSZ (String Path, String BedFile, int id ) throws
+            IOException {
+        //stats[0] Mean Pairwise ID
+        //stats[1] Variance
+        //stats[2] Normalized Shannon entropy
+        //stats[3] GC content
+        //stats[4] GAP content
+        String[] SissizOutTab = new String[12];
+        String Output, Error = "";
+        String Command = SSZBINARY;
 
-            Command = Command + " -j " + Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + id; // RIBOSUM scoring
+        Command = Command + " -j -t " + Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + id; // RIBOSUM scoring
 
-            try {
-                long now = System.currentTimeMillis();
-                long timeoutInMillis = 1000L * 300;                          // max 5 minutes
-                long finish = now + timeoutInMillis;
-                // launch initial SISSIz call
-                String name = Path+ "/" + BedFile.replaceAll("\t", "_")+ ".aln."+ id;
-                ProcessBuilder pb = new ProcessBuilder(SSZBINARY, "-j",name);
-                Process Sissiz = pb.start();
-                BufferedReader SissizErr = new BufferedReader(new InputStreamReader(Sissiz.getErrorStream()));
-                if (VERBOSE)
-                    System.out.println(": Running " + Command);
-                while (isAlive(Sissiz)) {
-                    Thread.sleep(100);
-                    if (System.currentTimeMillis() > finish) {
-                        if (VERBOSE)
-                            System.out.println("SISSIz failed to run within time :-(");
-                        SissizErr.close();
-                        Sissiz.destroy();
-                        return null;
+        try {
+            long now = System.currentTimeMillis();
+            long timeoutInMillis = 1000L * 300;                          // max 5 minutes
+            long finish = now + timeoutInMillis;
+            // launch initial SISSIz call
+            String name = Path+ "/" + BedFile.replaceAll("\t", "_")+ ".aln."+ id;
+            ProcessBuilder pb = new ProcessBuilder(SSZBINARY, "-j", "-t", name);
+            Process Sissiz = pb.start();
+            BufferedReader SissizErr = new BufferedReader(new InputStreamReader(Sissiz.getErrorStream()));
+            if (VERBOSE)
+                System.out.println(": Running " + Command);
+            while (isAlive(Sissiz)) {
+                Thread.sleep(100);
+                if (System.currentTimeMillis() > finish) {
+                    if (VERBOSE)
+                        System.out.println("SISSIz failed to run within time :-(");
+                    SissizErr.close();
+                    Sissiz.destroy();
+                    return null;
 
 
-                        }
                 }
-                SissizErr.close();
-                // get Output if process didn't complete in recursion
-                if (SissizOutTab[0] == null) {
-                    BufferedReader SissizOut = new BufferedReader(new InputStreamReader(Sissiz.getInputStream()));
-                    while ((Output = SissizOut.readLine()) != null) {
-                        if (Output.length() > 6 && Output.startsWith("sissiz")) {
-                            if (VERBOSE)
-                                System.out.println(Output);
-                            SissizOutTab = Output.split("\\s");
-                          //  SissizOutTab[1] = "r";
-                        }
-                    }
-                    SissizOut.close();
-                }
-
-            } catch (Exception err) {
-                System.out.println(" Caught Error!\n ----> " + Command + "\n  counter--> " );
-                System.err.println("!!!Caught Error!\n ----> " + Command + "\n  counter--> " );
-                err.printStackTrace();
-                System.err.println("===============================");
             }
-            return SissizOutTab;
+            SissizErr.close();
+            // get Output if process didn't complete in recursion
+            if (SissizOutTab[0] == null) {
+                BufferedReader SissizOut = new BufferedReader(new InputStreamReader(Sissiz.getInputStream()));
+                while ((Output = SissizOut.readLine()) != null) {
+                    String[] Output_new = Output.split(";");
+                    if (Output.length() > 6 && Output_new[1].startsWith("sissiz")) {
+                        if (VERBOSE)
+                            System.out.println(Output_new[1]);
+                        SissizOutTab = Output_new[1].split("\\s");
+                        //  SissizOutTab[1] = "r";
+                    }
+                }
+                SissizOut.close();
+            }
+
+        } catch (Exception err) {
+            System.out.println(" Not enough nucleotides in the column " + Command + "\n  counter--> " );
+            System.err.println("Not enough nucleotides in the column " + Command + "\n  counter--> " );
+            err.printStackTrace();
+            System.err.println("===============================");
         }
+        return SissizOutTab;
+    }
 
     //*********************************************************************
     //						Sample process						*
@@ -474,4 +550,11 @@ public class ScanItFast implements Runnable {
     public void setGap(int newGap){
         GAP_THRESHOLD = newGap;
     }
+    // Helper function to check if a character is a valid nucleotide
+    private boolean isValidNucleotide(int c) {
+        // valid nucleotides (e.g., 0, 1, 2, 3)
+        return (c >= 0 && c <= 3);
+    }
+
+
 }
