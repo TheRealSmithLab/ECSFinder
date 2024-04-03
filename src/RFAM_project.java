@@ -77,6 +77,7 @@ public class RFAM_project {
                     // Ensure you do not exceed the bounds of dataLoader.totalSequence
                     for (Map.Entry<String, String> entry : alignedSequences.entrySet()) { // Process all sequences
                         int strip_maf = entry.getValue().replace("-", "").length();
+                        entry.getValue();
                         maf_species.write("s\t" + entry.getKey() + "\t" +
                                 "0\t" + strip_maf + "\t" + "+\t" + "198295559\t" + entry.getValue() + "\n");
 

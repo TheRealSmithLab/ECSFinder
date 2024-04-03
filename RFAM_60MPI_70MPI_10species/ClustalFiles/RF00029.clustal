@@ -1,12 +1,12 @@
 CLUSTAL W multiple sequence alignment
 
-X57546.1/2817-2907    GAGAGCCGTATGATAT---GAAA--GTATCACGTACGGTTCGG------------------------AG-AGGGCTCTCTTA-------------------------------------------------------------TATGATTGTTATTACAATCAGATAGGTTTGCTACT-CT---AC
-AC145820.20/76117-76030    GAGAGCCAAATGAATT---GAAA--GATTCATGTTTGGTTCGG------------------------GA-AGAGATCATA-----------------------------------------------------------------GACATTTTGAAATGAATGGAAAGAGAATCTACTTTC---AT
-Z00028.1/5121-5234    GAGAGCACAGTACGAT---GAAA--GTTGTAAGCTGTGTTCGG------------------------GG-GGGAGTTATTGCCTATCGTTGTCC--------------------------------------TCTATGGTAGAACCCGTCGGGGAGGCCTGAGAGGCGGTGGTTTACC-CT---GT
-AF235045.1/658-731    GAAAGCCGTATTCGAT---GAAA--GTCGTATGTACGGCTTGG------------------------AG-GGAGA------------------------------------------------------------------------------TCTTTCATATCTTTCGAGATCCACC-CT---AC
-X01088.1/1893-1955    GAGAGCTTTTTGCGGG---GAAA--CTTGCAAGTAAAGTTTGG------------------------GG-GGAGG-------------------------------------------------------------------------------------------CGGGCGTCGACC-CA-ACCT
-X02819.1/3326-3410    GAGAGCCGTATAATTA--CGAAA--GTATCCCGTACGGTTCGG------------------------TG-ACGAGCCG---------------------------------------------------------------------TGTCAACCCTGCAAAGGGAATGCGTCTTAGTTCA---AT
-AJ277126.1/2879-2953    TTCAGCCGTGTGCGGT---GAAA--GTCGCACGCACGGTTGTG-----------------------AGG-GGGGG-------------------------------------------------------------------------------AAAATCTGTGAAGATCTACCTATC-CC--GAT
-X71404.1/2822-2898    AGGAGCCGTATGAGGT---GAAA--GTCTCAAGTACGGTTTTG-----------------------AAG-ACCAG-----------------------------------------------------------------------------CAGGATTGGTGACAGTCTTGCTGAGT-TT--AAT
-X04336.1/3210-3313    GAGAGCCGTATGCAGG---GAAA--CTTGCACGTACGGTTCGG------------------------AG-GGAGGTCTCTCGTTGCCAG------------------------------------------------TTCTAATCTATTGATAAGGATCACGGTGCGGGTTATCGACC-CT---AC
-X55026.1/77786-77867    GAGAGCCGTATGATGG---GAAA--CTATCACGTACGGTTCGG------------------------GA-AAAGGTAT----------------------------------------------------------------------ATATACTGATAAGAGGTATACGTATCTAGT-TC---AT
+AF074613.1/60570-60649    TTGAGCCGTATGCCGG---GAAA--CTGGCACGTACGGTTCTT------------------------AG-GGGGC---------------------------------------------------------------------------GGTGATGCAGTAATGCATCACTGCTACC-CGATCGT
+M68929.1/49817-49892    TTGAGCCGTATGCGG----GAAA-ACTCGCACGTACGGTTCTT-----------------------AGG-GGGGG------------------------------------------------------------------------------GAAAGCTTGAGAGGGCCTACCTATC-CC--GAC
+AJ277126.1/6413-6487    GTGAGCCGTGTGCGAT---GAAA--GTCGCAAGCACGGTTCTG-----------------------ATG-GGGGG-------------------------------------------------------------------------------AAAACGAGAGATCGTCTACCTATC-CA--ACT
+AJ131147.1/1719-1794    TTGAGCCGTATGCGAG---GAAA--CTTGCACGTGCGGTTCTTT---------------------GAGG-GGGAA--------------------------------------------------------------------------------AAGCTTGAAAGAGCCTATCCATC-CC--GAT
+AF200692.2/21112-21025    GAGAGCCGGATGCGCT---GAAA--GGTGCACGTCCGGTTCGG------------------------GG-AGGAGAGGCA-----------------------------------------------------------------GGGAAATAGTCCGACTACGCCCTGCCTCTTACT-CT--TAC
+AF029891.1/4522-4594    TTGAGCCGTATGCCAT---GAAA--GTGGCACGTACGGTTCTG-----------------------AGG-GGGGG-------------------------------------------------------------------------------AAAGTCTGAGAGGACCTACCTATC-CC----A
+AJ131145.1/1727-1802    TTGAGCCGTATGCGAG---GAAA--CTTGCACGTGCGGTTCTTT---------------------GAGG-GGGGG--------------------------------------------------------------------------------AAGCTTGAAAGAGCCTACCCATC-CC--GAT
+AF029891.1/9161-9235    TTGAGCCGTATGCGAT---GAAA--GTCGCACGTACGGTTCTT-----------------------AGA-GGGGG-------------------------------------------------------------------------------AAAGTTCGAGAGGACCTACCTATC-TC--AAC
+AJ316582.1/78387-78450    TTGAGCTGTACGAGAT---GAAA--GTCTCATATACGGTTCTC-----------------------AGA-GGGGG------------------------------------------------------------------------------------------AGTTCCGCCTATC-TC--AAT
+X17375.2/29364-29438    TTGAGCCGTGTGCGGT---GAAA--GTCGCATGCACGGTTCTA-----------------------CTG-GGGGG-------------------------------------------------------------------------------AAAGCCTGAGAGGGCCTACCTATC-CA--ACT

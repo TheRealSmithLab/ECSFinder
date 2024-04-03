@@ -1,12 +1,12 @@
 CLUSTAL W multiple sequence alignment
 
-CP000514.1/3270192-3270302    TGA-A-GGGCGA---GTGA------T--CGCCC-G------TGATCG----CGTTGCAGAAGTCAGCAGAGGGCATAGTA-C-TG------------------C-GG-CCTACTCGGCGCGATGTGATATTGCGAAGTGAAT--------AG-CGG-------CAGGA--AGGCC
-AALC02000129.1/296-371    TGA-G-TGCATC---GTAA------G--GTGCG-C------TGACCG----GTGGACAGGAGTCAGCAGAGGGCATAGTA-G-GA------------------C-GT--------------------------------------------G-ACG-------TCTGA--AGGCC
-CP000930.2/2574563-2574478    GAA-A-CCACGCC--GAAA-----GG--CGTGG-C------TGAAC-------CGGCAGGAGTCAGCAGAGGTCATAGTA-G-GC------------------T-GG-C--------------------------C-CGACGT-----CCGG-CCA-------GATGA--AGGAC
-AAWL01000012.1/49486-49570    CAA-C-CCGGGTC--GAGA-----GG--CTCGG-C------TGAGC-------CGGCAGGAGTCAGCAGAGGGCATAGTA-C-CTC----------------G--AA-G---------------------------GTCATG-------AAC-TT-------CAGGGG--AGGCC
-AACY020363614.1/813-730    CAAAA-TTTTGTA--GTGA-----TA--CATCA-T------TGGTT-------TGACAGAAGTCAGCAGACGCCATAGTA-C-TT------------------T-TT-A---------------------------ATTTTT--------TT-AGG-------AAGGA--AGGGC
-AACY023048287.1/460-365    CGC-T-GTTACAG--GTAA-----CT--GTGGC-G-----GTGATA-------AAGCAGAAGTCAGCAGACGGCATAGTA-G-CCAA-------------ATGC-CC-AG-------------------------CGTAATG-------GCT-GGGAC---ACGGTGA--AGGCC
-ABLK01000025.1/39242-39167    CTA-C-TGGCGTC--GAGA-----GG--CGGCG-G----GATGGTC-------GTGCAGAAGTCAGCAGAGGGCATAGTA-G-GC------------------C--------------------------------GCG------------A---G-------GCTGA--AGGCC
-AP006840.1/990470-990555    TAA-C-CTGCGTC--GGGA-----GA--CGCAG-C------TGAAC-------CGGCAGAAGTCAGCAAAGGCCATAGTA-C-CGG---------------CAG-GG-G---------------------------GAC-----------GC-CCCA----ACCGGGA--AGGGC
-AE014075.1/4320421-4320505    CTA-C-CGGCGCC--GTGA-----GG--CGCCG-G----GATGGGG-------CGGCAGAAGTCAGCCGACGCCGTAGTA-G-TG------------------C-TG-C---------------------------AAAACC--------GG-CAG-------CATGA--AGGGC
-AE015451.1/1820139-1820223    TAC-C-GCGCGTC--GAAA-----GG--CGACG-G----GATGAGC-------GTGCAGAAGTCAGCCGAAGCCGTAGTAAG-TG------------------G-CG-----------------------------GTTAAC--------CG-CGC-------CACCA--AGGGC
+BABE01001822.1/1052-982    TAA-C-CACTGT---ACAA----A-G--CAGTG-C------TGAAC-------GCACAGAAGTCAGCAGAGGTCATAGTA-G-CC---------------------------------------------------GAAA-----------------------GGTGA--AGGAC
+AAQL01011911.1/2065-2134    -AA-C-CATTGC---ATAA----A-G--CAATG-C------TGAAC-------GTACAGAAGTCAGCAGAGGTCATAGTA-G-CC---------------------------------------------------GAGA-----------------------GGTGA--AGGAC
+ABCC02000078.1/402-331    TAA-C-CATTATC--GAAA-----GA--TAGTG-C------TGAAC-------GTACAGAAGTCAGCCGAGGCCGTAGTA-G-TC---------------------------------------------------GGGA-----------------------GATGA--AGGAC
+BAAV01030018.1/656-585    TAA-C-CATTATT--ATGA-----GG--TAATG-C------TGAAC-------GTACAGAAGTCAGCCGAGGTCATAGTA-G-CC---------------------------------------------------GAGA-----------------------GGCGA--AGGAC
+BABD01028650.1/334-398    CTG---C-ATAAA--GCAA-----T-------G-------CTGAAC-------GCACAGAAGTCAGCAGAGGTCATAGTA-G-CC---------------------------------------------------GAGA-----------------------GGTGA--AGGAC
+ACCJ01000631.1/1581-1510    TAA-C-CATTATC--GTGA-----GA--TAATG-C------TGAAC-------GTACAGAAGTCAGCCGAGGTCATAGTA-G-CC---------------------------------------------------GAGA-----------------------GGCAA--AGGAC
+BAAV01030017.1/733-804    TAA-C-CATTATT--ATGA-----GG--TACTG-C------TGAAC-------GTACAGAAGTCAGCCGAGGTCATAGTA-G-CC---------------------------------------------------GAGA-----------------------GGCGA--AGGAC
+BABG01000586.1/1039-970    -AA-C-CATTGC---ATAA----A-G--CAATG-C------TGAAC-------GCACAGAAGTCAGCAAAGGCCATAGTA-G-CC---------------------------------------------------GAGA-----------------------GGTGA--AGGAC
+ACIO01000505.1/463-534    TAA-C-CACTATC--GTGA-----GA--TAGTG-C------TGAAC-------GTACAGAAGTCAGCCGAGGTCGTAGTA-G-TC---------------------------------------------------GAGA-----------------------GATGA--AGGAC
+ACIN02000005.1/141944-141874    TAA-C-CATTGC---ACAA----A-G--CAATG-C------TGAAC-------ACACAGAAGTCAGCAGAGGTCATAGTA-G-TC---------------------------------------------------GAGA-----------------------GACAA--AGGAC

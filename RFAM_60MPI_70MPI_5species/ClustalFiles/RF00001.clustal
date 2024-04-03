@@ -1,7 +1,7 @@
 CLUSTAL W multiple sequence alignment
 
-M16074.1/307-425    --GCCAAC-GT-C-C-AT-ACC----AC-G-T-T-G---AA----------A-GC-A----------C--CGG----T-TC----TCGTCC-------GA-TCACC-GA-AGTTAA-G-----------------CAGCGTC-G-G--G---CG--CGGTTA--GTACTTGGA--TGGGTGAC-C-GCCTG-GGA---A--CCCCG----CG-T--G-AC--G-TTGGCA
-X62858.1/1-121    --GTTGGC-GG-T-C-AT-GGC----GT-G-G-G-G---TT----------A-AT-A----------C--CTG----A-TC----TCGTTT------CGA-TCTCA-GT-AGTTAA-G-----------------TCCTGCT-G-C--GT-TGT--GGGTGT--GTACTGCGG--TTTTTTG----CTGTG-GGA---A---GCCC----ACTT-CA-CT--G-CCAGCA
-M34759.1/7-109    -------T-GG-C-C-AT-AGC----GA-G-C-G-T---GA----------A-CC-A----------C--CCG----A-TC----CCATCC------CGA-ACTCG-GA-AGTGAA-A-----------------CCGCTTA-G-C--G---CC--GATGA----TAGTGCGA---CAGGT-T-G-TCGTG-CGA---A---AGTA----GG-G-AA-T-----------
-AF516427.1/370-470    --GGATGC-GA-T-C-AT-ACC----AG-C-A-C-T---AA----------A-GC-A----------C--C--------------------------C---------GA-AGTTAA-G-----------------CGTGCTT-G-G--T---TG--AGAGTA--GTACTAGGA--TGGGTGAC-T--CTTG-GGA---A---GTCC----TC-G-TG-TT--G-CATTCC
-X06694.1/9-124    --CTTGAC-GA-T-C-AT-AGA----GC-G-T-T-G---GA----------A-CC-A----------C--CTG----A-TC----CCTTCC------CGA-ACTCA-GA-AGTGAA-A-----------------CGACACA-T-C--G---CC--GATG----GTAGTGTG----GGGTCTC-C-CCATG-TGA---G---AGTA----GG-T-CA-TC--G-TCAAGC
+X05053.1/3-118    --CCTGGC-GG-C-C-AT-GGC----GA-A-C-C-G---GA----------A-CC-A----------C--CCG----A-TC----CCATCT------CGA-ACTCG-GA-AGTGAA-A-----------------CGGTTCA-G-C--G---CC--GATGA----TAGTGTG----GGGCCTC-C-CCATG-TGA---A---AGTA----GG-T-CA-CT--G-CCAGGC
+AY599019.1/4972-5080    --CCTGGT-GA-T-C-AT-AGC----GA-A-G-A-G---GT----------C-CC-A----------C--CCG----T-TC----CCATCC------CGA-ACACG-GA-AGTTAA-G-----------------CTCTTCA-G-C--G---CC--GATG----GTACTGCTA--T-----------TGCG-GGA---G---AGTA----GG-T-CG-TC--G-CCAGGC
+X55259.1/3-117    --TACGGC-GG-T-CAAT-AGC----GG-C-A-G-G---GA----------A-AC-G----------C--CCG----G-TC----CCATCC------CGA-ACCCG-GA-AGCTAA-G-----------------CCTGCCA-G-C--G---CC--AATGA----TACTGCCC--T----CAC-C-GGGTG-GAA---A---AGTA----GG-A-CA-CC--G-CCGAAC
+AB019247.1/4143-4256    --TCTGGT-GA-T-T-TT-AGC----GA-A-G-T-G---GT----------C-AC-A----------C--CTG----T-TC----CCATCT------CGA-ACACA-GA-AGTTAA-G-----------------CACTTTA-G-C--G---GC--GACAA----TATCTAGC--CAC----G-C-GCTAG-TGA---A---GATA----GT-T-CA-TC--G-CCAGGT
+D90253.1/251-366    --GCTGGC-GC-C-A-AT-AGA----GA-G-G-G-T---GA----------T-AC-A----------C--CTG----T-TC----CCATCC------CGA-ACACA-GA-AGTTAA-G-----------------CCCCTCA-T-C--G---CC--GATG----GTACTGCAG---AGTTCGC-T-CTGTG-GGA---G---AGCA----GG-A-CG-GT--G-CCA-CA

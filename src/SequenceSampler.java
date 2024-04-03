@@ -48,7 +48,7 @@ public class SequenceSampler {
                 String sequence = sequenceWithName[0];
                 double pid = calculatePID(familySequences.get(0)[0], sequence); // Compute pairwise identity using the first sequence as reference
                 sequencesSampled++;
-                if ((pid >= MIN_PI -20) && (pid <= MAX_PI+20)) {
+                if ((pid >= MIN_PI ) && (pid <= MAX_PI+20)) {
                     sampledForFamily.add(sequenceWithName); // Add this sequence and name if within PID bounds
 
                 }

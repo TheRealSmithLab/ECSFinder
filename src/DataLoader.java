@@ -161,7 +161,7 @@ public class DataLoader {
                 }
 
                 try {
-                    processFile(sequencesToProcess, filesInTargetDir[i], verbose, key);
+                    processFile(sequencesToProcess, filesInTargetDir[i], verbose, key,outFile);
 
                 } catch (IOException e) {
                     if (verbose) {
@@ -214,7 +214,7 @@ public class DataLoader {
                     }
                 });
     }
-    private void processFile(List<String[]> sampledSequencesWithNames, File file, boolean verbose, String key) throws IOException {
+    private void processFile(List<String[]> sampledSequencesWithNames, File file, boolean verbose, String key, File outFile) throws IOException {
         int number = 0;
         List<String> originalLines = Files.readAllLines(file.toPath());
         List<String[]> modifiedSequencesWithNamesGapless = new ArrayList<>();
@@ -223,37 +223,43 @@ public class DataLoader {
         StringBuilder sequenceBuilder = new StringBuilder();
         String currentHeader = null;
         String currentName = ""; // To store the current sequence's name
+        File positionsFile = new File(outFile+"/"+"positions.txt");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(positionsFile, true))) { // Append mode
+            for (String line : originalLines) {
+                if (line.startsWith(">")) {
+                    // Extract the name from the header line, assuming it follows ">" directly
+                    currentName = line.substring(1).trim();
 
-        for (String line : originalLines) {
-            if (line.startsWith(">")) {
-                // Extract the name from the header line, assuming it follows ">" directly
-                currentName = line.substring(1).trim();
-
-                // Process the previous sequence
-                if (currentHeader != null && sequenceBuilder.length() > 0 && number - 1 < sampledSequencesWithNames.size()) {
-                    mafSpecies.add(currentHeader);
-                    String modifiedSequence = insertAndCutSequence(sequenceBuilder.toString(), sampledSequencesWithNames.get(number - 1)[0], 300);
-                    String gaplessSequence = modifiedSequence.replace("-", "").replace("U", "T");
-                    // Add both the modified sequence and its name
-                    modifiedSequencesWithNamesGapless.add(new String[]{gaplessSequence, sampledSequencesWithNames.get(number - 1)[1], currentHeader});
-                    modifiedSequencesWithNamesModified.add(new String[]{modifiedSequence, sampledSequencesWithNames.get(number - 1)[1], currentHeader});
+                    // Process the previous sequence
+                    if (currentHeader != null && sequenceBuilder.length() > 0 && number - 1 < sampledSequencesWithNames.size()) {
+                        mafSpecies.add(currentHeader);
+                        String[] insertResult = insertAndCutSequence(sequenceBuilder.toString(), sampledSequencesWithNames.get(number - 1)[0], 300);
+                        String modifiedSequence = insertResult[0];
+                        String gaplessSequence = modifiedSequence.replace("-", "").replace("U", "T");
+                        // Writing positions and key to the file
+                        writer.write("Key: " + key + ", Start position: " + insertResult[1] + ", Cut position: " + insertResult[2]);
+                        writer.newLine();
+                        // Add both the modified sequence and its name
+                        modifiedSequencesWithNamesGapless.add(new String[]{gaplessSequence, sampledSequencesWithNames.get(number - 1)[1], currentHeader});
+                        modifiedSequencesWithNamesModified.add(new String[]{modifiedSequence, sampledSequencesWithNames.get(number - 1)[1], currentHeader});
+                    }
+                    number++;
+                    currentHeader = line.trim(); // Update the header for the next sequence
+                    sequenceBuilder = new StringBuilder(); // Reset the builder for the next sequence
+                } else {
+                    sequenceBuilder.append(line.trim());
                 }
-                number++;
-                currentHeader = line.trim(); // Update the header for the next sequence
-                sequenceBuilder = new StringBuilder(); // Reset the builder for the next sequence
-            } else {
-                sequenceBuilder.append(line.trim());
             }
-        }
-        // Process the last sequence if there's one
-        if (currentHeader != null && sequenceBuilder.length() > 0 && number - 1 < sampledSequencesWithNames.size()) {
-            String modifiedSequence = insertAndCutSequence(sequenceBuilder.toString(), sampledSequencesWithNames.get(number - 1)[0], 300);
-            modifiedSequencesWithNamesModified.add(new String[]{modifiedSequence, sampledSequencesWithNames.get(number - 1)[1], currentHeader});
-        }
+            // Process the last sequence if there's one
+            if (currentHeader != null && sequenceBuilder.length() > 0 && number - 1 < sampledSequencesWithNames.size()) {
+                String[] insertResult = insertAndCutSequence(sequenceBuilder.toString(), sampledSequencesWithNames.get(number - 1)[0], 300);
+                String modifiedSequence = insertResult[0];
+                modifiedSequencesWithNamesModified.add(new String[]{modifiedSequence, sampledSequencesWithNames.get(number - 1)[1], currentHeader});
+            }
 
-        // Assuming methods to write to "preMafft" and "gapless" folders are defined
-        writeSequencesToFile(modifiedSequencesWithNamesModified,file, key, verbose);
-
+            // Assuming methods to write to "preMafft" and "gapless" folders are defined
+            writeSequencesToFile(modifiedSequencesWithNamesModified, file, key, verbose);
+        }
 
        // return modifiedSequencesWithNames;
     }
@@ -279,7 +285,9 @@ public class DataLoader {
              BufferedWriter gaplessWriter = Files.newBufferedWriter(gaplessFilePath)) {
 
             for (String[] sequenceWithName : modifiedSequencesWithNamesModified) {
-                String name = sequenceWithName[2]+"_"+sequenceWithName[1]; // Assuming index 1 holds the name
+                String species= sequenceWithName[2].split("\\.")[0];
+                String numb=sequenceWithName[2].split("\\.")[1];
+                String name = species+sequenceWithName[1].split("[./_]", 2)[0]+"."+numb;
                 String sequence = sequenceWithName[0]; // Sequence at index 0
                 String gaplessSequence = sequence.replace("-", "").replace("U", "T"); // Process for gapless
 
@@ -302,15 +310,16 @@ public class DataLoader {
 
 
 
-    private String insertAndCutSequence(String originalSequence, String insertSequence, int position) {
-        // Simplified version, real logic would need to consider gaps, etc.
+    private String[] insertAndCutSequence(String originalSequence, String insertSequence, int position) {
         int realPosition = calculatePositionIgnoringGaps(originalSequence, position);
         String start = originalSequence.substring(0, realPosition);
         String end = originalSequence.substring(realPosition);
         String modified = start + insertSequence + end;
         int cutPosition = calculatePositionIgnoringGaps(modified, position + insertSequence.length() + 300);
-        return modified.substring(0, cutPosition);
+        // Returning the modified sequence along with start and end positions
+        return new String[]{modified.substring(0, cutPosition), String.valueOf(realPosition), String.valueOf(cutPosition)};
     }
+
 
     private int calculatePositionIgnoringGaps(String sequence, int n) {
         int count = 0;
