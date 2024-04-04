@@ -30,7 +30,7 @@ public class ECSFinder {
             ALIFOLDBINARY = "~/ViennaRNA-2.4.16/bin/RNALalifold";
 
 
-    static double SSZR;
+    static double SSZR=-3;;
 
 
     public static synchronized void main(String[] Args) throws IOException, InterruptedException {
