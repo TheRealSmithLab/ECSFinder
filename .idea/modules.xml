@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/RFAM_project.iml" filepath="$PROJECT_DIR$/RFAM_project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RfamConcealer.iml" filepath="$PROJECT_DIR$/RfamConcealer.iml" />
     </modules>
   </component>
 </project>
