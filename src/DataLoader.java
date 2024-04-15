@@ -132,50 +132,68 @@ public class DataLoader {
      */
     public void processMafFiles(Map<String, List<String[]>> sampledSequences, File outFile, boolean verbose) {
         File targetDir = new File(mafFolder.getPath());
-
         if (!targetDir.exists() || !targetDir.isDirectory()) {
             System.err.println("Target directory does not exist or is not a directory: " + targetDir.getPath());
-            return; // Exit the method or handle the error as needed
+            return;
         }
 
-        // Move files to the target directory (assuming moveFilesToTarget is defined elsewhere)
-        moveFilesToTarget(verbose);
-
-        File[] filesInTargetDir = targetDir.listFiles(); // Get the files in the target directory
-        if (filesInTargetDir == null || filesInTargetDir.length == 0) {
-            if (verbose) {
-                System.out.println("No files found in target directory for processing.");
-            }
-            return; // Exit the method if there are no files to process
-        }
-
-        List<String> keysList = new ArrayList<>(sampledSequences.keySet()); // Assuming there's a meaningful order
-
-        for (int i = 0; i < filesInTargetDir.length; i++) {
-            if (i < keysList.size()) { // Ensure there is a key for the current index
-                String key = keysList.get(i);
-                List<String[]> sequencesToProcess = sampledSequences.getOrDefault(key, Collections.emptyList());
-
-                if (!sequencesToProcess.isEmpty() && verbose) {
-                    System.out.println("Processing " + sequencesToProcess.size() + " sequences for file " + filesInTargetDir[i].getName() + " using key: " + key);
-                }
-
-                try {
-                    processFile(sequencesToProcess, filesInTargetDir[i], verbose, key,outFile);
-
-                } catch (IOException e) {
-                    if (verbose) {
-                        System.err.println("Failed to process file: " + filesInTargetDir[i].getName() + " due to an error: " + e.getMessage());
+        File sourceDir = new File("/home/vandalovejoy/Downloads/maf_block/fasta/filtered_maf");
+        File[] filesToProcess = sourceDir.listFiles((dir, name) -> {
+            if (name.endsWith(".fasta")) {
+                int lastUnderscore = name.lastIndexOf('_');
+                int secondLastUnderscore = name.lastIndexOf('_', lastUnderscore - 1);
+                if (secondLastUnderscore != -1 && lastUnderscore != -1) {
+                    try {
+                        String numberStr = name.substring(secondLastUnderscore + 1, lastUnderscore);
+                        int number = Integer.parseInt(numberStr);
+                        return number >= minPerFam;
+                    } catch (NumberFormatException e) {
+                        return false;
                     }
-                    // Optionally handle or re-throw the exception
                 }
-            } else {
+            }
+            return false;
+        });
+
+        if (filesToProcess == null || filesToProcess.length == 0) {
+            if (verbose) {
+                System.out.println("No files found in source directory for processing.");
+            }
+            return;
+        }
+
+        List<String> keysList = new ArrayList<>(sampledSequences.keySet());
+
+        for (int i = 0; i < filesToProcess.length && i < keysList.size(); i++) {
+            File currentFile = filesToProcess[i];
+            String key = keysList.get(i);
+            List<String[]> sequencesToProcess = sampledSequences.getOrDefault(key, Collections.emptyList());
+
+            if (!sequencesToProcess.isEmpty() && verbose) {
+                System.out.println("Processing " + sequencesToProcess.size() + " sequences for file " + currentFile.getName() + " using key: " + key);
+            }
+
+            try {
+                processFile(sequencesToProcess, currentFile, verbose, key, outFile);
+
+                File newLocation = new File(targetDir, currentFile.getName());
+                if (currentFile.renameTo(newLocation)) {
+                    if (verbose) {
+                        System.out.println("Successfully moved file: " + currentFile.getName());
+                    }
+                } else {
+                    if (verbose) {
+                        System.err.println("Failed to move file: " + currentFile.getName());
+                    }
+                }
+            } catch (IOException e) {
                 if (verbose) {
-                    System.out.println("No key/sequences to process for file " + filesInTargetDir[i].getName() + " at index: " + i);
+                    System.err.println("Failed to process file: " + currentFile.getName() + " due to an error: " + e.getMessage());
                 }
             }
         }
     }
+
 
 
     private void moveFilesToTarget(boolean verbose)  {
@@ -267,8 +285,8 @@ public class DataLoader {
     private void writeSequencesToFile( List<String[]> modifiedSequencesWithNamesModified,File originalFile, String key, boolean verbose) throws IOException {
         // Filenames based on the original file name and the key
 
-        Path modifiedPath =Paths.get(originalFile.getParent(), "preMafft");;
-        Path gaplessPath = Paths.get(originalFile.getParent(), "gapless");
+        Path modifiedPath =Paths.get(mafFolder+ "/preMafft");;
+        Path gaplessPath = Paths.get(mafFolder+"/gapless");
 
         // Assuming originalFile is a File object
         String originalFileName = originalFile.getName();
