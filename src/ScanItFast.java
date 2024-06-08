@@ -184,9 +184,9 @@ public class ScanItFast implements Runnable {
             return;
         }
 //check whether theres homo sapiens
-        if (!(String.valueOf(UniqueNames.get(0)).startsWith("homo_sapiens"))){
-            return;
-        }
+     //   if (!(String.valueOf(UniqueNames.get(0)).startsWith("homo_sapiens"))){
+     //       return;
+     //   }
 
         // System.out.println("this is the end of block");
         if (intTab.size() <= 3) {
@@ -338,8 +338,8 @@ public class ScanItFast implements Runnable {
         File Aln = new File(Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + random),    //
                 AlnRC = new File(Path + "/" + BedFile.replaceAll("\t", "_") + "rc.aln." + random);  //
         // v v v v v v v v    INCLUSION STATS     v v v v v v v v v v v v v
-        //MPI greater than 50 and Gap content smaller than 75
-        if ( stats[4] <= GAP_THRESHOLD  && stats[0] > 50){
+        //MPI greater or equal than 50 and Gap content smaller than 75
+        if ( stats[4] <= GAP_THRESHOLD  && stats[0] >= 50){
             // Write Sequences to ALN Format
             try {
                 BufferedWriter WriteClustal = new BufferedWriter(new FileWriter( Aln )),
@@ -513,16 +513,22 @@ public class ScanItFast implements Runnable {
             if (SissizOutTab[0] == null) {
                 BufferedReader SissizOut = new BufferedReader(new InputStreamReader(Sissiz.getInputStream()));
                 while ((Output = SissizOut.readLine()) != null) {
-                    String[] Output_new = Output.split(";");
-                    if (Output.length() > 6 && Output_new[1].startsWith("sissiz")) {
-                        if (VERBOSE)
-                            System.out.println(Output_new[1]);
-                        SissizOutTab = Output_new[1].split("\\s");
-                        //  SissizOutTab[1] = "r";
+                    // Check if the line starts with "TREE"
+                    if (Output.startsWith("TREE")) {
+                        String[] Output_new = Output.split(";");
+                        if (Output_new.length > 1 && Output_new[1].startsWith("sissiz")) {
+                            if (VERBOSE) {
+                                System.out.println(Output_new[1]);
+                            }
+                            SissizOutTab = Output_new[1].split("\\s");
+                            // You can modify elements in SissizOutTab as needed
+                            // Example: SissizOutTab[1] = "r";
+                        }
                     }
                 }
                 SissizOut.close();
             }
+
 
         } catch (Exception err) {
             System.out.println(" Not enough nucleotides in the column " + Command + "\n  counter--> " );
@@ -552,8 +558,8 @@ public class ScanItFast implements Runnable {
     }
     // Helper function to check if a character is a valid nucleotide
     private boolean isValidNucleotide(int c) {
-        // valid nucleotides (e.g., 0, 1, 2, 3)
-        return (c >= 0 && c <= 3);
+        // valid nucleotides are 0, 1, 2, 3, and 5 (excluding 4)
+        return (c >= 0 && c <= 5) && (c != 4);
     }
 
 
