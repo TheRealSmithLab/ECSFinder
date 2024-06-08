@@ -30,7 +30,7 @@ public class ECSFinder {
             ALIFOLDBINARY = "~/ViennaRNA-2.4.16/bin/RNALalifold";
 
 
-    static double SSZR = -3.0;
+    static double SSZR=-3;
 
 
     public static synchronized void main(String[] Args) throws IOException, InterruptedException {
@@ -292,7 +292,7 @@ public class ECSFinder {
                         }
 
                     }
-                    /*//Delete file with stockholm info
+                    //Delete file with stockholm info
                     String[] entries = stockholmFolder.list();
                     assert entries != null;
                     if (entries.length > 0) {
@@ -302,7 +302,7 @@ public class ECSFinder {
                         }
                     }
                     stockholmFolder.delete();
-*/
+
                     ReadFile.close();
                     MultiThreads.shutdown();
                     MultiThreads.awaitTermination(60 * 10L, TimeUnit.SECONDS);
