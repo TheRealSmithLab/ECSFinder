@@ -7,7 +7,7 @@
 
 # ECSFinder
 
-Scans multiple alignments for conserved RNA structures. Reads a set of maf files, calculates stats, scans with SISSIz or RNAz, outputs bed coordonates of high-confidence predictions. We used the locally stable consensus secondary structure prediction algorithm [RNALalifold](https://www.tbi.univie.ac.at/RNA/RNALalifold.1.html) in a first pass to refine alignment boundaries before using [SISSIz](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-248) to assess if a predicted conserved structure is more likely than chance give the underlying alignments.
+Scans multiple alignments for conserved RNA structures. Reads a set of maf files, calculates stats, scans with SISSIz, outputs bed coordonates of high-confidence predictions. We used the locally stable consensus secondary structure prediction algorithm [RNALalifold](https://www.tbi.univie.ac.at/RNA/RNALalifold.1.html) in a first pass to refine alignment boundaries before using [SISSIz](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-248) to assess if a predicted conserved structure is more likely than chance give the underlying alignments.
 
 
 ## Table of content
