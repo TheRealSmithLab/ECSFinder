@@ -1,13 +1,25 @@
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class ECSFinder {
 
     static int GAPS = 50, NTHREDS = 4;
     static boolean VERBOSE = false;
     static String FILENAME = "", OUT_PATH = "", dirProgram = "";
-    static String SSZBINARY = "~/SISSIz-master/src/SISSIz", ALIFOLDBINARY = "~/ViennaRNA-2.4.16/bin/RNALalifold";
+    static String SSZBINARY = "~/SISSIz-master/src/SISSIz", ALIFOLDBINARY = "~/ViennaRNA-2.4.16/bin/RNALalifold",
+            RNAALIFOLD="~/ViennaRNA-2.4.16/bin/RNAalifold",RSCAPE="~/rscape_v2.0.4.a/bin/R-scape";
     static double SSZR = -3.0;
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -53,15 +65,37 @@ public class ECSFinder {
         preprocessMafFiles();
 
         // run RNALalifold and process results
-        runRNALalifoldAndProcessResults();
+         runRNALalifoldAndProcessResults();
+        callRScript(OUT_PATH+"/structure_input.csv", OUT_PATH+"/structure_output.csv");
+        deleteFPFiles(OUT_PATH + "/structure_output.csv", OUT_PATH+"/aln_rscape");
+        File directory = new File(OUT_PATH+"/aln_rscape");
 
-        // process MAF file
-        processMafFile(args);
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        String originalName = file.getName();
+                        String newFilename = originalName.replaceAll("\\.tar\\.gz$", "");
+                        String modifiedName = newFilename.replace("_", "\t");
+                        System.out.println(modifiedName);
+                    }
+                }
+            } else {
+                System.out.println("No files found in the directory.");
+            }
+        } else {
+            System.out.println("The specified directory does not exist or is not a directory.");
+        }
     }
+
+
 
     private static void setBinaryPaths() throws IOException {
         ALIFOLDBINARY = getBinaryPath("RNALalifold");
         SSZBINARY = getBinaryPath("SISSIz");
+        RNAALIFOLD= getBinaryPath("RNAalifold");
+        RSCAPE= getBinaryPath("R-scape");
     }
 
     private static String getBinaryPath(String binaryName) throws IOException {
@@ -103,7 +137,6 @@ public class ECSFinder {
                     break;
                 case "-i":
                     FILENAME = args[i + 1];
-
                     break;
             }
         }
@@ -142,7 +175,7 @@ public class ECSFinder {
 
     private static void runRNALalifoldAndProcessResults() throws IOException, InterruptedException {
         // Extract file path
-        String inputFile = OUT_PATH+"/output.maf";
+        String inputFile = OUT_PATH + "/output.maf";
         String[] nameAlifold = inputFile.split("\\.");
         String Path2 = OUT_PATH + "/stockholm" + nameAlifold[nameAlifold.length - 1];
         File stockholmFolder = new File(Path2);
@@ -176,7 +209,7 @@ public class ECSFinder {
                 ArrayList<String[]> associativeList = new ArrayList<>();
                 String[] mafTabTemp = tempTab[0].split("\\s+");
                 futures = new ArrayList<>();
-                String path = OUT_PATH + "/aln/" + mafTabTemp[1].substring(mafTabTemp[1].lastIndexOf(".") + 1);
+                String path = OUT_PATH + "/aln_rscape/";
                 if (!(new File(path)).isDirectory())
                     (new File(path)).mkdirs();
 
@@ -294,103 +327,12 @@ public class ECSFinder {
         readFile.close();
         multiThreads.shutdown();
         multiThreads.awaitTermination(60 * 10L, TimeUnit.SECONDS);
+
+
+
     }
 
-    private static void processMafFile(String[] args) throws IOException, InterruptedException {
-        String[] nameAlifold = FILENAME.split("\\.");
-        String preprocessedFile = FILENAME.substring(0, FILENAME.lastIndexOf(".")) + "-output.maf";
-        BufferedReader readFile = new BufferedReader(new FileReader(preprocessedFile));
-        int blockAln = 0;
-        StringBuilder temp = new StringBuilder();
 
-        ExecutorService multiThreads = Executors.newFixedThreadPool(NTHREDS); // Properly declared here
-        List<Future<?>> futures = new ArrayList<>();
-
-        String line;
-        while ((line = readFile.readLine()) != null) {
-            if (line.length() >= 1 && line.charAt(0) != '#') {
-                if (line.charAt(0) == 'a') {
-                    blockAln++;
-                } else if (line.charAt(0) == 's') {
-                    temp.append(line).append("@");
-                }
-            } else if (temp.toString().split("@").length <= 2 && line.equals("")) {
-                temp = new StringBuilder();
-            } else if ((temp.toString().split("@").length >= 3) && line.equals("")) {
-                processAlignmentBlock(nameAlifold, temp, blockAln, multiThreads, futures);
-                temp = new StringBuilder();
-            }
-        }
-
-        readFile.close();
-        multiThreads.shutdown();
-        multiThreads.awaitTermination(10, TimeUnit.MINUTES);
-    }
-
-    private static void processAlignmentBlock(String[] nameAlifold, StringBuilder temp, int blockAln, ExecutorService multiThreads, List<Future<?>> futures) throws IOException {
-        String[] tempTab = temp.toString().split("@");
-        ArrayList<String[]> associativeList = new ArrayList<>();
-        String[] mafTabTemp = tempTab[0].split("\\s+");
-
-        String path = OUT_PATH + "/aln/" + mafTabTemp[1].substring(mafTabTemp[1].lastIndexOf(".") + 1);
-        createDirectory(path);
-
-        String finalName = String.format("%04d", blockAln);
-        String stockholmPath = OUT_PATH + "/stockholm" + nameAlifold[nameAlifold.length - 1] + "/alifold_" + finalName + ".stk";
-
-        File file = new File(stockholmPath);
-        if (file.exists()) {
-            processStockholmFile(mafTabTemp, associativeList, multiThreads, path, file, futures);
-        } else {
-            System.out.println("File: " + file.getName() + " does not exist");
-        }
-    }
-
-    private static void processStockholmFile(String[] mafTabTemp, ArrayList<String[]> associativeList, ExecutorService multiThreads, String path, File file, List<Future<?>> futures) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        String currentLine = reader.readLine();
-        String[] arrayName = new String[5];
-        String gcReference = "";
-        String gcSScons = "";
-
-        while (currentLine != null) {
-            if (currentLine.startsWith("#=GF ID ")) {
-                arrayName = currentLine.split("[_.]");
-                associativeList = new ArrayList<>();
-            } else if (currentLine.startsWith("#=GC RF")) {
-                gcReference = currentLine.split(" ")[currentLine.split(" ").length - 1];
-            } else if (currentLine.startsWith("#=GC SS_cons")) {
-                gcSScons = currentLine.split(" ")[currentLine.split(" ").length - 1];
-            } else if (!currentLine.startsWith("#") && !currentLine.equals("")) {
-                associativeList.add(currentLine.split(" ", 2));
-            }
-
-            if (!associativeList.isEmpty() && currentLine.startsWith("//")) {
-                processAlignments(mafTabTemp, arrayName, associativeList, path, gcReference, gcSScons, multiThreads, futures);
-            }
-            currentLine = reader.readLine();
-        }
-        reader.close();
-    }
-
-    private static void processAlignments(String[] mafTabTemp, String[] arrayName, ArrayList<String[]> associativeList, String path, String gcReference, String gcSScons, ExecutorService multiThreads, List<Future<?>> futures) throws IOException {
-        int[] cordMotif = getRealCoordinates(Integer.parseInt(arrayName[3]), mafTabTemp, associativeList.get(0)[1]);
-        String loci = Arrays.toString(cordMotif);
-        String chrom = mafTabTemp[1].substring(mafTabTemp[1].lastIndexOf(".") + 1);
-        String lociChrm = chrom + ", " + loci.substring(1, loci.length() - 1) + ", " + mafTabTemp[4] + ", " + arrayName[3] + ", " + arrayName[4] + ", " + gcReference + ", " + gcSScons;
-        String[] arrayLociChrm = lociChrm.split(", ");
-
-        if (Integer.parseInt(arrayLociChrm[2]) - Integer.parseInt(arrayLociChrm[1]) < 50) {
-            return;
-        }
-
-        ScanItFast aln = new ScanItFast(associativeList, arrayLociChrm, path, SSZBINARY, VERBOSE);
-        aln.setSszR(SSZR);
-        aln.setGap(GAPS);
-
-        Future<?> future = multiThreads.submit(aln);
-        futures.add(future);
-    }
 
     private static int[] getRealCoordinates(int start, String[] mafCord, String motifHuman) {
         int[] cordFinal;
@@ -444,6 +386,77 @@ public class ECSFinder {
         }
 
     }
+    public static List<Double> callRScript(String inputCsv, String outputCsv) throws IOException, InterruptedException {
+        List<String> command = Arrays.asList("/usr/lib/R/bin/Rscript", "prediction_GLM.R", inputCsv, outputCsv);
+        ProcessBuilder pb = new ProcessBuilder(command);
+        Process process = pb.start();
 
+        // Capture standard output and error
+        StringBuilder output = new StringBuilder();
+        BufferedReader stdOutput = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+
+        String s;
+        while ((s = stdOutput.readLine()) != null) {
+            output.append(s).append("\n");
+        }
+        while ((s = stdError.readLine()) != null) {
+            output.append(s).append("\n");
+        }
+
+        process.waitFor();
+
+
+        // Read the output predictions from the CSV
+        BufferedReader reader = new BufferedReader(new FileReader(outputCsv));
+        List<Double> predictions = new ArrayList<>();
+        String line;
+        // Skip the header line
+        reader.readLine();
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split(",");
+            if (parts.length > 1) {
+                try {
+                    predictions.add(Double.parseDouble(parts[1].trim()));
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        reader.close();
+
+        return predictions;
+    }
+    public static void deleteFPFiles(String outputCsv, String directory) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(outputCsv));
+        String line;
+        // Skip the header line
+        reader.readLine();
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split(",");
+            if (parts.length < 3) {
+                continue; // Skip lines that don't have enough columns
+            }
+
+            String nameFile = parts[0].trim();
+            String predictedClass = parts[2].trim();
+
+            if ("FP".contains(predictedClass)) {
+                Path filePath = Paths.get(directory, nameFile);
+                if (Files.exists(filePath)) {
+                    try {
+                        Files.delete(filePath);
+                        System.out.println("Deleted file: " + filePath.toString());
+                    } catch (IOException e) {
+                        System.err.println("Failed to delete file: " + filePath.toString());
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.out.println("File not found: " + filePath.toString());
+                }
+            }
+        }
+        reader.close();
+    }
 
 }

@@ -13,11 +13,12 @@ public class MergeNFilter {
         out.write("##maf version=2 \n" +
                 "# original dump date: 2020-12-10 13:44:00\n# ensembl release: 103\n" +
                 "# emf comment: Alignments: 46 eutherian mammals EPO\n# emf comment: Region:" +
-                " Homo sapiens chromosome:GRCh38\n");
+                " Homo sapiens chromosome:GRCh38\n\n\n");
 
         for (String file : args) {
             BufferedReader entry = new BufferedReader(new FileReader(file));
             String line;
+            boolean firstAlignment = true;
             while ((line = entry.readLine()) != null) {
                 if (line.length() != 0 && line.charAt(0) == 's') {
                     LinkedHashMap<String, String[]> speciesSequences = new LinkedHashMap<>();
@@ -45,18 +46,21 @@ public class MergeNFilter {
                         segDups.write(String.join("\t", arraySpecies) + "\n");
                     }
                     if (speciesSequences.size() > 1) {
-                        out.write("a\n");
+                        if (!firstAlignment) {
+                            out.write("\n\n");
+                        }
+                        out.write("\n\na\n");
                         for (String key : speciesSequences.keySet()) {
                             String[] value = speciesSequences.get(key);
                             out.write(String.join("\t", value) + "\n");
                         }
+                        firstAlignment = false;
                     }
                 }
-                out.write("\n");
             }
             entry.close();
         }
-        out.write("\n");
+        out.write("\n\n");
         out.close();
         segDups.close();
     }
