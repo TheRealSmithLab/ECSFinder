@@ -7,22 +7,45 @@
 
 # ECSFinder
 
-Scans multiple alignments for conserved RNA structures. Reads a set of maf files, calculates stats, scans with SISSIz, outputs bed coordonates of high-confidence predictions. We used the locally stable consensus secondary structure prediction algorithm [RNALalifold](https://www.tbi.univie.ac.at/RNA/RNALalifold.1.html) in a first pass to refine alignment boundaries before using [SISSIz](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-248) to assess if a predicted conserved structure is more likely than chance give the underlying alignments.
+ECSFinder scans multiple alignments for conserved RNA structures. It processes a set of MAF files, calculates various statistics, scans with SISSIz, and outputs BED coordinates of high-confidence predictions. The tool integrates several key steps to ensure accurate identification and characterization of conserved RNA structures.
+
+1. **Refinement of Alignment Boundaries**:
+   - We use the locally stable consensus secondary structure prediction algorithm [RNALalifold](https://www.tbi.univie.ac.at/RNA/RNALalifold.1.html) in an initial pass to refine the boundaries of the alignments. This steps identified locally stable RNA secondary structures.
+
+2. **Assessment of Conserved Structures**:
+   - Next, the refined alignments are processed using [SISSIz](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-248). SISSIz evaluates whether a predicted conserved structure is statistically more likely than expected by chance, given the underlying sequence alignments. This statistical assessment using the Z-score, helps in identifying potentially significant RNA structures.
+
+3. **Energy Calculations**:
+   - The filtered alignments are then analyzed with RNAalifold to determine the minimal free energy of the predicted structures. RNAalifold also calculates the pseudo-energy, which provides additional insights into the stability and likelihood of the RNA structures.
+
+4. **Helix Significance Calculation**:
+   - Finally, [R-scape](http://eddylab.org/R-scape/) is employed to calculate the minimal E-value of the helices within the RNA structures and the number of significant base pairs. R-scape's analysis helps in identifying helices that are statistically significant, further validating the conserved RNA structures.
+
+5. **Prediction Model with Generalized Linear Model (GLM)**:
+   - ECSFinder integrates a Generalized Linear Model (GLM) in `prediction_GLM.R` to predict the likelihood of the identified RNA structures being true positives (TP) or false positives (FP). The model uses several features extracted during the analysis, including:
+     - `log10(E-value)`: Logarithm of the minimal E-value from the helices from R-scape.
+     - `number of significant base pairs`: Number of covarying base pairs from R-scape.
+     - `MFE`: Minimal free energy from RNAalifold.
+     - `pseudo_energy`: Pseudo-energy from RNAalifold.
+     - `MPI` (Mean Pairwise Identity): A measure of sequence conservation across the alignment.
+   - The GLM uses these features to provide a probabilistic prediction, aiding researchers in distinguishing between likely true and false conserved RNA structures.
+
+By combining these tools and steps, ECSFinder provides a robust framework for the identification and analysis of conserved RNA structures across multiple sequence alignments. The tool generates BED coordinates for high-confidence predictions, which can be visualized and further analyzed using genome browsers and other bioinformatics tools. The integration of the GLM enhances the accuracy and reliability of the predictions, providing an additional layer of validation for the identified RNA structures.
 
 
 ## Table of content
 
+## Table of Contents
+
 - [Installation](#installation)
-    - [SISSIz](#sissiz)
-    - [RNALalifold](#rnalalifold)
-    - [ECSFinder](#ecsfinder)
-    - [MergeNFilter](#mergenfilter)
+  - [SISSIz](#sissiz)
+  - [RNALalifold](#rnalalifold)
+  - [ECSFinder](#ecsfinder)
+  - [R-scape](#r-scape)
 - [Usage](#usage)
 - [Output](#output)
 - [Example](#example)
-- [Links](#links)
-    - Alignments
-    - UCSC track hub
+
 
 ## Installation
 Installation of SISSIz 2.0 is required for running ECSFinder. Version 1.0 can be found [here](https://github.com/ViennaRNA/SISSIz).
@@ -30,15 +53,14 @@ Installation of SISSIz 2.0 is required for running ECSFinder. Version 1.0 can be
 ### SISSIz
 
 To install SISSIz version 2.0:
-```
+```sh
 cd /SISSIz
 autoreconf -fvi
 ./configure
 make
-sudo make install (as root)
+sudo make install
 ```
-If you have no root rights on your system or prefer to install SISSIz
-into a self-contained directory run configure for example like this:
+If you have no root rights or prefer to install SISSIz into a self-contained directory, run configure like this:
 ```
 ./configure --prefix=/opt/programs/SISSIz --datadir=/opt/programs/SISSIz/share
 ```
@@ -58,29 +80,22 @@ sudo make install
 cd ECSFinder/src
 javac ECSFinder.java
 ```
-### MergeNFilter
-It is essential to use MergeNFilter prior to using ECSFinder as it will prepare your MAF file for our pipeline. It will remove duplicate sequence, duplicate sequence IDs as well as ancestor sequences from it's input file.
-```
-javac MergeNFilter.java
-```
-### MergeNFilter
-```
-java MergeNFilter 46_mammals.epo.1_19.maf
-```
+### R-scape
 
+Download the source code [website](http://eddylab.org/R-scape/)
 
+## Usage
 ### ECSFinder
 ```
 java ECSFinder [options] -o output/directory -i input.maf (last parameter must be -i, absolute path required)
  Options:
    -c int number of CPUs for calculations (default 4)
    -g int max gap percentage of sequences for 2D prediction (default 50)
-   -sszr double report SISSIz+RIBOSUM hits below this Z-score (default -3)
+   -sszr double report SISSIzhits below this Z-score (default -3)
    -v verbose (messy but detailed) output
 ```
 
 ## Output
-### MergeNFilter
 Two outputs are produced: 
 * A filtered MAF ready to be used in our pipeline (-output.maf)
 * A text file containing all filtered out content (-removedLines.txt)
@@ -112,7 +127,6 @@ Two outputs are produced:
                                     
 ## Example
  ```
-java MergeNFilter 46_mammals.epo.1_19.maf
 
 java ECSFinder -o output -c 10 -sszr -3.5 -i /home/vanda/46_mammals.epo.1 -output.maf
 
@@ -121,14 +135,3 @@ X	17713085	17713241	17:83.0:0.1:0.38:38.8:42.2	367	+
 X	17713023	17713229	17:80.8:0.2:0.41:37.9:12.4	372	+
 ...
 ```
-
-## Links
-
-### Alignments
-Alignments generated in our evolutionarily conserved structures scan can be downloaded [here](https://de.cyverse.org/data/ds/iplant/home/vandalovejoy/Data?type=folder&resourceId=84919f88-4984-11ed-9d98-90e2ba675364)
-
-### UCSC track hub
-To visualize the evolutionarily conserved structures using our UCSC track hub, you can enter this link: https://data.cyverse.org/dav-anon/iplant/home/vandalovejoy/ECS_hub.txt [here](https://genome.ucsc.edu/cgi-bin/hgHubConnect)
-- ECS1.0 track contains the hits generated from our previous [study](https://academic.oup.com/nar/article/41/17/8220/2411364) including the trimmed consensus secondary structure for each alignmnent block.
-- ECS2.0 track contains our new hits with the consensus secondary structure. The colors indicate that the ECS has one or more homologs of the same color.
-- Homologs track contains the homologs of a subset of ECS2.0. Color is the same as that of it's ECS.
