@@ -41,7 +41,7 @@ By combining these tools and steps, ECSFinder provides a robust framework for th
   - [SISSIz](#sissiz)
   - [RNALalifold](#rnalalifold)
   - [ECSFinder](#ecsfinder)
-  - [R-scape](#rscape)
+  - [R-scape](#r-scape)
 - [Usage](#usage)
 - [Output](#output)
 - [Example](#example)
@@ -81,9 +81,9 @@ cd ECSFinder/src
 javac ECSFinder.java
 ```
 ### R-scape
-```
-Download the source code [website]([https://www.tbi.univie.ac.at/RNA/](http://eddylab.org/R-scape/))
-```
+
+Download the source code [website](http://eddylab.org/R-scape/)
+
 ## Usage
 ### ECSFinder
 ```
