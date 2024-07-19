@@ -65,7 +65,7 @@ public class ECSFinder {
         preprocessMafFiles();
 
         // run RNALalifold and process results
-         runRNALalifoldAndProcessResults();
+        runRNALalifoldAndProcessResults();
         callRScript(OUT_PATH+"/structure_input.csv", OUT_PATH+"/structure_output.csv");
         deleteFPFiles(OUT_PATH + "/structure_output.csv", OUT_PATH+"/aln_rscape");
         File directory = new File(OUT_PATH+"/aln_rscape");
