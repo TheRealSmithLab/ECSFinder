@@ -7,7 +7,7 @@
 
 # ECSFinder
 
-Scans multiple alignments for conserved RNA structures. Reads a set of maf files, calculates stats, scans with SISSIz, outputs bed coordonates of high-confidence predictions. We used the locally stable consensus secondary structure prediction algorithm [RNALalifold](https://www.tbi.univie.ac.at/RNA/RNALalifold.1.html) in a first pass to refine alignment boundaries before using [SISSIz](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-248) to assess if a predicted conserved structure is more likely than chance give the underlying alignments.
+Scans multiple alignments for conserved RNA structures. Reads a set of maf files, calculates stats, scans with SISSIz, outputs bed coordonates of high-confidence predictions. We used the locally stable consensus secondary structure prediction algorithm [RNALalifold](https://www.tbi.univie.ac.at/RNA/RNALalifold.1.html) in a first pass to refine alignment boundaries before using [SISSIz](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-248) to assess if a predicted conserved structure is more likely than chance give the underlying alignments. The filtered alignments are then used in RNAalifold to get the minimal free energy of the structure and the pseudo-energy and [R-scape]([https://www.tbi.univie.ac.at/RNA/RNALalifold.1.html](http://eddylab.org/R-scape/)) is then used to calculate the minimal E-value of the helices and the number of significant base pairs. 
 
 
 ## Table of content
@@ -16,7 +16,8 @@ Scans multiple alignments for conserved RNA structures. Reads a set of maf files
     - [SISSIz](#sissiz)
     - [RNALalifold](#rnalalifold)
     - [ECSFinder](#ecsfinder)
-    - [MergeNFilter](#mergenfilter)
+    - [R-scape](#rscape)
+
 - [Usage](#usage)
 - [Output](#output)
 - [Example](#example)
@@ -58,17 +59,10 @@ sudo make install
 cd ECSFinder/src
 javac ECSFinder.java
 ```
-### MergeNFilter
-It is essential to use MergeNFilter prior to using ECSFinder as it will prepare your MAF file for our pipeline. It will remove duplicate sequence, duplicate sequence IDs as well as ancestor sequences from it's input file.
+### R-scape
 ```
-javac MergeNFilter.java
+Download the source code [website]([https://www.tbi.univie.ac.at/RNA/](http://eddylab.org/R-scape/))
 ```
-### MergeNFilter
-```
-java MergeNFilter 46_mammals.epo.1_19.maf
-```
-
-
 ### ECSFinder
 ```
 java ECSFinder [options] -o output/directory -i input.maf (last parameter must be -i, absolute path required)
@@ -80,7 +74,6 @@ java ECSFinder [options] -o output/directory -i input.maf (last parameter must b
 ```
 
 ## Output
-### MergeNFilter
 Two outputs are produced: 
 * A filtered MAF ready to be used in our pipeline (-output.maf)
 * A text file containing all filtered out content (-removedLines.txt)
@@ -112,7 +105,6 @@ Two outputs are produced:
                                     
 ## Example
  ```
-java MergeNFilter 46_mammals.epo.1_19.maf
 
 java ECSFinder -o output -c 10 -sszr -3.5 -i /home/vanda/46_mammals.epo.1 -output.maf
 
