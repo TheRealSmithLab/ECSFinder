@@ -5,35 +5,14 @@
     <img width="25%" src="https://user-images.githubusercontent.com/44384386/195381940-680064be-d53a-45b6-a5e1-a80ff1cb804e.jpg"> 
 </p>
 
-# ECSFinder
+ECSFinder is a tool designed to scan multiple alignments for conserved RNA structures. It processes a set of MAF files, calculates key statistics, scans with SISSIz, and outputs BED coordinates of high-confidence predictions. The process begins by refining alignment boundaries using RNALalifold, which identifies locally stable RNA secondary structures. After this refinement, the alignments are analyzed with SISSIz to assess whether a predicted conserved structure is statistically more likely than expected by chance.
 
-ECSFinder scans multiple alignments for conserved RNA structures. It processes a set of MAF files, calculates various statistics, scans with SISSIz, and outputs BED coordinates of high-confidence predictions. The tool integrates several key steps to ensure accurate identification and characterization of conserved RNA structures.
+Following this, RNAalifold calculates the minimal free energy and pseudo-energy of the predicted structures, providing insights into their stability. R-scape is then used to evaluate the statistical significance of helices within the RNA structures, identifying significant base pairs that further validate the findings.
 
-1. **Refinement of Alignment Boundaries**:
-   - We use the locally stable consensus secondary structure prediction algorithm [RNALalifold](https://www.tbi.univie.ac.at/RNA/RNALalifold.1.html) in an initial pass to refine the boundaries of the alignments. This steps identified locally stable RNA secondary structures.
+To enhance prediction accuracy, ECSFinder integrates a Generalized Linear Model (GLM) that predicts the likelihood of the identified RNA structures being true positives or false positives. This model considers features such as E-value, the number of significant base pairs, minimal free energy, pseudo-energy, and sequence conservation (MPI).
 
-2. **Assessment of Conserved Structures**:
-   - Next, the refined alignments are processed using [SISSIz](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-248). SISSIz evaluates whether a predicted conserved structure is statistically more likely than expected by chance, given the underlying sequence alignments. This statistical assessment using the Z-score, helps in identifying potentially significant RNA structures.
+The result is a robust framework that not only identifies but also validates conserved RNA structures across multiple sequence alignments, providing output that can be visualized and further analyzed using genome browsers and other bioinformatics tools.
 
-3. **Energy Calculations**:
-   - The filtered alignments are then analyzed with RNAalifold to determine the minimal free energy of the predicted structures. RNAalifold also calculates the pseudo-energy, which provides additional insights into the stability and likelihood of the RNA structures.
-
-4. **Helix Significance Calculation**:
-   - Finally, [R-scape](http://eddylab.org/R-scape/) is employed to calculate the minimal E-value of the helices within the RNA structures and the number of significant base pairs. R-scape's analysis helps in identifying helices that are statistically significant, further validating the conserved RNA structures.
-
-5. **Prediction Model with Generalized Linear Model (GLM)**:
-   - ECSFinder integrates a Generalized Linear Model (GLM) in `prediction_GLM.R` to predict the likelihood of the identified RNA structures being true positives (TP) or false positives (FP). The model uses several features extracted during the analysis, including:
-     - `log10(E-value)`: Logarithm of the minimal E-value from the helices from R-scape.
-     - `number of significant base pairs`: Number of covarying base pairs from R-scape.
-     - `MFE`: Minimal free energy from RNAalifold.
-     - `pseudo_energy`: Pseudo-energy from RNAalifold.
-     - `MPI` (Mean Pairwise Identity): A measure of sequence conservation across the alignment.
-   - The GLM uses these features to provide a probabilistic prediction, aiding researchers in distinguishing between likely true and false conserved RNA structures.
-
-By combining these tools and steps, ECSFinder provides a robust framework for the identification and analysis of conserved RNA structures across multiple sequence alignments. The tool generates BED coordinates for high-confidence predictions, which can be visualized and further analyzed using genome browsers and other bioinformatics tools. The integration of the GLM enhances the accuracy and reliability of the predictions, providing an additional layer of validation for the identified RNA structures.
-
-
-## Table of content
 
 ## Table of Contents
 
