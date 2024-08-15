@@ -1,0 +1,45 @@
+# RMs = 11 L = 246
+
+# RM 25-38 42-53, nbp = 12 nbp_cov = 0
+# pvals: 0.449975,0.449975,0.81321,0.449975,0.830727,0.449975,0.449975,0.449975,0.449975,0.449975,0.449975,0.449975
+# aggregated LANCASTER        E-value: 10.5595 P-value: 0.959954
+
+# RM 88-98 103-112, nbp = 10 nbp_cov = 1
+# pvals: 0.00868191,0.00154179,0.000155917,0.00154179,0.00154179,0.00690071,0.449975,0.449975,0.449975,0.449975
+# aggregated LANCASTER        E-value: 9.17171e-10 P-value: 8.33792e-11 *
+
+# RM 113-116 121-124, nbp = 4 nbp_cov = 0
+# pvals: 0.0201525,0.81321,0.449975,0.81321
+# aggregated LANCASTER        E-value: 1.76499 P-value: 0.160454
+
+# RM 136-140 145-149, nbp = 5 nbp_cov = 0
+# pvals: 0.81321,0.00690071,0.449975,0.449975,0.81321
+# aggregated LANCASTER        E-value: 1.5984 P-value: 0.145309
+
+# RM 125-132 153-158, nbp = 6 nbp_cov = 1
+# pvals: 0.449975,0.81321,0.81321,7.68581e-07,0.449975,0.449975
+# aggregated LANCASTER        E-value: 0.000670485 P-value: 6.09532e-05 *
+
+# RM 80-87 159-166, nbp = 8 nbp_cov = 0
+# pvals: 0.81321,0.449975,0.449975,0.449975,0.449975,0.449975,0.00690071,0.449975
+# aggregated LANCASTER        E-value: 1.85399 P-value: 0.168544
+
+# RM 195-206 214-225, nbp = 11 nbp_cov = 0
+# pvals: 0.449975,0.449975,0.81321,0.449975,0.81321,0.449975,0.81321,0.81321,0.81321,0.449975,0.81321
+# aggregated LANCASTER        E-value: 10.9632 P-value: 0.996655
+
+# RM 22-23 226-227, nbp = 2 nbp_cov = 0
+# pvals: 0.81321,0.449975
+# aggregated LANCASTER        E-value: 9.05151 P-value: 0.822864
+
+# RM 19-20 230-231, nbp = 2 nbp_cov = 0
+# pvals: 0.449975,0.449975
+# aggregated LANCASTER        E-value: 6.21634 P-value: 0.565122
+
+# RM 8-13 232-237, nbp = 6 nbp_cov = 0
+# pvals: 0.81321,0.449975,0.449975,0.449975,0.449975,0.449975
+# aggregated LANCASTER        E-value: 9.45167 P-value: 0.859243
+
+# RM 2-6 241-245, nbp = 5 nbp_cov = 0
+# pvals: 0.81321,0.014263,0.449975,0.449975,0.449975
+# aggregated LANCASTER        E-value: 0.889126 P-value: 0.0808297

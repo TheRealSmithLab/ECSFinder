@@ -1,0 +1,49 @@
+# RMs = 12 L = 284
+
+# RM 52-62 67-76, nbp = 10 nbp_cov = 1
+# pvals: 0.00680212,0.00209935,0.000208451,0.00209935,0.00209935,0.00575596,0.653641,0.653641,0.653641,0.653641
+# aggregated LANCASTER        E-value: 3.50665e-09 P-value: 2.92221e-10 *
+
+# RM 77-80 85-88, nbp = 4 nbp_cov = 0
+# pvals: 0.0161105,0.861741,0.653641,0.653641
+# aggregated LANCASTER        E-value: 1.68435 P-value: 0.140363
+
+# RM 100-104 109-113, nbp = 5 nbp_cov = 0
+# pvals: 0.653641,0.00575596,0.653641,0.653641,0.653641
+# aggregated LANCASTER        E-value: 1.41206 P-value: 0.117672
+
+# RM 89-96 117-122, nbp = 6 nbp_cov = 1
+# pvals: 0.653641,0.653641,0.653641,2.73179e-06,0.653641,0.653641
+# aggregated LANCASTER        E-value: 0.00259721 P-value: 0.000216435 *
+
+# RM 44-51 123-130, nbp = 8 nbp_cov = 0
+# pvals: 0.861741,0.653641,0.653641,0.653641,0.653641,0.653641,0.00575596,0.653641
+# aggregated LANCASTER        E-value: 3.24454 P-value: 0.270379
+
+# RM 177-178 184-185, nbp = 2 nbp_cov = 0
+# pvals: 0.653641,0.653641
+# aggregated LANCASTER        E-value: 9.48689 P-value: 0.790575
+
+# RM 166-174 188-196, nbp = 8 nbp_cov = 0
+# pvals: 0.653641,0.653641,0.653641,0.653641,0.653641,0.653641,0.653641,0.653641
+# aggregated LANCASTER        E-value: 11.8019 P-value: 0.983489
+
+# RM 158-162 197-201, nbp = 5 nbp_cov = 0
+# pvals: 0.653641,0.653641,0.653641,0.653641,0.653641
+# aggregated LANCASTER        E-value: 11.3818 P-value: 0.948486
+
+# RM 204-209 214-220, nbp = 6 nbp_cov = 0
+# pvals: 0.653641,0.653641,0.653641,0.653641,0.861741,0.653641
+# aggregated LANCASTER        E-value: 11.8002 P-value: 0.983348
+
+# RM 221-235 240-251, nbp = 12 nbp_cov = 0
+# pvals: 0.653641,0.653641,0.861741,0.653641,0.653641,0.653641,0.653641,0.653641,0.653641,0.653641,0.653641,0.653641
+# aggregated LANCASTER        E-value: 11.9805 P-value: 0.998375
+
+# RM 4-14 258-270, nbp = 11 nbp_cov = 0
+# pvals: 0.653641,0.653641,0.653641,0.653641,0.653641,0.653641,0.653641,0.653641,0.653641,0.653641,0.653641
+# aggregated LANCASTER        E-value: 11.9572 P-value: 0.996432
+
+# RM 271-274 278-281, nbp = 4 nbp_cov = 0
+# pvals: 0.653641,0.653641,0.653641,0.653641
+# aggregated LANCASTER        E-value: 11.2527 P-value: 0.937728
