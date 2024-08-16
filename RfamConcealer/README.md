@@ -43,6 +43,9 @@ Upon successful execution, the program generates the following output:
 - **Log Information**:
   - **Description**: If the `-v` (verbose) option is enabled, detailed logs about the processing steps are printed to the console, including sequence sampling and alignment information.
 
-###Example
+### Example
 
-'-o RFAM_65MPI_80MPI_20species_new_2 -min_pi 65 -max_pi 80 -min_f 20 -max_f 20 -t 100000 -i /home/vandalovejoy/rfam_families_new/filtered_families_rfam/over20'
+To run the `RfamConcealer` tool, use the following command:
+
+```bash
+java -jar RfamConcealer/target/RfamConcealer.jar -rfam ~/ECSFinder/RfamConcealer/src/test/Rfam_families/ -maf ~/ECSFinder/RfamConcealer/src/test/MAF/ -o TEST

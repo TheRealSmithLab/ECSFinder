@@ -65,13 +65,14 @@ public class ECSFinder {
         // run RNALalifold and process results
         runRNALalifoldAndProcessResults();
         // Now check for the existence of the output file
+
+
+        callRScript(OUT_PATH+"/structure_input.csv", OUT_PATH+"/structure_output.csv");
         File outputFile = new File(OUT_PATH + "/structure_output.csv");
         if (!outputFile.exists()) {
             System.out.println("No ECS were found.");
             System.exit(0); // Exit the program if the file doesn't exist
         }
-
-        callRScript(OUT_PATH+"/structure_input.csv", OUT_PATH+"/structure_output.csv");
         deleteFPFiles(OUT_PATH + "/structure_output.csv", OUT_PATH+"/ECS_output_files");
         File directory = new File(OUT_PATH+"/ECS_output_files");
 

@@ -6,14 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ECSFinder" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="ECSFinder" target="11" />
-      <module name="rfamconcealer" target="11" />
-      <module name="rfamconcealer (1) (com.yourcompany)" target="11" />
-      <module name="RfamConcealer (2) (groupId)" target="11" />
-      <module name="untitled" target="11" />
+      <module name="RfamConcealer" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -4,31 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>ECSFinder</artifactId>
+    <artifactId>RfamConcealer</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-compress</artifactId>
-            <version>1.27.0</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.16.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.16.0</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
@@ -53,7 +35,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>ECSFinder</mainClass> <!-- Replace with the fully qualified class name of your main class -->
+                            <mainClass>RfamConcealer</mainClass> <!-- Replace with the fully qualified class name of your main class -->
                         </manifest>
                     </archive>
                 </configuration>

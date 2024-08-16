@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="RfamConcealer">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/RfamConcealer/target/RfamConcealer.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

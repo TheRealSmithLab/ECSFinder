@@ -75,16 +75,16 @@ java ECSFinder [options] -o output/directory -i input.maf (last parameter must b
 ```
 
 ## Output
-Two outputs are produced: 
-* A filtered MAF ready to be used in our pipeline (-output.maf)
-* A text file containing all filtered out content (-removedLines.txt)
+Four types of results are produced:
 
-### ECSFinder
- Two types of results are produced:
-   *  The multiple sequence alignments associated to significant predictions are saved to files in the folder specified with the -o option
-      File names correspond to their genomic coordinates in a .bed-compatible format
-      
-      Ex: output/directory/X_9958021_9958096_11_92.2_0.1_0.16_66.8_0.4_304_+.aln
+* `output.maf` file containing the merged MAF file with the ancestor sequences and duplicate species removed.
+* `structure_input.csv` file with all the structures passing the given threshold using SISSIz.
+* `structure_output.csv` file with all the classified predicted ECS (either FP or TP).
+* A directory called `ECS_output_files` containing:
+  * A clustal file, e.g., `out_directory/ECS_output_files/X_9958021_9958096_11_92.2_0.1_0.16_66.8_0.4_304_+.aln`.
+  * A Stockholm file containing alignment and structure used by R-scape, e.g., `out_directory/ECS_output_files/X_9958021_9958096_11_92.2_0.1_0.16_66.8_0.4_304_+.stk`.
+  * A text file containing output from RNAalifold, e.g., `out_directory/ECS_output_files/X_9958021_9958096_11_92.2_0.1_0.16_66.8_0.4_304_+.txt`.
+  * All other files are standard output from R-scape.
      
  ### File Name:
 ***
@@ -106,11 +106,15 @@ Two outputs are produced:
                                     
 ## Example
  ```
+java -jar target/ECSFinder.jar -o TEST -i src/test/resources
+11      296     477     10      66.8    0.2     0.75    49.8    24.0    461     +
+3       214     469     10      81.8    0.2     0.38    40.9    10.9    505     +
+11      333     397     10      64.7    0.2     0.8     55.2    38.5    345     +
+3       209     462     10      81.8    0.2     0.37    40.6    11.0    641     +
+11      334     399     10      65.1    0.2     0.79    54.7    38.2    418     +
+3       248     467     10      81.4    0.2     0.38    42.0    10.6    558     +
+11      332     411     10      66.9    0.2     0.75    54.2    34.4    351     +
+3       228     465     10      80.6    0.2     0.4     42.3    11.7    553     +
 
-java ECSFinder -o output -c 10 -sszr -3.5 -i /home/vanda/46_mammals.epo.1 -output.maf
-
-X	17713087	17713208	17:78.2:0.1:0.46:39.3:18.4	428	+
-X	17713085	17713241	17:83.0:0.1:0.38:38.8:42.2	367	+
-X	17713023	17713229	17:80.8:0.2:0.41:37.9:12.4	372	+
 ...
 ```
