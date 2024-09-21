@@ -115,6 +115,12 @@ java -jar target/ECSFinder.jar -o TEST -i src/test/resources
 3       248     467     10      81.4    0.2     0.38    42.0    10.6    558     +
 11      332     411     10      66.9    0.2     0.75    54.2    34.4    351     +
 3       228     465     10      80.6    0.2     0.4     42.3    11.7    553     +
-
 ...
 ```
+
+FigShare link: https://figshare.com/s/91f1a38f1f6d3b4907ac
+
+
+
+
+
