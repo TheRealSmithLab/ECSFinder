@@ -717,7 +717,7 @@ public class ScanItFast implements Runnable {
     private void runRScape(String stkFile, String directoryPath) {
         try {
             ProcessBuilder pb = new ProcessBuilder(
-                    "/home/vandalovejoy/rscape_v2.0.4.a/bin/R-scape",
+                    "R-scape",
                     "--lancaster",
                     "--nofigures",
                     "-s",

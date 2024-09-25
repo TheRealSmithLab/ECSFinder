@@ -10,12 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="modified the jar file">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/ECSFinder_jar/ECSFinder.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/ECSFinder_jar/ECSFinder.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ECSFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ECSFinder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/ECSFinder.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ECSFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ECSFinder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ScanItFast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScanItFast.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,7 +151,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727279756001</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="modified the jar file">
+      <option name="closed" value="true" />
+      <created>1727292965714</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1727292965714</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
