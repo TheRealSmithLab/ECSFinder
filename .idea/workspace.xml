@@ -9,22 +9,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="name of directory modified in README">
+    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="modified the jar file">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/ECSFinder_jar/ECSFinder.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/ECSFinder_jar/ECSFinder.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/RfamConcealer_jar/RfamConcealer.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/RfamConcealer_jar/RfamConcealer.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ECSFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ECSFinder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/ECSFinder.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ECSFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ECSFinder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/FilterOutput.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FilterOutput.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MergeNFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MergeNFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ScanItFast.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ScanItFast.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/test/resources/test3.maf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/test/test.maf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/test/test2.maf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/test3.maf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,18 +47,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "jdk.selected.JAVA_MODULE": "11",
-    "last_opened_file_path": "/home/vandalovejoy/ECSFinder/lib",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.29477197",
-    "project.structure.side.proportion": "0.30972224",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;11&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/vandalovejoy/ECSFinder/lib&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.29477197&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.30972224&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/RfamConcealer/src/test/MAF" />
@@ -149,7 +140,23 @@
       <option name="project" value="LOCAL" />
       <updated>1727278339721</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="modified the jar file">
+      <option name="closed" value="true" />
+      <created>1727279629147</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1727279629147</updated>
+    </task>
+    <task id="LOCAL-00009" summary="modified the jar file">
+      <option name="closed" value="true" />
+      <created>1727279756001</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1727279756001</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -169,7 +176,8 @@
     <MESSAGE value="change the model from a GLM to a RFM" />
     <MESSAGE value="modified the explanations for the README file" />
     <MESSAGE value="name of directory modified in README" />
-    <option name="LAST_COMMIT_MESSAGE" value="name of directory modified in README" />
+    <MESSAGE value="modified the jar file" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified the jar file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -15,8 +15,8 @@ public class ECSFinder {
     static int GAPS = 50, NTHREDS = 4;
     static boolean VERBOSE = false;
     static String FILENAME = "", OUT_PATH = "", dirProgram = "";
-    static String SSZBINARY = "~/SISSIz-master/src/SISSIz", ALIFOLDBINARY = "~/ViennaRNA-2.4.16/bin/RNALalifold",
-            RNAALIFOLD="~/ViennaRNA-2.4.16/bin/RNAalifold",RSCAPE="~/rscape_v2.0.4.a/bin/R-scape";
+    static String SSZBINARY = "", ALIFOLDBINARY = "",
+            RNAALIFOLD="",RSCAPE="";
     static double SSZR = -3.0;
     private static File path;
 
