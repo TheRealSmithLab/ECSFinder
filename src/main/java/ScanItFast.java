@@ -1,12 +1,10 @@
 
 
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
-
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,9 +23,17 @@ public class ScanItFast implements Runnable {
     private double SSZR_THRESHOLD = -3.0;// alignments scoring below this will be kept (Z-score)
     private int GAP_THRESHOLD = 50;
 
-    ScanItFast(ArrayList<String[]> associativeList, String[] key, String Path,
+    private  double sampled_sd;
+    private  double sampled_MFE;
+    private  double zscore;
+
+    private double sampled_sd_rc;   // For reverse complement
+    private double sampled_MFE_rc;  // For reverse complement
+    private double zscore_rc;       // For reverse complement
+
+    ScanItFast(ArrayList<String[]> associativeList, String[] key, File Path,
                String SSZBINARY, boolean VERBOSE) {
-        ScanItFast.Path = Path;
+        ScanItFast.Path = String.valueOf(Path);
         ScanItFast.SSZBINARY = SSZBINARY;
         ScanItFast.VERBOSE = VERBOSE;
         this.associativeList = associativeList;
@@ -414,7 +420,9 @@ public class ScanItFast implements Runnable {
 
 
             } else {
-
+                sampled_MFE = Double.parseDouble(SissizOutTab[8]);
+                sampled_sd = Double.parseDouble(SissizOutTab[9]);
+                zscore = Double.parseDouble(SissizOutTab[10]);
                 String fileNameBed = FinalBedFile.replace("\t", "_");
                 File theDir = new File(Path + "/" + fileNameBed);
                 if (!theDir.exists()) {
@@ -442,25 +450,29 @@ public class ScanItFast implements Runnable {
                 double cov= filterOutput.processFilesWithSuffix(String.valueOf(theDir), "power", "# BPAIRS observed to covary ");
                 double[] energies = filterOutput.processTxtFiles(String.valueOf(theDir));
                 int len_prediction =Integer.valueOf(key[2])-Integer.valueOf(key[1]);
-                double[] array_variates= new double[]{ log10(eval) , cov , energies[0]/len_prediction,energies[1]/len_prediction
-                        , ((double) (int) (10 * stats[0]) / 10)};
-
+                double[] array_variates= new double[]{
+                        energies[0] / len_prediction,
+                        energies[1] / len_prediction,
+                        log10(eval),
+                        cov,
+                        ((double) (int) (10 * stats[0]) / 10),
+                        sampled_MFE / len_prediction,
+                        sampled_sd,
+                        zscore
+                };
 
                 try {
-                    createTarGz(String.valueOf(theDir), String.valueOf(theDir)+".tar.gz");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
+                    // Copy .aln files before deleting the directory
+                    copyAlnFiles(theDir, Path);
                     deleteDirectory(theDir);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
 
-                String csvPath = ECSFinder.OUT_PATH+"/structure_input.csv";
+                String csvPath = ECSFinder.OUT_PATH+"/structure_input_sense.csv";
 
                 try {
-                    writeFeaturesToCSV(array_variates, csvPath,String.valueOf(theDir)+".tar.gz");
+                    writeFeaturesToCSV(array_variates, csvPath,String.valueOf(theDir));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -493,6 +505,9 @@ public class ScanItFast implements Runnable {
 
                 //    System.out.println(FinalBedFileRC.replaceAll("_", "\t"));
             } else {
+                sampled_MFE_rc = Double.parseDouble(SissizOutTab[8]);
+                sampled_sd_rc = Double.parseDouble(SissizOutTab[9]);
+                zscore_rc = Double.parseDouble(SissizOutTab[10]);
                 String fileNameBedRc = FinalBedFileRC.replace("\t", "_");
                 // Create the necessary directory for the alignment
                 File theDir = new File(Path + "/" + fileNameBedRc);
@@ -522,23 +537,29 @@ public class ScanItFast implements Runnable {
 
                 double[] energies = filterOutput.processTxtFiles(String.valueOf(theDir));
                 int len_prediction =Integer.valueOf(key[2])-Integer.valueOf(key[1]);
-                double[] array_variates= new double[]{ log10(eval) , cov , energies[0]/len_prediction,energies[1]/len_prediction
-                        , ((double) (int) (10 * stats[0]) / 10)};
+                double[] array_variates= new double[]{
+
+                        energies[0] / len_prediction,
+                        energies[1] / len_prediction,
+                        log10(eval),
+                        cov,
+                        ((double) (int) (10 * stats[0]) / 10),
+                        sampled_MFE_rc / len_prediction,
+                        sampled_sd_rc,
+                        zscore_rc
+                };
 
                 try {
-                    createTarGz(String.valueOf(theDir), String.valueOf(theDir)+".tar.gz");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
+                    // Copy .aln files before deleting the directory
+                    copyAlnFiles(theDir, Path);
+
                     deleteDirectory(theDir);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                String csvPath = ECSFinder.OUT_PATH+"/structure_input.csv";
-                String csvPathOutput = ECSFinder.OUT_PATH+"/structure_output.csv";
+                String csvPathAntisense = ECSFinder.OUT_PATH+"/structure_input_antisense.csv";
                 try {
-                    writeFeaturesToCSV(array_variates, csvPath, String.valueOf(theDir)+".tar.gz");
+                    writeFeaturesToCSV(array_variates, csvPathAntisense, String.valueOf(theDir));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -563,6 +584,7 @@ public class ScanItFast implements Runnable {
         String[] SissizOutTab = new String[12];
         String Output, Error = "";
         String Command = SSZBINARY;
+
 
         Command = Command + " -j -t " + Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + id; // RIBOSUM scoring
 
@@ -602,6 +624,7 @@ public class ScanItFast implements Runnable {
                                 System.out.println(Output_new[1]);
                             }
                             SissizOutTab = Output_new[1].split("\\s");
+
                             // You can modify elements in SissizOutTab as needed
                             // Example: SissizOutTab[1] = "r";
                         }
@@ -728,40 +751,25 @@ public class ScanItFast implements Runnable {
             e.printStackTrace();
         }
     }
-    public static void createTarGz(String sourceDirPath, String tarGzPath) throws IOException {
-        File sourceDir = new File(sourceDirPath);
-        try (FileOutputStream fos = new FileOutputStream(tarGzPath);
-             GzipCompressorOutputStream gcos = new GzipCompressorOutputStream(fos);
-             TarArchiveOutputStream taos = new TarArchiveOutputStream(gcos)) {
 
-            taos.setLongFileMode(TarArchiveOutputStream.LONGFILE_GNU);
-            addFilesToTarGz(taos, sourceDir, "");
+    // Copy .aln files to the target directory
+    public static void copyAlnFiles(File sourceDir, String targetDir) throws IOException {
+        // Convert the target directory from String to Path
+        Path targetPath = Paths.get(targetDir);
 
+        // Ensure the target directory exists, or create it
+        if (!Files.exists(targetPath)) {
+            Files.createDirectories(targetPath);
         }
-    }
 
-    private static void addFilesToTarGz(TarArchiveOutputStream taos, File file, String parentDir) throws IOException {
-        String entryName = parentDir + file.getName();
-        TarArchiveEntry entry = new TarArchiveEntry(file, entryName);
+        // Get list of .aln files in the source directory
+        File[] alnFiles = sourceDir.listFiles((dir, name) -> name.endsWith(".aln"));
 
-        taos.putArchiveEntry(entry);
-
-        if (file.isFile()) {
-            try (FileInputStream fis = new FileInputStream(file)) {
-                byte[] buffer = new byte[1024];
-                int length;
-                while ((length = fis.read(buffer)) != -1) {
-                    taos.write(buffer, 0, length);
-                }
-            }
-            taos.closeArchiveEntry();
-        } else if (file.isDirectory()) {
-            taos.closeArchiveEntry();
-            File[] children = file.listFiles();
-            if (children != null) {
-                for (File child : children) {
-                    addFilesToTarGz(taos, child, entryName + "/");
-                }
+        // Copy each .aln file to the target directory
+        if (alnFiles != null) {
+            for (File alnFile : alnFiles) {
+                Path targetFile = targetPath.resolve(alnFile.getName());
+                Files.copy(alnFile.toPath(), targetFile, StandardCopyOption.REPLACE_EXISTING);
             }
         }
     }
@@ -788,25 +796,25 @@ public class ScanItFast implements Runnable {
             throw new IOException("Failed to delete directory: " + directory);
         }
     }
-    // Inside ScanItFast or a suitable method
+
     private static void writeFeaturesToCSV(double[] data, String csvPath, String nameFile) throws IOException {
         boolean fileExists = new File(csvPath).exists();
         BufferedWriter writer = new BufferedWriter(new FileWriter(csvPath, true)); // Enable append mode
 
         if (!fileExists) {
-            writer.write("name_file,log_min_evalue,covarying_bp,min_energy,pseudo_energy,MPI\n");
+            writer.write("name_file,min_energy,pseudo_energy,log_min_evalue,covarying_bp,MPI,average_MFE_sample,sd_sample,zscore\n");
         }
-        String fileName = nameFile.substring(nameFile.lastIndexOf('/') + 1);
-        writer.write((fileName)+",");
-        for (int i = 0; i < data.length; i++) {
-            writer.write(String.valueOf(data[i]));
-            if (i < data.length - 1) {
-                writer.write(",");
+            String fileName = nameFile.substring(nameFile.lastIndexOf('/') + 1);
+            writer.write((fileName) + ",");
+            for (int i = 0; i < data.length; i++) {
+                writer.write(String.valueOf(data[i]));
+                if (i < data.length - 1) {
+                    writer.write(",");
+                }
             }
+            writer.write("\n");
+            writer.close();
         }
-        writer.write("\n");
-        writer.close();
-    }
 
 
 }

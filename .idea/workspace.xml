@@ -10,65 +10,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/RfamConcealer.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/RfamConcealer1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ECSFinder/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RfamConcealer/RfamConcealer.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RfamConcealer/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ECSFinder_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/ECSFinder_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/RfamConcealer_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/RfamConcealer_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/commons_compress_1_27_0.xml" beforeDir="false" />
+    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="removed directory">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ECSFinder.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ECSFinder.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/RfamConcealer/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/.idea/libraries/java_11_openjdk_amd64.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/RfamConcealer/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/main/java/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/main/java/RfamConcealer.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/gapless/gapless_RF00031_46_2_18_block_163_random_28_28.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/gapless/gapless_RF00061_46_5_10_block_64_random_31_31.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/gapless/gapless_RF00083_46_5_10_block_96_random_36_36.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/gapless/gapless_RF00209_46_5_10_block_57_random_42_42.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/gapless/gapless_RF00228_46_7_11_block_196_random_36_36.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/gapless/gapless_RF00250_46_3_9_block_191_random_34_34.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/gapless/gapless_RF00374_46_3_9_block_166_random_29_29.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/gapless/gapless_RF01047_46_7_11_block_62_random_27_27.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/gapless/gapless_RF02680_46_2_18_block_162_random_26_26.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/preMafft/modified_RF00031_46_2_18_block_163_random_28_28.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/preMafft/modified_RF00061_46_5_10_block_64_random_31_31.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/preMafft/modified_RF00083_46_5_10_block_96_random_36_36.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/preMafft/modified_RF00209_46_5_10_block_57_random_42_42.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/preMafft/modified_RF00228_46_7_11_block_196_random_36_36.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/preMafft/modified_RF00250_46_3_9_block_191_random_34_34.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/preMafft/modified_RF00374_46_3_9_block_166_random_29_29.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/preMafft/modified_RF01047_46_7_11_block_62_random_27_27.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/test/MAF/preMafft/modified_RF02680_46_2_18_block_162_random_26_26.fasta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/target/RfamConcealer.jar" beforeDir="false" afterPath="$PROJECT_DIR$/RfamConcealer/target/RfamConcealer.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/target/classes/rfamconcealer/src/DataLoader.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/target/classes/rfamconcealer/src/RfamConcealer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/target/classes/rfamconcealer/src/SequenceSampler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/ECSFinder_jar/ECSFinder.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/ECSFinder_jar/ECSFinder.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ECSFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ECSFinder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ECSFinder.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RfamConcealer/.README.md.swp" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ECSFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ECSFinder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MergeNFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MergeNFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/ECSFinder.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/ECSFinder.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ScanItFast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScanItFast.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/test.maf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ECSFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ECSFinder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/FilterOutput.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FilterOutput.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/MergeNFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MergeNFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ScanItFast.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ScanItFast.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,16 +59,28 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "jdk.selected.JAVA_MODULE": "11",
-    "last_opened_file_path": "/home/vandalovejoy/ECSFinder/RfamConcealer",
-    "project.structure.last.edited": "Artifacts",
+    "last_opened_file_path": "/home/vandalovejoy/ECSFinder/lib",
+    "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.29477197",
-    "project.structure.side.proportion": "0.30972224"
+    "project.structure.side.proportion": "0.30972224",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/RfamConcealer/src/test/MAF" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="ECSFinder" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-11-openjdk-amd64" />
+      <option name="MAIN_CLASS_NAME" value="ECSFinder" />
+      <module name="ECSFinder" />
+      <option name="PROGRAM_PARAMETERS" value="-sszr 0.0 -o TEST -i src/test/resources" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -125,6 +91,23 @@
       <option name="presentableId" value="Default" />
       <updated>1723820029334</updated>
     </task>
+    <task id="LOCAL-00001" summary="new version with jar files">
+      <option name="closed" value="true" />
+      <created>1723827021275</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1723827021275</updated>
+    </task>
+    <task id="LOCAL-00002" summary="removed directory">
+      <option name="closed" value="true" />
+      <created>1723827116308</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1723827116308</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -137,5 +120,36 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="new version with jar files" />
+    <MESSAGE value="removed directory" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed directory" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
+          <line>66</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
+          <line>91</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
+          <line>561</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
+          <line>474</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

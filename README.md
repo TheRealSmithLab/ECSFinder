@@ -9,7 +9,7 @@ ECSFinder is a tool designed to scan multiple alignments for conserved RNA struc
 
 Following this, RNAalifold calculates the minimal free energy and pseudo-energy of the predicted structures, providing insights into their stability. R-scape is then used to evaluate the statistical significance of helices within the RNA structures, identifying significant base pairs that further validate the findings.
 
-To enhance prediction accuracy, ECSFinder integrates a Generalized Linear Model (GLM) that predicts the likelihood of the identified RNA structures being true positives or false positives. This model considers features such as E-value, the number of significant base pairs, minimal free energy, pseudo-energy, and sequence conservation (MPI).
+To enhance prediction accuracy, ECSFinder integrates a random forest model that predicts the likelihood of the identified RNA structures being true positives or false positives. This model considers the following features: E-value, the number of significant base pairs, minimal free energy, pseudo-energy, sequence conservation (MPI), standard deviation, the average MFE from null background from SISSIz and the Z-score.
 
 The result is a robust framework that not only identifies but also validates conserved RNA structures across multiple sequence alignments, providing output that can be visualized and further analyzed using genome browsers and other bioinformatics tools.
 
@@ -106,15 +106,10 @@ Four types of results are produced:
                                     
 ## Example
  ```
-java -jar target/ECSFinder.jar -o TEST -i src/test/resources
-11      296     477     10      66.8    0.2     0.75    49.8    24.0    461     +
-3       214     469     10      81.8    0.2     0.38    40.9    10.9    505     +
-11      333     397     10      64.7    0.2     0.8     55.2    38.5    345     +
-3       209     462     10      81.8    0.2     0.37    40.6    11.0    641     +
-11      334     399     10      65.1    0.2     0.79    54.7    38.2    418     +
-3       248     467     10      81.4    0.2     0.38    42.0    10.6    558     +
-11      332     411     10      66.9    0.2     0.75    54.2    34.4    351     +
-3       228     465     10      80.6    0.2     0.4     42.3    11.7    553     +
+java -jar target/ECSFinder.jar -sszr 0.0 -o TEST -i src/test/resources
+chrm	start	end	Num_species	MPI	sd	mean_shannon	gc	gap	zscore	strand	prob
+5	RF00017	318	435	5	60.5	0.3	0.73	57.0	1.0	655	+	0.84
+5	RF00017	273	426	5	58.1	0.3	0.77	59.2	0.7	1317	+	0.94
 
 ...
 ```

@@ -7,12 +7,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 public class ECSFinder {
 
@@ -22,6 +18,7 @@ public class ECSFinder {
     static String SSZBINARY = "~/SISSIz-master/src/SISSIz", ALIFOLDBINARY = "~/ViennaRNA-2.4.16/bin/RNALalifold",
             RNAALIFOLD="~/ViennaRNA-2.4.16/bin/RNAalifold",RSCAPE="~/rscape_v2.0.4.a/bin/R-scape";
     static double SSZR = -3.0;
+    private static File path;
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -65,34 +62,75 @@ public class ECSFinder {
         // run RNALalifold and process results
         runRNALalifoldAndProcessResults();
         // Now check for the existence of the output file
+        String nameOutputECS= "predicted_ECS.csv";
+
+        callRScript(OUT_PATH + "/structure_input_sense.csv", OUT_PATH + "/"+nameOutputECS);
+        callRScript(OUT_PATH + "/structure_input_antisense.csv", OUT_PATH + "/"+nameOutputECS);
 
 
-        callRScript(OUT_PATH+"/structure_input.csv", OUT_PATH+"/structure_output.csv");
-        File outputFile = new File(OUT_PATH + "/structure_output.csv");
+        File outputFile = new File(OUT_PATH + "/"+nameOutputECS);
         if (!outputFile.exists()) {
             System.out.println("No ECS were found.");
             System.exit(0); // Exit the program if the file doesn't exist
-        }
-        deleteFPFiles(OUT_PATH + "/structure_output.csv", OUT_PATH+"/ECS_output_files");
-        File directory = new File(OUT_PATH+"/ECS_output_files");
-
-        if (directory.exists() && directory.isDirectory()) {
-            File[] files = directory.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (file.isFile()) {
-                        String originalName = file.getName();
-                        String newFilename = originalName.replaceAll("\\.tar\\.gz$", "");
-                        String modifiedName = newFilename.replace("_", "\t");
-                        System.out.println(modifiedName);
-                    }
-                }
-            } else {
-                System.out.println("No files found in the directory.");
-            }
         } else {
-            System.out.println("The specified directory does not exist or is not a directory.");
+            try {
+                // Open the CSV file
+                BufferedReader reader = new BufferedReader(new FileReader(outputFile));
+                String line;
+
+                // Read the header line and skip
+                reader.readLine();
+                int first=0;
+                // Process each line
+                while ((line = reader.readLine()) != null) {
+                    // Split the line by commas
+                    String[] parts = line.split(",");
+
+                    // Check if Predicted_Class is "TP"
+                    if (parts.length >= 3 && "TP".equals(parts[2])) {
+                        // Replace underscores with tabs in name_file (the first column)
+                        String nameFileWithTabs = parts[0].replace('_', '\t');
+                        if(first==0){
+                            System.out.println("chrm\tstart\tend\tNum_species\tMPI\tsd\tmean_shannon\tgc\tgap\tzscore\tstrand\tprob");
+                        }
+                        // Print the name_file and probability to the terminal
+                        System.out.println(nameFileWithTabs + "\t" + parts[1]);
+                        first+=1;
+                    }
+                    else if (parts.length >= 3 && "FP".equals(parts[2])) {
+                        // Use the original file name
+                        String nameFileWithUnderscores = parts[0];
+
+                        // Construct the full path to the .aln file
+                        File fileToDelete = new File(path, nameFileWithUnderscores + ".aln");
+
+                        // Check if the file exists and delete it
+                        if (fileToDelete.exists()) {
+                            fileToDelete.delete();
+                        }
+                    }
+
+
+                }
+
+                // Close the reader
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Also delete the structure_input_sense.csv file
+            File senseCsvFile = new File(path, "structure_input_sense.csv");
+            File antisenseCsvFile = new File(path, "structure_input_antisense.csv");
+            // Check if the CSV file exists and delete it
+            if (senseCsvFile.exists()) {
+                senseCsvFile.delete();
+            } else if (antisenseCsvFile.exists()){
+                antisenseCsvFile.delete();
+            }
+
         }
+
     }
 
 
@@ -215,9 +253,10 @@ public class ECSFinder {
                 ArrayList<String[]> associativeList = new ArrayList<>();
                 String[] mafTabTemp = tempTab[0].split("\\s+");
                 futures = new ArrayList<>();
-                String path = OUT_PATH + "/ECS_output_files/";
-                if (!(new File(path)).isDirectory())
-                    (new File(path)).mkdirs();
+                path = new File(OUT_PATH + "/aln/");
+                if (!path.isDirectory()) {
+                    path.mkdirs();  // Create the directory if it doesn't exist
+                }
 
                 int numbZeros;
                 String gcReference = "";
@@ -394,7 +433,7 @@ public class ECSFinder {
 
     }
     public static List<Double> callRScript(String inputCsv, String outputCsv) throws IOException, InterruptedException {
-        List<String> command = Arrays.asList("/usr/lib/R/bin/Rscript", "r_scripts/prediction_GLM.R", inputCsv, outputCsv);
+        List<String> command = Arrays.asList("/usr/lib/R/bin/Rscript", "r_scripts/prediction_RF.R", inputCsv, outputCsv);
         ProcessBuilder pb = new ProcessBuilder(command);
         Process process = pb.start();
 
@@ -433,37 +472,6 @@ public class ECSFinder {
         reader.close();
 
         return predictions;
-    }
-    public static void deleteFPFiles(String outputCsv, String directory) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(outputCsv));
-        String line;
-        // Skip the header line
-        reader.readLine();
-        while ((line = reader.readLine()) != null) {
-            String[] parts = line.split(",");
-            if (parts.length < 3) {
-                continue; // Skip lines that don't have enough columns
-            }
-
-            String nameFile = parts[0].trim();
-            String predictedClass = parts[2].trim();
-
-            if ("FP".contains(predictedClass)) {
-                Path filePath = Paths.get(directory, nameFile);
-                if (Files.exists(filePath)) {
-                    try {
-                        Files.delete(filePath);
-
-                    } catch (IOException e) {
-                        System.err.println("Failed to delete file: " + filePath.toString());
-                        e.printStackTrace();
-                    }
-                } else {
-                    System.out.println("File not found: " + filePath.toString());
-                }
-            }
-        }
-        reader.close();
     }
 
 }
