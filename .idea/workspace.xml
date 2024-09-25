@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="ECSFinder:jar" />
       <artifact name="RfamConcealer:jar" />
     </artifacts-to-build>
   </component>
@@ -10,19 +9,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="removed directory">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="change the model from a GLM to a RFM">
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RfamConcealer/.README.md.swp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ECSFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ECSFinder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ScanItFast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScanItFast.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/test.maf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ECSFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ECSFinder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/FilterOutput.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FilterOutput.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MergeNFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MergeNFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ScanItFast.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ScanItFast.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +95,31 @@
       <option name="project" value="LOCAL" />
       <updated>1723827116308</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="change the model from a GLM to a RFM">
+      <option name="closed" value="true" />
+      <created>1727277891077</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1727277891077</updated>
+    </task>
+    <task id="LOCAL-00004" summary="change the model from a GLM to a RFM">
+      <option name="closed" value="true" />
+      <created>1727277903216</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1727277903216</updated>
+    </task>
+    <task id="LOCAL-00005" summary="change the model from a GLM to a RFM">
+      <option name="closed" value="true" />
+      <created>1727277906561</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1727277906561</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -124,7 +136,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="new version with jar files" />
     <MESSAGE value="removed directory" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed directory" />
+    <MESSAGE value="change the model from a GLM to a RFM" />
+    <option name="LAST_COMMIT_MESSAGE" value="change the model from a GLM to a RFM" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

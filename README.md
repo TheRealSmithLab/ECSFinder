@@ -75,16 +75,12 @@ java ECSFinder [options] -o output/directory -i input.maf (last parameter must b
 ```
 
 ## Output
-Four types of results are produced:
+Three types of results are produced:
 
 * `output.maf` file containing the merged MAF file with the ancestor sequences and duplicate species removed.
-* `structure_input.csv` file with all the structures passing the given threshold using SISSIz.
-* `structure_output.csv` file with all the classified predicted ECS (either FP or TP).
-* A directory called `ECS_output_files` containing:
+* `predicted_ECS.csv` file with predictions made.
+* A directory called `aln` containing:
   * A clustal file, e.g., `out_directory/ECS_output_files/X_9958021_9958096_11_92.2_0.1_0.16_66.8_0.4_304_+.aln`.
-  * A Stockholm file containing alignment and structure used by R-scape, e.g., `out_directory/ECS_output_files/X_9958021_9958096_11_92.2_0.1_0.16_66.8_0.4_304_+.stk`.
-  * A text file containing output from RNAalifold, e.g., `out_directory/ECS_output_files/X_9958021_9958096_11_92.2_0.1_0.16_66.8_0.4_304_+.txt`.
-  * All other files are standard output from R-scape.
      
  ### File Name:
 ***
