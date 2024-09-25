@@ -80,7 +80,7 @@ Three types of results are produced:
 * `output.maf` file containing the merged MAF file with the ancestor sequences and duplicate species removed.
 * `predicted_ECS.csv` file with predictions made.
 * A directory called `aln` containing:
-  * A clustal file, e.g., `out_directory/ECS_output_files/X_9958021_9958096_11_92.2_0.1_0.16_66.8_0.4_304_+.aln`.
+  * A clustal file, e.g., `out_directory/aln/X_9958021_9958096_11_92.2_0.1_0.16_66.8_0.4_304_+.aln`.
      
  ### File Name:
 ***
