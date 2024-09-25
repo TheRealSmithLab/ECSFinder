@@ -2,15 +2,29 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="RfamConcealer:jar" />
+      <artifact name="ECSFinder:jar" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="change the model from a GLM to a RFM">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="name of directory modified in README">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/ECSFinder_jar/ECSFinder.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/ECSFinder_jar/ECSFinder.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/RfamConcealer_jar/RfamConcealer.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/RfamConcealer_jar/RfamConcealer.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ECSFinder.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ECSFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ECSFinder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/FilterOutput.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FilterOutput.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/MergeNFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MergeNFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ScanItFast.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ScanItFast.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/resources/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/resources/test3.maf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/test.maf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/test/test2.maf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/test3.maf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +133,23 @@
       <option name="project" value="LOCAL" />
       <updated>1727277906561</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="modified the explanations for the README file">
+      <option name="closed" value="true" />
+      <created>1727278289503</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1727278289503</updated>
+    </task>
+    <task id="LOCAL-00007" summary="name of directory modified in README">
+      <option name="closed" value="true" />
+      <created>1727278339721</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1727278339721</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -137,7 +167,9 @@
     <MESSAGE value="new version with jar files" />
     <MESSAGE value="removed directory" />
     <MESSAGE value="change the model from a GLM to a RFM" />
-    <option name="LAST_COMMIT_MESSAGE" value="change the model from a GLM to a RFM" />
+    <MESSAGE value="modified the explanations for the README file" />
+    <MESSAGE value="name of directory modified in README" />
+    <option name="LAST_COMMIT_MESSAGE" value="name of directory modified in README" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
