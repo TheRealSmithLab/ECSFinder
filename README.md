@@ -21,6 +21,7 @@ The result is a robust framework that not only identifies but also validates con
   - [RNALalifold](#rnalalifold)
   - [ECSFinder](#ecsfinder)
   - [R-scape](#r-scape)
+  - [R](#r)
 - [Usage](#usage)
 - [Output](#output)
 - [Example](#example)
@@ -62,6 +63,9 @@ javac ECSFinder.java
 ### R-scape
 
 Download the source code [website](http://eddylab.org/R-scape/)
+### R
+
+Please use the 4.3 or a more recent version of R. Make sure the caret and randomForest package are installed
 
 ## Usage
 ### ECSFinder
