@@ -16,7 +16,7 @@ public class ECSFinder {
     static boolean VERBOSE = false;
     static String FILENAME = "", OUT_PATH = "", dirProgram = "";
     static String SSZBINARY = "", ALIFOLDBINARY = "",
-            RNAALIFOLD="",RSCAPE="";
+            RNAALIFOLD="",R= "", RSCAPE="";
     static double SSZR = -3.0;
     private static File path;
 
@@ -138,8 +138,9 @@ public class ECSFinder {
     private static void setBinaryPaths() throws IOException {
         ALIFOLDBINARY = getBinaryPath("RNALalifold");
         SSZBINARY = getBinaryPath("SISSIz");
-        RNAALIFOLD= getBinaryPath("RNAalifold");
-        RSCAPE= getBinaryPath("R-scape");
+        RNAALIFOLD = getBinaryPath("RNAalifold");
+        R = getBinaryPath("R");
+        RSCAPE = getBinaryPath("R-scape");
     }
 
     private static String getBinaryPath(String binaryName) throws IOException {
@@ -433,7 +434,7 @@ public class ECSFinder {
 
     }
     public static List<Double> callRScript(String inputCsv, String outputCsv) throws IOException, InterruptedException {
-        List<String> command = Arrays.asList("/usr/lib/R/bin/Rscript", "r_scripts/prediction_RF.R", inputCsv, outputCsv);
+        List<String> command = Arrays.asList("Rscript", "r_scripts/prediction_RF.R", inputCsv, outputCsv);
         ProcessBuilder pb = new ProcessBuilder(command);
         Process process = pb.start();
 
