@@ -9,18 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="R version and packages">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/r_scripts/prediction_RF.R" beforeDir="false" afterPath="$PROJECT_DIR$/r_scripts/prediction_RF.R" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ECSFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ECSFinder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ECSFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ECSFinder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MergeNFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MergeNFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ScanItFast.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScanItFast.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/ECSFinder.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/ECSFinder.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ECSFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ECSFinder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
-    </list>
+    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="code and problems with path fixed" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -200,7 +189,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727297480055</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="code and problems with path fixed">
+      <option name="closed" value="true" />
+      <created>1727381233174</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1727381233174</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -223,7 +220,8 @@
     <MESSAGE value="modified the jar file" />
     <MESSAGE value="modified path for R-scape in ScanItFast" />
     <MESSAGE value="R version and packages" />
-    <option name="LAST_COMMIT_MESSAGE" value="R version and packages" />
+    <MESSAGE value="code and problems with path fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="code and problems with path fixed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
