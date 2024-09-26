@@ -197,7 +197,7 @@ public class ECSFinder {
     private static void preprocessMafFiles() {
         File dir = new File(FILENAME);
         if (!dir.isDirectory()) {
-            System.out.println("The provided path is not a directory.");
+            System.out.println("The provided path is not the full path directory name.");
             System.exit(0);
         }
 
@@ -434,7 +434,11 @@ public class ECSFinder {
 
     }
     public static List<Double> callRScript(String inputCsv, String outputCsv) throws IOException, InterruptedException {
-        List<String> command = Arrays.asList("Rscript", "r_scripts/prediction_RF.R", inputCsv, outputCsv);
+
+        // Get the path to the R script
+        String rScriptPath = getRScriptPath();
+        rScriptPath=rScriptPath.replace("target/", "");
+        List<String> command = Arrays.asList("Rscript", rScriptPath+"/prediction_RF.R", inputCsv, outputCsv, rScriptPath);
         ProcessBuilder pb = new ProcessBuilder(command);
         Process process = pb.start();
 
@@ -473,6 +477,18 @@ public class ECSFinder {
         reader.close();
 
         return predictions;
+    }
+    private static String getRScriptPath() throws IOException {
+        // Find the directory where the JAR or class is located
+        File jarFile = new File(ECSFinder.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        String jarDir = jarFile.getParent(); // Directory of the running JAR or classpath
+
+        // If running from JAR, get the relative path to the script from the JAR directory
+        if (jarFile.isFile()) { // Running from a JAR
+            return new File(jarDir, "r_scripts/").getAbsolutePath();
+        } else { // Running from class, so it's in the project directory
+            return new File("r_scripts/").getAbsolutePath();
+        }
     }
 
 }

@@ -2,13 +2,15 @@
 library(randomForest)
 library(caret)
 
-# Load the pretrained Random Forest model
-model_rf <- readRDS("~/ECSFinder/r_scripts/model_rf.rds")
+
 
 # Define the file paths from the command line arguments
 args <- commandArgs(trailingOnly = TRUE)
 input_file <- args[1]
 output_file <- args[2]
+model_dir <- args[3]
+# Load the pretrained Random Forest model
+model_rf <- readRDS(paste0(model_dir,"/model_rf.rds"))
 
 # Read the input data and handle potential issues
 test_data <- read.csv(input_file, header = TRUE, stringsAsFactors = FALSE)
