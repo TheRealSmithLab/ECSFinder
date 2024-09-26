@@ -43,7 +43,7 @@ if ("train" %in% class(model_rf)) {
 }
 
 # Set a prediction threshold
-threshold <- 0.75
+threshold <- 0.51
 predicted_class <- ifelse(predicted_probs >= threshold, "TP", "FP")
 
 # Save the predictions to the output file without quotes
