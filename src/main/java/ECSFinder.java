@@ -67,7 +67,6 @@ public class ECSFinder {
         callRScript(OUT_PATH + "/structure_input_sense.csv", OUT_PATH + "/"+nameOutputECS);
         callRScript(OUT_PATH + "/structure_input_antisense.csv", OUT_PATH + "/"+nameOutputECS);
 
-
         File outputFile = new File(OUT_PATH + "/"+nameOutputECS);
         if (!outputFile.exists()) {
             System.out.println("No ECS were found.");
@@ -120,12 +119,13 @@ public class ECSFinder {
             }
 
             // Also delete the structure_input_sense.csv file
-            File senseCsvFile = new File(path, "structure_input_sense.csv");
-            File antisenseCsvFile = new File(path, "structure_input_antisense.csv");
+            File senseCsvFile = new File(OUT_PATH, "structure_input_sense.csv");
+            File antisenseCsvFile = new File(OUT_PATH, "structure_input_antisense.csv");
             // Check if the CSV file exists and delete it
             if (senseCsvFile.exists()) {
                 senseCsvFile.delete();
-            } else if (antisenseCsvFile.exists()){
+            }
+            if (antisenseCsvFile.exists()){
                 antisenseCsvFile.delete();
             }
 
@@ -439,6 +439,7 @@ public class ECSFinder {
         String rScriptPath = getRScriptPath();
         rScriptPath=rScriptPath.replace("target/", "");
         List<String> command = Arrays.asList("Rscript", rScriptPath+"/prediction_RF.R", inputCsv, outputCsv, rScriptPath);
+
         ProcessBuilder pb = new ProcessBuilder(command);
         Process process = pb.start();
 

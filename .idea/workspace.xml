@@ -9,7 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="code and problems with path fixed" />
+    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="modified for 5% FPR">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ECSFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ECSFinder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ECSFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ECSFinder.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -205,7 +209,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727381308342</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="modified for 5% FPR">
+      <option name="closed" value="true" />
+      <created>1727382410267</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1727382410267</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -229,35 +241,26 @@
     <MESSAGE value="modified path for R-scape in ScanItFast" />
     <MESSAGE value="R version and packages" />
     <MESSAGE value="code and problems with path fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="code and problems with path fixed" />
+    <MESSAGE value="modified for 5% FPR" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified for 5% FPR" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
-          <line>66</line>
-          <option name="timeStamp" value="4" />
+          <line>463</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
-          <line>91</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
-          <line>561</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
-          <line>474</line>
-          <option name="timeStamp" value="17" />
+          <line>69</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
-          <line>440</line>
-          <option name="timeStamp" value="18" />
+          <line>122</line>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
