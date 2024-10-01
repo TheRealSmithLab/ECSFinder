@@ -9,10 +9,606 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="modified for 5% FPR">
+    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="remove redundant files">
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/AUTHORS" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/COPYING" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/INSTALL" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/Makefile.in" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/NEWS" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/README" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/aclocal.m4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/alirna.ps" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/aln.tree" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/ar-lib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/autom4te.cache/output.0" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/autom4te.cache/output.1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/autom4te.cache/output.2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/autom4te.cache/output.3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/autom4te.cache/requests" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/autom4te.cache/traces.0" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/autom4te.cache/traces.1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/autom4te.cache/traces.2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/autom4te.cache/traces.3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/config.guess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/config.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/config.h.in" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/config.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/config.status" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/config.sub" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/configure" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/configure_lp.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/depcomp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/examples/73_34_8.aln" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/examples/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/examples/Makefile.in" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/examples/SHAPE/README" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/examples/SHAPE/hiv_aug2013_w_19.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/examples/SHAPE/hiv_w_19.clu" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/examples/SHAPE/sivcpz_1m7_w_19.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/examples/SHAPE/sivmac_1m7_w_19.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/examples/alirna.ps" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/install-sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/.deps/Axb.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/.deps/lm.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/.deps/lmbc.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/.deps/lmlec.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/.deps/misc.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/Axb.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/Makefile.in" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/liblevmar.a" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/lm.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/lmbc.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/lmlec.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/misc.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/2Dfold.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/2Dpfold.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/LPfold.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/Lfold.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/MEA.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/PS_dot.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/ProfileAln.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/ProfileDist.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/RNAstruct.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/ali_plex.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/alifold.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/alipfold.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/aln_util.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/alphabet.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/boltzmann_sampling.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/c_plex.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/centroid.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/cofold.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/combinatorics.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/commands.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/constraints.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/constraints_SHAPE.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/constraints_hard.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/constraints_ligand.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/constraints_soft.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/convert_epars.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/data_structures.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/dist_vars.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/dp_matrices.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/duplex.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/energy_par.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/equilibrium_probs.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/eval.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/exterior_loops.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/file_formats.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/file_formats_msa.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/file_utils.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/findpath.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/fold.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/gquad.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/hairpin_loops.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/interior_loops.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/inverse.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/list.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/mfe.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/mfe_window.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/mm.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/model.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/move_set.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/multibranch_loops.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/naview.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/neighbor.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/params.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/part_func.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/part_func_co.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/part_func_up.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/perturbation_fold.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/plex.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/plex_functions.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/plot_aln.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/plot_layouts.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/plot_structure.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/read_epars.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/ribo.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/snofold.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/snoop.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/special_const.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/string_utils.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/stringdist.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/structure_utils.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/subopt.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/treedist.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/ugly_bt.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/units.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/unstructured_domains.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/utils.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/.deps/walk.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/2Dfold.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/2Dfold.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/2Dfold.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/2Dpfold.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/2Dpfold.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/2Dpfold.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/LPfold.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/LPfold.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/LPfold.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/Lfold.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/Lfold.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/Lfold.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/MEA.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/MEA.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/MEA.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/Makefile.am" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/Makefile.in" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/PKplex.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/PS_dot.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/PS_dot.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/PS_dot.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/ProfileAln.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/ProfileAln.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/ProfileAln.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/ProfileDist.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/ProfileDist.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/RNAstruct.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/RNAstruct.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/RNAstruct.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/ali_plex.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/ali_plex.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/ali_plex.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/alicircfold.inc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/alifold.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/alifold.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/alifold.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/alipfold.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/alipfold.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/aln_util.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/aln_util.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/aln_util.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/alphabet.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/alphabet.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/alphabet.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/boltzmann_sampling.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/boltzmann_sampling.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/boltzmann_sampling.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/c_plex.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/c_plex.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/centroid.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/centroid.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/centroid.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/circfold.inc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/cofold.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/cofold.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/cofold.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/color_output.inc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/combinatorics.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/combinatorics.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/combinatorics.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/commands.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/commands.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/commands.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/constraints.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/constraints.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/constraints.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/constraints_SHAPE.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/constraints_SHAPE.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/constraints_SHAPE.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/constraints_hard.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/constraints_hard.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/constraints_hard.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/constraints_ligand.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/constraints_ligand.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/constraints_ligand.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/constraints_soft.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/constraints_soft.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/constraints_soft.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/convert_epars.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/convert_epars.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/convert_epars.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/data_structures.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/data_structures.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/data_structures.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/dist_vars.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/dist_vars.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/dist_vars.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/dp_matrices.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/dp_matrices.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/dp_matrices.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/duplex.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/duplex.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/duplex.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/edit_cost.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/energy_const.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/energy_par.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/energy_par.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/energy_par.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/equilibrium_probs.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/equilibrium_probs.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/equilibrium_probs.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/eval.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/eval.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/eval.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/exterior_loops.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/exterior_loops.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/exterior_loops.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/file_formats.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/file_formats.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/file_formats.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/file_formats_msa.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/file_formats_msa.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/file_formats_msa.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/file_utils.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/file_utils.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/file_utils.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/findpath.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/findpath.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/findpath.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/fold.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/fold.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/fold.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/fold_vars.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/gquad.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/gquad.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/gquad.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/grammar.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/hairpin_loops.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/hairpin_loops.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/hairpin_loops.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/interior_loops.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/interior_loops.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/interior_loops.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/intl11.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/intl11dH.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/intl21.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/intl21dH.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/intl22.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/intl22dH.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/inverse.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/inverse.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/inverse.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/libRNA.a" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/list.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/list.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/list.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/loop_energies.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/mfe.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/mfe.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/mfe.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/mfe_window.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/mfe_window.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/mm.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/mm.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/mm.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/model.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/model.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/model.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/model_avg.inc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/model_sd.inc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/move_set.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/move_set.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/move_set.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/multibranch_loops.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/multibranch_loops.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/multibranch_loops.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/naview.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/naview.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/neighbor.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/neighbor.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/neighbor.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/pair_mat.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/params.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/params.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/params.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/part_func.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/part_func.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/part_func.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/part_func_co.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/part_func_co.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/part_func_co.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/part_func_up.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/part_func_up.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/part_func_up.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/perturbation_fold.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/perturbation_fold.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/perturbation_fold.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/plex.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/plex.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/plex.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/plex_functions.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/plex_functions.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/plot_aln.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/plot_aln.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/plot_aln.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/plot_layouts.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/plot_layouts.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/plot_layouts.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/plot_structure.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/plot_structure.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/plot_structure.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/profiledist.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/read_epars.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/read_epars.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/read_epars.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/ribo.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/ribo.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/ribo.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/snofold.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/snofold.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/snofold.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/snoop.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/snoop.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/snoop.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/special_const.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/special_const.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/special_const.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/string_utils.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/string_utils.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/string_utils.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/stringdist.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/stringdist.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/stringdist.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/structure_utils.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/structure_utils.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/structure_utils.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/structured_domains.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/subopt.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/subopt.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/subopt.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/svm_utils.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/svm_utils.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/treedist.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/treedist.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/treedist.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/ugly_bt.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/ugly_bt.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/ugly_bt.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/units.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/units.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/units.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/unstructured_domains.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/unstructured_domains.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/unstructured_domains.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/utils.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/utils.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/utils.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/vrna_config.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/vrna_config.h.in" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/walk.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/walk.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/walk.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/manual/SISSIz-manual.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/missing" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/alrt.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/bionj.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/cl.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/draw.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/eigen.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/free.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/interface.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/lk.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/m4.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/main.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/mc.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/models.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/optimiz.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/options.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/pars.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/rates.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/simu.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/spr.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/.deps/utilities.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/Makefile.in" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/alrt.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/bionj.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/cl.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/draw.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/eigen.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/free.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/interface.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/libPHYML.a" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/lk.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/m4.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/main.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/mc.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/models.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/optimiz.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/options.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/pars.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/rates.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/simu.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/spr.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/utilities.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/scripts/window_SHAPE.R" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/.deps/dkiss.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/.deps/evolve.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/.deps/global.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/.deps/models.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/.deps/mutate.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/.deps/treefile.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/INSTALL" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/Makefile.in" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/TODO" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/dkiss.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/dkiss.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/evolve.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/global.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/libSISSI.a" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/models.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/mutate.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/treefile.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/.deps/SISSIz.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/.deps/bionj_custom.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/.deps/cmdline_sissiz.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/.deps/expfit.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/.deps/rnaz_utils.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/.deps/treeML.Po" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/Makefile.am" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/Makefile.am.save" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/Makefile.in" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/SISSIz" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/SISSIz.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/bionj_custom.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/cmdline_sissiz.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/expfit.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/rnaz_utils.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/src/treeML.o" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/stamp-h1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/3_0_SISSIz/sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/AUTHORS" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/AUTHORS" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/COPYING" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/COPYING" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/ChangeLog" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/ChangeLog" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/INSTALL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/Makefile.am" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/Makefile.am" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/NEWS" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/README" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/README" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/TODO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/autogen.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/compile" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/compile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/configure.ac" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/configure.ac" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/examples/Makefile.am" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/examples/Makefile.am" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/examples/genomic.maf" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/examples/genomic.maf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/examples/rRNA.aln" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/examples/rRNA.aln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/Axb.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/Axb.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/Axb_core.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/Axb_core.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/Makefile.am" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/Makefile.am" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/Makefile.icc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/Makefile.vc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/README.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/lm.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/lm.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/lm.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/lm.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/lm_core.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/lm_core.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/lmbc.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/lmbc.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/lmbc_core.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/lmbc_core.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/lmdemo.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/lmlec.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/lmlec.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/lmlec_core.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/lmlec_core.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/misc.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/misc.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/misc.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/misc.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/levmar/misc_core.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/levmar/misc_core.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/Makefile.am" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/PS_dot.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/PS_dot.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/alicircfold.inc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/alifold.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/alifold.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/aln_util.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/aln_util.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/circfold.inc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/energy_const.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/energy_par.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/1.8.4_epars.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/energy_par.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/fold.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/fold.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/fold_vars.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/fold_vars.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/intloops.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/1.8.4_intloops.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/naview.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/librna/naview.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/pair_mat.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/params.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/params.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/read_epars.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/utils.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/librna/utils.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/Makefile.am" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/Makefile.am" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/alrt.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/alrt.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/alrt.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/alrt.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/bionj.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/bionj.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/bionj.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/bionj.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/cl.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/cl.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/cl.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/cl.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/draw.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/draw.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/draw.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/draw.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/eigen.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/eigen.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/eigen.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/eigen.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/free.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/free.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/free.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/free.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/interface.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/interface.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/interface.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/interface.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/lk.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/lk.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/lk.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/lk.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/m4.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/m4.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/m4.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/m4.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/mc.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/mc.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/mc.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/mc.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/mg.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/mg.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/mg.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/models.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/models.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/models.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/models.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/optimiz.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/optimiz.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/optimiz.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/optimiz.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/options.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/options.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/options.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/options.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/pars.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/pars.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/pars.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/pars.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/rates.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/rates.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/rates.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/rates.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/simu.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/simu.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/simu.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/simu.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/spr.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/spr.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/spr.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/spr.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/utilities.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/utilities.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/phyml/utilities.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/phyml/utilities.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/sissiz/Makefile.am" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/Makefile.am" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/sissiz/dkiss.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/sissiz/dkiss.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/dkiss.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/sissiz/evolve.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/evolve.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/sissiz/evolve.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/evolve.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/sissiz/global.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/global.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/sissiz/global.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/global.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/sissiz/models.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/models.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/sissiz/models.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/models.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/sissiz/mutate.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/mutate.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/sissiz/mutate.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/mutate.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/sissiz/tree.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/tree.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/sissiz/treefile.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/treefile.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/sissiz/treefile.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/sissiz/treefile.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/src/Makefile.am" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/src/SISSIz.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/src/SISSIz.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/src/bionj_custom.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/src/bionj_custom.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/src/bionj_custom.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/src/bionj_custom.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/src/cmdline_sissiz.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/src/cmdline_sissiz.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/src/cmdline_sissiz.ggo" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/src/cmdline_sissiz.ggo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/src/cmdline_sissiz.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/src/cmdline_sissiz.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/src/expfit.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/src/expfit.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/src/expfit.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/src/expfit.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/src/getopt.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/src/getopt.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/src/rnaz_utils.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/src/rnaz_utils.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/src/rnaz_utils.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/src/rnaz_utils.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/src/sissiz.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/src/sissiz.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/src/treeML.c" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/src/treeML.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SISSIz/src/treeML.h" beforeDir="false" afterPath="$PROJECT_DIR$/3_0_SISSIz/src/treeML.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ECSFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ECSFinder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ScanItFast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScanItFast.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ECSFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ECSFinder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ScanItFast.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ScanItFast.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,19 +640,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;11&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/vandalovejoy/ECSFinder/lib&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.29477197&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.30972224&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "jdk.selected.JAVA_MODULE": "11",
+    "last_opened_file_path": "/home/vandalovejoy/ECSFinder",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.29477197",
+    "project.structure.side.proportion": "0.30972224",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/RfamConcealer/src/test/MAF" />
     </key>
@@ -217,7 +816,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727382410267</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="remove redundant files">
+      <option name="closed" value="true" />
+      <created>1727448019739</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1727448019739</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -242,7 +849,8 @@
     <MESSAGE value="R version and packages" />
     <MESSAGE value="code and problems with path fixed" />
     <MESSAGE value="modified for 5% FPR" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified for 5% FPR" />
+    <MESSAGE value="remove redundant files" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove redundant files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -261,6 +869,21 @@
           <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
           <line>122</line>
           <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
+          <line>398</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
+          <line>583</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
+          <line>410</line>
+          <option name="timeStamp" value="26" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

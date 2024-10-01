@@ -350,9 +350,8 @@ public class ScanItFast implements Runnable {
         //MPI greater or equal than 50 and Gap content smaller than 75
         if (stats[4] <= GAP_THRESHOLD && stats[0] >= 50) {
             // Write Sequences to ALN Format
-            try {
-                BufferedWriter WriteClustal = new BufferedWriter(new FileWriter(Aln)),
-                        WriteClustalRC = new BufferedWriter(new FileWriter(AlnRC));
+            try (BufferedWriter WriteClustal = new BufferedWriter(new FileWriter(Aln));
+                 BufferedWriter WriteClustalRC = new BufferedWriter(new FileWriter(AlnRC))) {
                 WriteClustal.write("CLUSTAL format \n\n");
                 WriteClustalRC.write("CLUSTAL format \n\n");
 
@@ -396,6 +395,7 @@ public class ScanItFast implements Runnable {
 
 
         try {
+
             SissizOutTab = ScanSSZ(Path, BedFile, random);
 
             if (SissizOutTab == null) { // timeout
@@ -408,21 +408,21 @@ public class ScanItFast implements Runnable {
             Aln.delete();
         }
         // delete empty alignments
-        if (SissizOutTab == null || SissizOutTab[10] == null) {
+        if (SissizOutTab == null || SissizOutTab[12] == null) {
             Aln.delete();
         } else {
-            FinalBedFile = BedFile + "_" + (int) (Double.parseDouble(SissizOutTab[10]) * -100) + "_" + key[3];
+            FinalBedFile = BedFile + "_" + (int) (Double.parseDouble(SissizOutTab[12]) * -100) + "_" + key[3];
             // delete low scoring alignments
-            if (Double.parseDouble(SissizOutTab[10]) > SSZR_THRESHOLD) {
+            if (Double.parseDouble(SissizOutTab[12]) > SSZR_THRESHOLD) {
 
 
                 Aln.delete();
 
 
             } else {
-                sampled_MFE = Double.parseDouble(SissizOutTab[8]);
-                sampled_sd = Double.parseDouble(SissizOutTab[9]);
-                zscore = Double.parseDouble(SissizOutTab[10]);
+                sampled_MFE = Double.parseDouble(SissizOutTab[10]);
+                sampled_sd = Double.parseDouble(SissizOutTab[11]);
+                zscore = Double.parseDouble(SissizOutTab[12]);
                 String fileNameBed = FinalBedFile.replace("\t", "_");
                 File theDir = new File(Path + "/" + fileNameBed);
                 if (!theDir.exists()) {
@@ -495,19 +495,19 @@ public class ScanItFast implements Runnable {
             }
             AlnRC.delete();
         }
-        if (SissizOutTab == null || SissizOutTab[10] == null) {
+        if (SissizOutTab == null || SissizOutTab[12] == null) {
             AlnRC.delete();
         } else {
-            FinalBedFileRC = BedFile + "_" + (int) (Double.parseDouble(SissizOutTab[10]) * -100) + "_" + Antisense;
+            FinalBedFileRC = BedFile + "_" + (int) (Double.parseDouble(SissizOutTab[12]) * -100) + "_" + Antisense;
             // delete low scoring alignments
-            if (Double.parseDouble(SissizOutTab[10]) > SSZR_THRESHOLD) {
+            if (Double.parseDouble(SissizOutTab[12]) > SSZR_THRESHOLD) {
                 AlnRC.delete();
 
                 //    System.out.println(FinalBedFileRC.replaceAll("_", "\t"));
             } else {
-                sampled_MFE_rc = Double.parseDouble(SissizOutTab[8]);
-                sampled_sd_rc = Double.parseDouble(SissizOutTab[9]);
-                zscore_rc = Double.parseDouble(SissizOutTab[10]);
+                sampled_MFE_rc = Double.parseDouble(SissizOutTab[10]);
+                sampled_sd_rc = Double.parseDouble(SissizOutTab[11]);
+                zscore_rc = Double.parseDouble(SissizOutTab[12]);
                 String fileNameBedRc = FinalBedFileRC.replace("\t", "_");
                 // Create the necessary directory for the alignment
                 File theDir = new File(Path + "/" + fileNameBedRc);
@@ -596,22 +596,24 @@ public class ScanItFast implements Runnable {
             String name = Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + id;
             ProcessBuilder pb = new ProcessBuilder(SSZBINARY, "-j", "-t", name);
             Process Sissiz = pb.start();
-            BufferedReader SissizErr = new BufferedReader(new InputStreamReader(Sissiz.getErrorStream()));
-            if (VERBOSE)
-                System.out.println(": Running " + Command);
-            while (isAlive(Sissiz)) {
-                Thread.sleep(100);
-                if (System.currentTimeMillis() > finish) {
-                    if (VERBOSE)
-                        System.out.println("SISSIz failed to run within time :-(");
-                    SissizErr.close();
-                    Sissiz.destroy();
-                    return null;
-
-
+            try (BufferedReader SissizErr = new BufferedReader(new InputStreamReader(Sissiz.getErrorStream()))) {
+                if (VERBOSE) {
+                    System.out.println(": Running " + Command);
                 }
+                while (isAlive(Sissiz)) {
+                    Thread.sleep(100);
+                    if (System.currentTimeMillis() > finish) {
+                        if (VERBOSE) {
+                            System.out.println("SISSIz failed to run within time :-(");
+                        }
+                        Sissiz.destroy();
+                        return null;
+                    }
+                }
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();  // Handle any exceptions that occur
             }
-            SissizErr.close();
+
             // get Output if process didn't complete in recursion
             if (SissizOutTab[0] == null) {
                 BufferedReader SissizOut = new BufferedReader(new InputStreamReader(Sissiz.getInputStream()));

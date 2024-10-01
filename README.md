@@ -28,22 +28,10 @@ The result is a robust framework that not only identifies but also validates con
 
 
 ## Installation
-Installation of SISSIz 2.0 is required for running ECSFinder. Version 1.0 can be found [here](https://github.com/ViennaRNA/SISSIz).
 
 ### SISSIz
 
-To install SISSIz version 2.0:
-```sh
-cd /SISSIz
-autoreconf -fvi
-./configure
-make
-sudo make install
-```
-If you have no root rights or prefer to install SISSIz into a self-contained directory, run configure like this:
-```
-./configure --prefix=/opt/programs/SISSIz --datadir=/opt/programs/SISSIz/share
-```
+Follow README instructions
 
 ### RNALalifold
 Download the package on the ViennaRNA package [website](https://www.tbi.univie.ac.at/RNA/) and follow the [instructions](https://www.tbi.univie.ac.at/RNA/documentation.html#install)
