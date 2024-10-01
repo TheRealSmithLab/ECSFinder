@@ -137,8 +137,7 @@ public class ECSFinder {
 
     private static void setBinaryPaths() throws IOException {
         ALIFOLDBINARY = getBinaryPath("RNALalifold");
-        SSZBINARY = "/home/vandalovejoy/Downloads/3_0_SISSIz/src/SISSIz";
-        //SSZBINARY = getBinaryPath("SISSIz");
+        SSZBINARY = getBinaryPath("SISSIz");
         RNAALIFOLD = getBinaryPath("RNAalifold");
         R = getBinaryPath("R");
         RSCAPE = getBinaryPath("R-scape");
