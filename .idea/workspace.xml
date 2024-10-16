@@ -9,11 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="modified jar">
+    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="add the option to realign the alignments using MAFFT">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ECSFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ECSFinder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ECSFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ECSFinder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ECSFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ECSFinder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ScanItFast.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ScanItFast.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ScanItFast.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScanItFast.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ECSFinder.jar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -253,7 +254,23 @@
       <option name="project" value="LOCAL" />
       <updated>1727804888384</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="add the option to realign the alignments using MAFFT">
+      <option name="closed" value="true" />
+      <created>1729099244658</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1729099244658</updated>
+    </task>
+    <task id="LOCAL-00023" summary="add the option to realign the alignments using MAFFT">
+      <option name="closed" value="true" />
+      <created>1729101493416</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1729101493416</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -282,7 +299,8 @@
     <MESSAGE value="Using SISSIz version 3.0" />
     <MESSAGE value="getbinarypath modified" />
     <MESSAGE value="modified jar" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified jar" />
+    <MESSAGE value="add the option to realign the alignments using MAFFT" />
+    <option name="LAST_COMMIT_MESSAGE" value="add the option to realign the alignments using MAFFT" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

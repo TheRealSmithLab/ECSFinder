@@ -603,7 +603,7 @@ public class ECSFinder {
         }
 
         //Run MAFFT on the gap-stripped sequences
-        List<String> command = Arrays.asList(MAFFTBINARY, "--quiet", "--thread", String.valueOf(NTHREDS), tempInputFile.getAbsolutePath());
+        List<String> command = Arrays.asList(MAFFTBINARY, "--quiet", "--thread", String.valueOf(2), tempInputFile.getAbsolutePath());
 
         ProcessBuilder pb = new ProcessBuilder(command);
         Process mafftProcess = pb.start();
