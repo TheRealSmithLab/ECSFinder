@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -31,9 +30,9 @@ public class ECSFinder {
                     " ________    ______   ______    ________  _                 __                \n" +
                     "|_   __  | .' ___  |.' ____ \\  |_   __  |(_)               |  ]               \n" +
                     "  | |_ \\_|/ .'   \\_|| (___ \\_|   | |_ \\_|__   _ .--.   .--.| | .---.  _ .--.  \n" +
-                    "  |  _| _ | |        _.____`.    |  _|  [  | [ `.-. |/ /'`\\' |/ /__\\\\[ `/'`\\] \n" +
-                    " _| |__/ |\\ `.___.'\\| \\____) |  _| |_    | |  | | | || \\__/  || \\__., | |     \n" +
-                    "|________| `.____ .' \\______.' |_____|  [___][___||__]'.__.;__]'.__.'[___]    \n" +
+                    "  |  _| _ | |        _.____.    |  _|  [  | [ .-. |/ /'\\' |/ /__\\\\[ /'\\] \n" +
+                    " _| |__/ |\\ .___.'\\| \\____) |  _| |_    | |  | | | || \\__/  || \\__., | |     \n" +
+                    "|________| .____ .' \\______.' |_____|  [___][___||__]'.__.;__]'.__.'[___]    \n" +
                     "\t SCAN MULTIPLE ALIGNMENTS FOR CONSERVED RNA STRUCTURES\n\n" +
                     "Reads a set of maf files, calculates stats, scans with SISSIz and R-scape , outputs bed coordinates of high-confidence predictions\n\n" +
                     "Usage: java ECSFinder [options] -o output/directory -i input.maf (last parameter must be -i)\n\n" +
@@ -279,24 +278,29 @@ public class ECSFinder {
         return stockholmFolder;
     }
 
-    private static void processWithMafft(String inputFile) throws IOException, InterruptedException {
+    public static void processWithMafft(String inputFile) throws IOException, InterruptedException {
         // Convert MAF to FASTA and realign with MAFFT
-        convertMafToSeparateFastas(inputFile, OUT_PATH);
-        realignFastaFilesWithMafft();  // Realign all FASTA files in the specified directory
-        // Process all realigned FASTA files
-        File outputDir = new File(OUT_PATH + "/output_fasta_dir");
-        File[] fastaFilesReAln = outputDir.listFiles((dir, name) -> name.endsWith("_realigned.fasta"));
+        convertMafToSeparateFastas(inputFile, OUT_PATH);  // Converts to smaller blocks with overlap
 
-        if (fastaFilesReAln != null) {
-            // Iterate through each realigned FASTA file
-            for (int i = 0; i < fastaFilesReAln.length; i++) {
-                String realignedFilePath = fastaFilesReAln[i].getAbsolutePath();
-                // Pass the block number 'i + 1' as the second argument
-                runRNALalifold(realignedFilePath);  // Assign a block number for each FASTA file
+        // Realign each block individually to avoid memory issues
+        File outputDir = new File(OUT_PATH + "/output_fasta_dir");
+        File[] fastaFiles = outputDir.listFiles((dir, name) -> name.endsWith(".fasta"));
+
+        if (fastaFiles != null) {
+            // Iterate through each FASTA block file
+            for (File fastaFile : fastaFiles) {
+                if(VERBOSE) {
+                    System.out.println("Realigning file: " + fastaFile.getName());
+                }
+                // Realign each small block and save the result
+                File realignedOutput = new File(fastaFile.getAbsolutePath().replace(".fasta", "_realigned.fasta"));
+                realignSequences(fastaFile, outputDir);  // Pass block files to realignment
+                runRNALalifold(realignedOutput.getAbsolutePath());  // Run RNA folding on the realigned blocks
             }
         }
-        cleanUpFolder(outputDir);
+        cleanUpFolder(outputDir);  // Optionally remove temporary files after processing
     }
+
 
 
     private static void processAlignmentBlocks(String inputFile) throws IOException, InterruptedException, ExecutionException {
@@ -319,8 +323,7 @@ public class ECSFinder {
                     temp.append(line).append("@");
                 }
             } else if ((temp.toString().split("@").length <= 2) && line.equals("")) {
-                // If the block has fewer than 3 sequences, print a warning and skip the block
-                System.out.println("Warning: Alignment block " + blockAln + " has fewer than 3 sequences. Skipping this block.");
+
                 temp = new StringBuilder();
             } else if ((temp.toString().split("@").length >= 3) && line.equals("")) { // At least 3 sequences
                 processAlignmentBlock(temp.toString(), blockAln,  futures, multiThreads);
@@ -353,16 +356,85 @@ public class ECSFinder {
 
         // Generate Stockholm file names based on block number
         String finalName = getBlockName(blockAln);
-        File stockholmFile = new File(OUT_PATH + "/stockholm"  + "/alifold_" + finalName + ".stk");
+        File dir = new File(OUT_PATH + "/stockholm");
+        File[] stkFiles = dir.listFiles((dir1, name) -> name.endsWith(finalName + ".stk"));
 
-        if (stockholmFile.exists()) {
-            processStockholmFile(stockholmFile, mafTabTemp, associativeList, futures, multiThreads);
-        } else {
-            System.out.println("File: " + stockholmFile.getName() + " does not exist");
+        // Check if there are any Stockholm files found
+        if (stkFiles == null || stkFiles.length == 0) {
+            System.out.println("No Stockholm files found for alignment block " + blockAln + ". Not enough different species found in the alignments.");
+            System.exit(1);  // Exit the program with a non-zero status
+        }
+
+        // Regex pattern to match filenames with exactly two underscores
+        String regex = "alifold_(\\d+)_" + finalName + "\\.stk";  // This will capture the number between the underscores
+
+        // Compile the pattern
+        Pattern pattern = Pattern.compile(regex);
+
+        // Map to store file and the extracted number for sorting
+        Map<File, Integer> fileNumberMap = new HashMap<>();
+
+        // Iterate through all files
+        for (File file : stkFiles) {
+            Matcher matcher = pattern.matcher(file.getName());
+
+            // Check if the file name matches the pattern
+            if (matcher.matches()) {
+                // Extract the number between the underscores and convert it to an integer
+                int number = Integer.parseInt(matcher.group(1));
+                fileNumberMap.put(file, number);  // Store the file and the extracted number
+            }
+        }
+
+        // Check if no matching files were found after filtering
+        if (fileNumberMap.isEmpty()) {
+            System.out.println("No matching Stockholm files found for alignment block " + blockAln + ". Not enough different species found in the alignments.");
+            System.exit(1);  // Exit the program with a non-zero status
+        }
+
+        // Sort the files by the extracted number
+        List<File> sortedFiles = new ArrayList<>(fileNumberMap.keySet());
+        sortedFiles.sort(Comparator.comparingInt(fileNumberMap::get));  // Sort based on the extracted number
+
+        // Iterate through the sorted files
+        for (File file : sortedFiles) {
+            if (VERBOSE){
+                System.out.println("Processing file: " + file.getName());
+            }
+            processStockholmFile(file, mafTabTemp, associativeList, futures, multiThreads);
         }
     }
 
-    private static void processStockholmFile(File stockholmFile, String[] mafTabTemp, ArrayList<String[]> associativeList, List<Future<?>> futures, ExecutorService multiThreads) {
+
+    private static void processStockholmFile(File stockholmFile, String[] mafTabTemp, ArrayList<String[]> associativeList,
+                                             List<Future<?>> futures, ExecutorService multiThreads) {
+        // Regular expression to capture the desired parts
+        String regex = "alifold_(\\d+)_(\\d+)";
+        Pattern pattern = Pattern.compile(regex);
+
+        // Match the string against the pattern
+        Matcher matcher = pattern.matcher(stockholmFile.getName());
+        String result = "";
+        int blockStart = 0;
+
+        // Parse the filename and extract the first and second parts
+        if (matcher.find()) {
+            // Extract the first part (e.g., 3 or 4)
+            String firstPart = matcher.group(1);
+            // Extract the second part and strip leading zeros
+            String secondPart = matcher.group(2).replaceFirst("^0+", "");
+            // Combine to get the desired format, e.g., "3_1", "4_100"
+            result = secondPart+ "_" +firstPart  ;
+
+            // Get the blockStart from the blockStartMap
+            blockStart = blockStartMap.getOrDefault(result, 0); // Default to 0 if not found
+
+        } else {
+            System.out.println("Error: Filename does not match expected pattern: " + stockholmFile.getName());
+            return; // Exit the method early if the filename does not match the expected format
+        }
+
+        // Open and process the Stockholm file
         try (BufferedReader reader = new BufferedReader(new FileReader(stockholmFile))) {
             String currentLine;
             String[] arrayName = new String[5];
@@ -380,8 +452,9 @@ public class ECSFinder {
                     associativeList.add(processSpeciesLine(currentLine));
                 }
 
-                if ((!associativeList.isEmpty()) && currentLine.startsWith("//")) {
-                    processMotif(mafTabTemp, arrayName, associativeList, gcReference, gcSScons, futures, multiThreads);
+                if (!associativeList.isEmpty() && currentLine.startsWith("//")) {
+                    // Adjust motif coordinates using blockStart and pass it to processMotif
+                    processMotif(mafTabTemp, arrayName, associativeList, gcReference, gcSScons, futures, multiThreads, result);
                 }
             }
         } catch (IOException e) {
@@ -389,15 +462,26 @@ public class ECSFinder {
         }
     }
 
-    private static void processMotif(String[] mafTabTemp, String[] arrayName, ArrayList<String[]> associativeList, String gcReference, String gcSScons, List<Future<?>> futures, ExecutorService multiThreads) {
-        int[] cordMotif = getRealCoordinates(Integer.parseInt(arrayName[3]), mafTabTemp, associativeList.get(0)[1]);
+
+
+    private static void processMotif(String[] mafTabTemp, String[] arrayName, ArrayList<String[]> associativeList,
+                                     String gcReference, String gcSScons, List<Future<?>> futures,
+                                     ExecutorService multiThreads, String result) {
+        // Adjust the motif start position by adding blockStart to ensure correct coordinates
+        int[] cordMotif = getRealCoordinates(Integer.parseInt(arrayName[4]), mafTabTemp, associativeList.get(0)[1], result);
+
         String loci = Arrays.toString(cordMotif);
         String chrom = mafTabTemp[1].substring((mafTabTemp[1].lastIndexOf(".") + 1));
-        String lociChrm = chrom + ", " + loci.substring(1, loci.length() - 1) + ", " + mafTabTemp[4] + ", " + arrayName[3] + ", " + arrayName[4] + ", " + gcReference + ", " + gcSScons;
+
+        // Add blockStart to adjust loci positions properly
+        String lociChrm = chrom + ", " + loci.substring(1, loci.length() - 1) + ", " + mafTabTemp[4] + ", "
+                + arrayName[4] + ", " + arrayName[5] + ", " + gcReference + ", " + gcSScons;
+
         String[] arrayLociChrm = lociChrm.split(", ");
 
+        // Skip short alignments
         if (Integer.parseInt(arrayLociChrm[2]) - Integer.parseInt(arrayLociChrm[1]) < 50) {
-            return;  // Skip short alignments
+            return;
         }
 
         // Create the ScanItFast task and submit it to the thread pool
@@ -407,6 +491,7 @@ public class ECSFinder {
         Future<?> future = multiThreads.submit(aln);
         futures.add(future);
     }
+
 
     private static String getBlockName(int blockAln) {
         String lastDigit = String.valueOf(blockAln);
@@ -504,7 +589,7 @@ public class ECSFinder {
 
 
     /**
-     * Converts a MAF file to separate FASTA files, one per alignment block.
+     * Converts a MAF file to separate FASTA files, keeping all species aligned and splitting sequences into blocks of a defined length.
      *
      * @param mafFilePath   Path to the input MAF file.
      * @param outputDirPath Directory to output separate FASTA files.
@@ -512,13 +597,17 @@ public class ECSFinder {
     public static void convertMafToSeparateFastas(String mafFilePath, String outputDirPath) {
         String fastaOutput = "output_fasta_dir";  // Directory where the FASTA files will be saved
         int blockCount = 0;  // To track the block number
-        BufferedWriter writer = null;
+        int overlapLength = 299; // Set overlap length to 299 bases
+        int maxBlockSize = 5000;  // Define the maximum block size for each sequence
 
         try (BufferedReader reader = new BufferedReader(new FileReader(mafFilePath))) {
             // Create the directory if it does not exist
             Files.createDirectories(Paths.get(outputDirPath + "/" + fastaOutput));
 
+            Map<String, StringBuilder> speciesSequences = new LinkedHashMap<>();  // Store species' sequences together
             String line;
+            int currentBlockLength = 0;
+
             while ((line = reader.readLine()) != null) {
                 line = line.trim();  // Trim whitespace
 
@@ -528,38 +617,134 @@ public class ECSFinder {
                 }
 
                 if (line.startsWith("a")) {
-                    // A new alignment block starts
-                    blockCount++;
-
-                    // Close previous block's writer (if any)
-                    if (writer != null) {
-                        writer.close();
+                    // When starting a new alignment block, reset and write the previous block if it exists
+                    if (!speciesSequences.isEmpty()) {
+                        blockCount++;
+                        splitAndWriteBlocks(outputDirPath, blockCount, speciesSequences, maxBlockSize, overlapLength);
+                        speciesSequences.clear();  // Clear for the next block
                     }
-
-                    // Create a new FASTA file for this block
-                    String blockFileName = outputDirPath + "/" + fastaOutput + "/block_" + blockCount + ".fasta";
-                    writer = new BufferedWriter(new FileWriter(blockFileName));
+                    currentBlockLength = 0;  // Reset block length
                 } else if (line.startsWith("s")) {
-                    // Sequence line; extract relevant info
+                    // Process sequence lines
                     String[] tokens = line.split("\\s+");
                     String sequenceId = tokens[1];  // Sequence ID
                     String sequence = tokens[tokens.length - 1];  // Aligned sequence with gaps
 
-                    // Write the FASTA formatted sequence to the current block's FASTA file
-                    writer.write(">" + sequenceId + "\n");
-                    writer.write(sequence + "\n");
+                    // Add or append the sequence to the current block for the species
+                    speciesSequences.computeIfAbsent(sequenceId, k -> new StringBuilder()).append(sequence);
+                    currentBlockLength = Math.max(currentBlockLength, speciesSequences.get(sequenceId).length());
                 }
             }
 
-            // Close the last block's writer
-            if (writer != null) {
-                writer.close();
+            // Write the last block if any sequences remain
+            if (!speciesSequences.isEmpty()) {
+                blockCount++;
+                splitAndWriteBlocks(outputDirPath, blockCount, speciesSequences, maxBlockSize, overlapLength);
             }
 
         } catch (IOException e) {
             System.err.println("Error processing the MAF file: " + e.getMessage());
         }
     }
+
+    /**
+     * Splits the sequences in each species group into blocks of defined length and writes them to separate FASTA files.
+     *
+     * @param outputDirPath     Directory where the output FASTA files will be saved.
+     * @param blockCount        The current block number (used for naming the files).
+     * @param speciesSequences  Map of species to their sequences in the alignment block.
+     * @param maxBlockSize      The maximum allowed length of each block.
+     * @param overlapLength     The number of bases to overlap between blocks.
+     * @throws IOException If an I/O error occurs.
+     */
+    // Map to store block start and part number information for each generated file
+    private static Map<String, Integer> blockStartMap = new HashMap<>();
+
+
+    private static void splitAndWriteBlocks(String outputDirPath, int blockCount, Map<String, StringBuilder> speciesSequences,
+                                            int maxBlockSize, int overlapLength) throws IOException {
+
+        int blockPart = 1;  // Keep track of block part (if we split it)
+        boolean isSplit = false;
+
+        // Get the length of sequences (they should all have the same length)
+        int fullLength = speciesSequences.values().iterator().next().length();
+        int blockStart = 0;  // This will track the starting position of each part within the block
+
+        for (int i = 0; i < fullLength; i += (maxBlockSize - overlapLength)) {
+            String blockFileName = outputDirPath + "/output_fasta_dir/block_" + blockCount + "_part_" + blockPart + ".fasta";
+            blockStart = i;  // Track the start position for this part
+
+            File blockFile = new File(blockFileName);
+
+            // Store the block start and block part in the maps for later use
+            blockStartMap.put(blockCount+"_"+blockPart, blockStart);
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(blockFileName))) {
+                for (Map.Entry<String, StringBuilder> entry : speciesSequences.entrySet()) {
+                    String speciesId = entry.getKey();
+                    String sequence = entry.getValue().toString();
+
+                    // Extract the sub-sequence for this part
+                    int end = Math.min(i + maxBlockSize, sequence.length());
+                    String subSequence = sequence.substring(i, end);
+
+                    // Write the sub-sequence to the FASTA file
+                    writer.write(">" + speciesId + "\n");
+                    writer.write(subSequence + "\n");
+                }
+            }
+            if(VERBOSE) {
+                System.out.println("Wrote block part: " + blockFileName + " starting at position: " + blockStart);
+            }
+            blockPart++;  // Increment the block part for the next segment
+
+            if (i + maxBlockSize < fullLength) {
+                isSplit = true;
+            }
+        }
+
+        if (isSplit) {
+            System.out.println("Block " + blockCount + " was split into " + (blockPart - 1) + " parts.");
+        }
+    }
+
+
+
+    /**
+     * Writes a block of sequences to a FASTA file, with truncation to the specified block size.
+     *
+     * @param outputDirPath     The directory to save the output FASTA file.
+     * @param blockCount        The current block number (used for naming the file).
+     * @param speciesSequences  The map of species IDs to their sequences.
+     * @param blockLength       The length of the current block.
+     * @param maxBlockSize      The maximum allowed block size.
+     * @param overlapLength     The overlap length between blocks.
+     * @throws IOException If an I/O error occurs.
+     */
+    private static void writeBlockToFile(String outputDirPath, int blockCount, Map<String, StringBuilder> speciesSequences,
+                                         int blockLength, int maxBlockSize, int overlapLength) throws IOException {
+
+        String blockFileName = outputDirPath + "/block_" + blockCount + ".fasta";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(blockFileName))) {
+            for (Map.Entry<String, StringBuilder> entry : speciesSequences.entrySet()) {
+                String sequenceId = entry.getKey();
+                String sequence = entry.getValue().toString();
+
+                // Truncate the sequence if it exceeds the maxBlockSize
+                if (sequence.length() > maxBlockSize) {
+                    sequence = sequence.substring(0, maxBlockSize);
+                }
+
+                writer.write(">" + sequenceId + "\n");
+                writer.write(sequence + "\n");
+            }
+        }
+
+        System.out.println("Wrote block " + blockCount + " to: " + blockFileName);
+    }
+
+
 
 
     /**
@@ -569,46 +754,32 @@ public class ECSFinder {
      * @throws IOException           If an I/O error occurs.
      * @throws InterruptedException  If the MAFFT process is interrupted.
      */
+    private static Map<String, String> homoSapiensSequences = new HashMap<>();
     public static void realignSequences(File inputFilePath, File outputFilePath) throws IOException, InterruptedException {
         String realignedFilePath = inputFilePath.getAbsolutePath().replace(".fasta", "_realigned.fasta");
-        // Strip gaps from the input FASTA sequences before realignment
-        File tempInputFile = new File(outputFilePath+"/temp_gap_stripped.fasta");
+        // Regular expression to extract the block number and part number
+        String regex = "block_(\\d+)_part_(\\d+)_realigned\\.fasta";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(realignedFilePath);
+        String result="";
+        if (matcher.find()) {
+            // Extract the block number and part number
+            String blockNumber = matcher.group(1);
+            String partNumber = matcher.group(2);
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(inputFilePath));
-             BufferedWriter tempWriter = new BufferedWriter(new FileWriter(tempInputFile))) {
+            // Combine them in the desired format
+             result = blockNumber + "_" + partNumber;
 
-            String line;
-            StringBuilder sequence = new StringBuilder();
-            String header = "";
-
-            while ((line = reader.readLine()) != null) {
-                if (line.startsWith(">")) {
-                    // Write the previous sequence if any (after stripping gaps)
-                    if (sequence.length() > 0) {
-                        tempWriter.write(sequence.toString().replace("-", "") + "\n");
-                        sequence.setLength(0);  // Clear the sequence for the next one
-                    }
-                    // Write the header to the temp file
-                    header = line;
-                    tempWriter.write(header + "\n");
-                } else {
-                    // Accumulate sequence lines (gaps will be removed later)
-                    sequence.append(line.trim());
-                }
-            }
-            // Write the last sequence
-            if (sequence.length() > 0) {
-                tempWriter.write(sequence.toString().replace("-", "") + "\n");
-            }
+        } else {
+            System.out.println("No match found.");
         }
 
-        //Run MAFFT on the gap-stripped sequences
-        List<String> command = Arrays.asList(MAFFTBINARY, "--quiet", "--thread", String.valueOf(2), tempInputFile.getAbsolutePath());
-
+        // Run MAFFT on the gap-stripped sequences
+        List<String> command = Arrays.asList(MAFFTBINARY, "--quiet", "--thread", String.valueOf(NTHREDS), inputFilePath.getAbsolutePath());
         ProcessBuilder pb = new ProcessBuilder(command);
         Process mafftProcess = pb.start();
 
-        // Write the realigned sequences to the final output FASTA file
+        // Capture the realigned sequences
         try (BufferedReader reAligned = new BufferedReader(new InputStreamReader(mafftProcess.getInputStream()));
              BufferedWriter writer = new BufferedWriter(new FileWriter(realignedFilePath))) {
 
@@ -616,15 +787,24 @@ public class ECSFinder {
             String speciesReal = "";
             String line;
 
+
             while ((line = reAligned.readLine()) != null) {
                 if (line.startsWith(">")) {
                     // If we encounter a new sequence header, write the previous sequence to the file
                     if (!speciesReal.isEmpty()) {
                         writer.write(">" + speciesReal + "\n");
                         writer.write(sequence.toString().toUpperCase() + "\n");
+
+                        // If this is the Homo sapiens sequence, update the map with the realigned sequence
+                        if (speciesReal.toLowerCase().contains("homo")) {
+                            homoSapiensSequences.put(result, sequence.toString());
+                        }
+
                         sequence = new StringBuilder();  // Reset for the next sequence
                     }
                     speciesReal = line.substring(1);  // Remove '>' from the header line
+
+
                 } else {
                     // Append sequence lines
                     sequence.append(line);
@@ -635,6 +815,7 @@ public class ECSFinder {
             if (!speciesReal.isEmpty()) {
                 writer.write(">" + speciesReal + "\n");
                 writer.write(sequence.toString().toUpperCase() + "\n");
+
             }
         }
 
@@ -645,10 +826,12 @@ public class ECSFinder {
         }
 
         //  Clean up temporary files (optional)
+        File tempInputFile = new File(inputFilePath.getParent(), "temp_gap_stripped.fasta");
         if (tempInputFile.exists()) {
             tempInputFile.delete();
         }
     }
+
 
 
     /**
@@ -695,33 +878,37 @@ public class ECSFinder {
      */
     private static void runRNALalifold(String inputFilePath) throws IOException, InterruptedException {
 
-            String outputFilePath = OUT_PATH + "/stockholm";
+        String outputFilePath = OUT_PATH + "/stockholm";
 
         // Command to run RNALalifold
         List<String> command;
 
         // If input is a FASTA file, use --id-start to specify blockNumber
         if (inputFilePath.endsWith(".fasta")) {
-            String regex = "block_(\\d+)_realigned";
+            String regex = "block_(\\d+)_part_(\\d+)_realigned";
 
             // Compile the pattern
             Pattern pattern = Pattern.compile(regex);
 
             // Create a matcher to find the pattern in the given string
             Matcher matcher = pattern.matcher(inputFilePath);
-            // Check if the pattern matches and extract the block number
+
+            // Variables to store block number and part number
             int blockNumber = 0;
+            int partNumber = 0;
+
+            // Check if the pattern matches and extract the block and part numbers
             if (matcher.find()) {
-                // Group 1 contains the block number
-                blockNumber = Integer.parseInt(matcher.group(1));
+                blockNumber = Integer.parseInt(matcher.group(1));  // Extract and convert the block number
+                partNumber = Integer.parseInt(matcher.group(2));
             } else {
                 // Handle case where block number is not found
                 throw new IllegalArgumentException("Block number not found in the input file path");
             }
             command = Arrays.asList(
                     ALIFOLDBINARY,
-                    "--id-prefix=alifold",    // Prefix for output file names
-                    "--id-start=" + blockNumber, // Start the ID at the specified blockNumber
+                    "--id-prefix=alifold_"+String.valueOf(partNumber),    // Prefix for output file names
+                    "--id-start=" + String.valueOf(blockNumber), // Start the ID at the specified blockNumber
                     "--noLP",                 // No lonely pairs
                     "--maxBPspan=300",        // Maximum base pair span
                     "--ribosum_scoring",      // Use Ribosum scoring
@@ -757,24 +944,37 @@ public class ECSFinder {
         }
     }
 
-    private static int[] getRealCoordinates(int start, String[] mafCord, String motifHuman) {
-        int[] cordFinal;
+    private static int[] getRealCoordinates(int start, String[] mafCord, String motifHuman, String blockPartKey) {
+        int[] cordFinal = new int[2]; // This will store the final coordinates
         int[] cordFinalPlus1 = new int[2];
-        String withoutGap = mafCord[6].substring(0, start);
-        int nuc = withoutGap.replaceAll("-", "").length();
 
+        // Retrieve the Homo sapiens sequence and block start from the maps
+        String homoSapiensSequence = homoSapiensSequences.get(blockPartKey);  // e.g., "1_2" key format
+        String homoRealigned = homoSapiensSequence.substring(0, start );
+        int nuclStockholm = homoRealigned.replaceAll("-", "").length();
+
+        int blockStart = blockStartMap.getOrDefault(blockPartKey, 0);
+        // Adjust the 'start' based on the realigned sequence (ignoring gaps)
+        String withoutGap = mafCord[6].substring(0, blockStart);
+        int nuc = withoutGap.replaceAll("-", "").length();  // Count nucleotides excluding gaps
+
+        // Adjust the coordinates in the forward or reverse strand
         if (mafCord[4].equals("-")) {
             int lociEnd = (Integer.parseInt(mafCord[5]) + 1 - (Integer.parseInt(mafCord[2]) + nuc)) + 1;
             int lociStart = lociEnd - motifHuman.replaceAll("-", "").length();
-            cordFinal = new int[]{lociStart, lociEnd};
+            cordFinal = new int[]{lociStart+nuclStockholm, lociEnd+nuclStockholm};
         } else {
             int lociStart = Integer.parseInt(mafCord[2]) + nuc;
             int lociEnd = lociStart + motifHuman.replaceAll("-", "").length();
-            cordFinal = new int[]{lociStart, lociEnd};
+            cordFinal = new int[]{lociStart+nuclStockholm, lociEnd+nuclStockholm};
         }
+
         cordFinalPlus1[0] = cordFinal[0];
         cordFinalPlus1[1] = cordFinal[1] - 1;
 
         return cordFinalPlus1;
     }
+
+
+
 }
