@@ -29,10 +29,13 @@ The result is a robust framework that not only identifies but also validates con
 
 ## Installation
 
-### SISSIz
+### SISSIz 3.0
 
 Follow README instructions
-
+Authors:
+Tanja Gesell <tanja.gesell@univie.ac.at>
+Stefan Washietl <wash@tbi.univie.ac.at>
+Lorenz Perschy <NA>
 ### RNALalifold
 Download the package on the ViennaRNA package [website](https://www.tbi.univie.ac.at/RNA/) and follow the [instructions](https://www.tbi.univie.ac.at/RNA/documentation.html#install)
 ```
@@ -64,6 +67,7 @@ java ECSFinder [options] -o output/directory -i input.maf (last parameter must b
    -g int max gap percentage of sequences for 2D prediction (default 50)
    -sszr double report SISSIzhits below this Z-score (default -3)
    -v verbose (messy but detailed) output
+   -mafft realign the maf file before analysis using mafft-ginsi
 ```
 
 ## Output

@@ -298,7 +298,7 @@ public class ECSFinder {
                 runRNALalifold(realignedOutput.getAbsolutePath());  // Run RNA folding on the realigned blocks
             }
         }
-        cleanUpFolder(outputDir);  // Optionally remove temporary files after processing
+      //  cleanUpFolder(outputDir);  // Optionally remove temporary files after processing
     }
 
 
@@ -704,7 +704,7 @@ public class ECSFinder {
             }
         }
 
-        if (isSplit) {
+        if (isSplit && VERBOSE) {
             System.out.println("Block " + blockCount + " was split into " + (blockPart - 1) + " parts.");
         }
     }
@@ -945,35 +945,37 @@ public class ECSFinder {
     }
 
     private static int[] getRealCoordinates(int start, String[] mafCord, String motifHuman, String blockPartKey) {
-        int[] cordFinal = new int[2]; // This will store the final coordinates
+        int[] cordFinal = new int[2];
         int[] cordFinalPlus1 = new int[2];
 
-        // Retrieve the Homo sapiens sequence and block start from the maps
-        String homoSapiensSequence = homoSapiensSequences.get(blockPartKey);  // e.g., "1_2" key format
-        String homoRealigned = homoSapiensSequence.substring(0, start );
-        int nuclStockholm = homoRealigned.replaceAll("-", "").length();
+        // Retrieve the Homo sapiens realigned sequence and the block start
+        String homoSapiensSequence = homoSapiensSequences.get(blockPartKey);
+        String homoRealigned = homoSapiensSequence.substring(0, start);
+        int nuclStockholm = homoRealigned.replaceAll("-", "").length();  // Nucleotide count up to 'start'
 
         int blockStart = blockStartMap.getOrDefault(blockPartKey, 0);
-        // Adjust the 'start' based on the realigned sequence (ignoring gaps)
+        // Get the corresponding original MAF sequence (ignoring gaps)
         String withoutGap = mafCord[6].substring(0, blockStart);
-        int nuc = withoutGap.replaceAll("-", "").length();  // Count nucleotides excluding gaps
+        int nuc = withoutGap.replaceAll("-", "").length();  // Count nucleotides without gaps from the original sequence
 
-        // Adjust the coordinates in the forward or reverse strand
-        if (mafCord[4].equals("-")) {
-            int lociEnd = (Integer.parseInt(mafCord[5]) + 1 - (Integer.parseInt(mafCord[2]) + nuc)) + 1;
-            int lociStart = lociEnd - motifHuman.replaceAll("-", "").length();
-            cordFinal = new int[]{lociStart+nuclStockholm, lociEnd+nuclStockholm};
-        } else {
-            int lociStart = Integer.parseInt(mafCord[2]) + nuc;
-            int lociEnd = lociStart + motifHuman.replaceAll("-", "").length();
-            cordFinal = new int[]{lociStart+nuclStockholm, lociEnd+nuclStockholm};
+        // Forward strand case
+        if (mafCord[4].equals("+")) {
+            int lociStart = Integer.parseInt(mafCord[2]) + nuc+nuclStockholm;  // Adjust with original MAF nucleotide count
+            int lociEnd = lociStart + motifHuman.replaceAll("-", "").length();  // Add motif length excluding gaps
+            cordFinal = new int[]{lociStart, lociEnd};
+        }
+        // Reverse strand case
+        else {
+            int lociEnd = (Integer.parseInt(mafCord[5])+1 - (Integer.parseInt(mafCord[2]) + nuc+nuclStockholm)) + 1;  // Adjust end coordinate
+            int lociStart = lociEnd - motifHuman.replaceAll("-", "").length();  // Subtract motif length
+            cordFinal = new int[]{lociStart, lociEnd};
         }
 
         cordFinalPlus1[0] = cordFinal[0];
-        cordFinalPlus1[1] = cordFinal[1] - 1;
-
+        cordFinalPlus1[1] = cordFinal[1] - 1;  // Adjust the end for 0-based coordinates
         return cordFinalPlus1;
     }
+
 
 
 
