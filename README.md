@@ -31,11 +31,11 @@ The result is a robust framework that not only identifies but also validates con
 
 ### SISSIz 3.0
 
-Follow README instructions
-Authors:
-Tanja Gesell <tanja.gesell@univie.ac.at>
-Stefan Washietl <wash@tbi.univie.ac.at>
-Lorenz Perschy <NA>
+Follow README instructions  
+Authors:  
+Tanja Gesell <tanja.gesell@univie.ac.at>  
+Stefan Washietl <wash@tbi.univie.ac.at>  
+Lorenz Perschy <NA>  
 ### RNALalifold
 Download the package on the ViennaRNA package [website](https://www.tbi.univie.ac.at/RNA/) and follow the [instructions](https://www.tbi.univie.ac.at/RNA/documentation.html#install)
 ```
