@@ -62,46 +62,61 @@ public class ScanItFast implements Runnable {
         // remove identical rows or those with too many gaps & N's
         Iterator<String[]> iter = associativeList.iterator();
 
-
         ArrayList<int[]> intTab = new ArrayList<>();
         ArrayList<int[]> intTabRC = new ArrayList<>();
         ArrayList<String> UniqueNames = new ArrayList<>();
+
+// Check if the associative list is empty
+        if (associativeList.isEmpty()) {
+            System.err.println("Error: The associativeList is empty.");
+            return;
+        }
+
+// Iterate over the associativeList
         while (iter.hasNext()) {
             String[] line = iter.next();
             String sequence = line[1].toUpperCase();
             int[] seqToInt = new int[sequence.length()];
             int[] seqToIntRC = new int[sequence.length()];
 
-
+            // Convert the sequence characters to integers and their reverse complement
             for (int i = 0; i < sequence.length(); i++) {
                 if (letterMap.get(sequence.charAt(i)) == null) {
-                    System.out.println("No sequence is found");
+                    System.err.println("Error: Invalid character in sequence: " + sequence.charAt(i));
+                    continue;
                 }
-                // convert char to int in the sequence
+                // Convert char to int in the sequence
                 seqToInt[i] = letterMap.get(sequence.charAt(i));
                 seqToIntRC[sequence.length() - i - 1] = letterMapRC.get(sequence.charAt(i));
-
             }
 
+            // Split species name and create unique name
             String[] species_part = line[0].split("_");
             String species_part_new = species_part[0] + "_" + species_part[1].split("\\.")[0];
+
+            // If unique name not already present, add the name and corresponding sequences
             if (!UniqueNames.contains(species_part_new)) {
                 UniqueNames.add(species_part_new);
                 intTabRC.add(seqToIntRC);
                 intTab.add(seqToInt);
             }
         }
-        // Remove columns entirely made up of 1s or when 50% or more of a row is made up of gaps and Ns
+
+// Remove rows where 50% or more of the elements are gaps (4) or Ns (5)
         int requiredCount = (int) (0.5 * intTab.get(0).length);
 
-        // Create a new ArrayList without arrays containing 50% or more 4s
+// Create new lists to store filtered rows
         ArrayList<int[]> newArray_gap = new ArrayList<>();
         ArrayList<int[]> newArrayRC_gap = new ArrayList<>();
+        ArrayList<String> newUniqueNames = new ArrayList<>();
+
+// Iterate through rows in intTab and intTabRC
         for (int i = 0; i < intTab.size(); i++) {
             int[] originalArray = intTab.get(i);
             int count4 = 0;
             int count5 = 0;
 
+            // Count the number of gaps (4) and Ns (5) in the row
             for (int element : originalArray) {
                 if (element == 4) {
                     count4++;
@@ -111,50 +126,52 @@ public class ScanItFast implements Runnable {
                 }
             }
 
+            // If fewer than 50% of the elements are gaps/Ns, keep the row and corresponding unique name
             if (count4 < requiredCount && count5 < requiredCount) {
-                newArray_gap.add(originalArray);
-                newArrayRC_gap.add(intTabRC.get(i));
+                newArray_gap.add(originalArray);                // Keep row in intTab
+                newArrayRC_gap.add(intTabRC.get(i));            // Keep corresponding row in intTabRC
+                newUniqueNames.add(UniqueNames.get(i));         // Keep corresponding unique name
             }
         }
 
+// Replace old lists with filtered ones
         intTab.clear();
         intTab.addAll(newArray_gap);
+
         intTabRC.clear();
         intTabRC.addAll(newArrayRC_gap);
-        // Find columns with only the value 1 in either ArrayList
+
+        UniqueNames.clear();
+        UniqueNames.addAll(newUniqueNames);
+
+// Remove columns entirely made up of gaps (4) or Ns (5)
         ArrayList<Integer> columnsToRemove = new ArrayList<>();
-        int numRows1 = intTab.size();
-        int numRows2 = intTabRC.size();
+        int numRows = intTab.size();
+        if (numRows<= 3) {
+            if (VERBOSE)
+                System.out.println("Too many species with gappy sequences");
+            return;
+        }
+
         int numCols = intTab.get(0).length;
 
+// Check each column
         for (int col = 0; col < numCols; col++) {
-            boolean allOnes = true;
+            boolean allGapsOrNs = true;
 
-            for (int row = 0; row < numRows1; row++) {
-                if (intTab.get(row)[col] != 4 || intTab.get(row)[col] != 5) {
-                    allOnes = false;
+            for (int row = 0; row < numRows; row++) {
+                if (intTab.get(row)[col] != 4 && intTab.get(row)[col] != 5) {
+                    allGapsOrNs = false;
                     break;
                 }
             }
 
-            if (allOnes) {
+            if (allGapsOrNs) {
                 columnsToRemove.add(col);
-            } else {
-                // Check arrayList2 for columns with only the value 1
-                for (int row = 0; row < numRows2; row++) {
-                    if (intTabRC.get(row)[col] != 4 || intTabRC.get(row)[col] != 5) {
-                        allOnes = false;
-                        break;
-                    }
-                }
-
-                if (allOnes) {
-                    columnsToRemove.add(col);
-                }
             }
         }
 
-        // Create new ArrayLists without columns containing only 1
+// Create new ArrayLists without columns that are entirely made up of gaps/Ns
         ArrayList<int[]> newArray1 = new ArrayList<>();
         ArrayList<int[]> newArray2 = new ArrayList<>();
 
@@ -185,15 +202,19 @@ public class ScanItFast implements Runnable {
 
             newArray2.add(modifiedArray);
         }
+
+// Replace old arrays with the filtered ones
         intTab.clear();
         intTab.addAll(newArray1);
 
         intTabRC.clear();
         intTabRC.addAll(newArray2);
 
+// Convert UniqueNames to an array if needed
         String[] nameTab = new String[UniqueNames.size()];
         nameTab = UniqueNames.toArray(nameTab);
-        // first check for > 2 seqs
+
+// Check if enough sequences are left
         int goodSeqs = intTab.size();
 
         if (intTab.size() <= 3) {
@@ -202,10 +223,8 @@ public class ScanItFast implements Runnable {
             return;
         }
 
-        // System.out.println("this is the end of block");
-        if (intTab.size() <= 3) {
-            if (VERBOSE)
-                System.out.println("-> Not Enough seqs in this window!");
+        if (VERBOSE && intTab.size() <= 3) {
+            System.out.println("-> Not Enough seqs in this window!");
             return;
         }
 
@@ -333,6 +352,7 @@ public class ScanItFast implements Runnable {
             System.out.println("- -> Calculating BED coords ");
         String BedFile = key[0] + "\t";
         BedFile = BedFile + key[1] + "\t" + key[2] + "\t";
+
 
         BedFile = BedFile + goodSeqs + "_" + ((double) (int) (10 * stats[0]) / 10) + "_"      // MPI
                 + ((double) (int) (10 * stats[1]) / 10) + "_"            // STDEV

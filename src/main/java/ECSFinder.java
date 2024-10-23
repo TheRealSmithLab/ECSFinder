@@ -298,7 +298,7 @@ public class ECSFinder {
                 runRNALalifold(realignedOutput.getAbsolutePath());  // Run RNA folding on the realigned blocks
             }
         }
-      //  cleanUpFolder(outputDir);  // Optionally remove temporary files after processing
+        cleanUpFolder(outputDir);  // Optionally remove temporary files after processing
     }
 
 
@@ -322,12 +322,15 @@ public class ECSFinder {
                 } else if (line.charAt(0) == 's') {
                     temp.append(line).append("@");
                 }
-            } else if ((temp.toString().split("@").length <= 2) && line.equals("")) {
+            }
 
-                temp = new StringBuilder();
-            } else if ((temp.toString().split("@").length >= 3) && line.equals("")) { // At least 3 sequences
-                processAlignmentBlock(temp.toString(), blockAln,  futures, multiThreads);
+
+            // Ensure temp has sufficient data before processing
+            else if (!temp.toString().isEmpty() && (temp.toString().split("@").length >= 3) && line.equals("")) {
+                processAlignmentBlock(temp.toString(), blockAln, futures, multiThreads);
                 temp = new StringBuilder();  // Reset for the next block
+            } else {
+                temp = new StringBuilder();  // Reset if not enough sequences
             }
         }
 
@@ -350,6 +353,7 @@ public class ECSFinder {
         readFile.close();
     }
 
+
     private static void processAlignmentBlock(String block, int blockAln, List<Future<?>> futures, ExecutorService multiThreads) throws IOException {
         ArrayList<String[]> associativeList = new ArrayList<>();
         String[] mafTabTemp = block.split("@")[0].split("\\s+");
@@ -364,102 +368,131 @@ public class ECSFinder {
             System.out.println("No Stockholm files found for alignment block " + blockAln + ". Not enough different species found in the alignments.");
             System.exit(1);  // Exit the program with a non-zero status
         }
+        if(MAFFT) {
+            // Regex pattern to match filenames with exactly two underscores
+            String regex = "alifold_(\\d+)_" + finalName + "\\.stk";  // This will capture the number between the underscores
 
-        // Regex pattern to match filenames with exactly two underscores
-        String regex = "alifold_(\\d+)_" + finalName + "\\.stk";  // This will capture the number between the underscores
+            // Compile the pattern
+            Pattern pattern = Pattern.compile(regex);
 
-        // Compile the pattern
-        Pattern pattern = Pattern.compile(regex);
+            // Map to store file and the extracted number for sorting
+            Map<File, Integer> fileNumberMap = new HashMap<>();
 
-        // Map to store file and the extracted number for sorting
-        Map<File, Integer> fileNumberMap = new HashMap<>();
+            // Iterate through all files
+            for (File file : stkFiles) {
+                Matcher matcher = pattern.matcher(file.getName());
 
-        // Iterate through all files
-        for (File file : stkFiles) {
-            Matcher matcher = pattern.matcher(file.getName());
-
-            // Check if the file name matches the pattern
-            if (matcher.matches()) {
-                // Extract the number between the underscores and convert it to an integer
-                int number = Integer.parseInt(matcher.group(1));
-                fileNumberMap.put(file, number);  // Store the file and the extracted number
+                // Check if the file name matches the pattern
+                if (matcher.matches()) {
+                    // Extract the number between the underscores and convert it to an integer
+                    int number = Integer.parseInt(matcher.group(1));
+                    fileNumberMap.put(file, number);  // Store the file and the extracted number
+                }
             }
-        }
 
-        // Check if no matching files were found after filtering
-        if (fileNumberMap.isEmpty()) {
-            System.out.println("No matching Stockholm files found for alignment block " + blockAln + ". Not enough different species found in the alignments.");
-            System.exit(1);  // Exit the program with a non-zero status
-        }
-
-        // Sort the files by the extracted number
-        List<File> sortedFiles = new ArrayList<>(fileNumberMap.keySet());
-        sortedFiles.sort(Comparator.comparingInt(fileNumberMap::get));  // Sort based on the extracted number
-
-        // Iterate through the sorted files
-        for (File file : sortedFiles) {
-            if (VERBOSE){
-                System.out.println("Processing file: " + file.getName());
+            // Check if no matching files were found after filtering
+            if (fileNumberMap.isEmpty()) {
+                System.out.println("No matching Stockholm files found for alignment block " + blockAln + ". Not enough different species found in the alignments.");
+                System.exit(1);  // Exit the program with a non-zero status
             }
-            processStockholmFile(file, mafTabTemp, associativeList, futures, multiThreads);
-        }
+
+            // Sort the files by the extracted number
+            List<File> sortedFiles = new ArrayList<>(fileNumberMap.keySet());
+            sortedFiles.sort(Comparator.comparingInt(fileNumberMap::get));  // Sort based on the extracted number
+
+            // Iterate through the sorted files
+            for (File file : sortedFiles) {
+                if (VERBOSE) {
+                    System.out.println("Processing file: " + file.getName());
+                }
+                processStockholmFile(file, mafTabTemp, associativeList, futures, multiThreads);
+            }
+        } else{
+            for (File file : stkFiles) {
+                processStockholmFile(file, mafTabTemp, associativeList, futures, multiThreads);
+            }
+
+            }
     }
 
 
     private static void processStockholmFile(File stockholmFile, String[] mafTabTemp, ArrayList<String[]> associativeList,
                                              List<Future<?>> futures, ExecutorService multiThreads) {
-        // Regular expression to capture the desired parts
-        String regex = "alifold_(\\d+)_(\\d+)";
-        Pattern pattern = Pattern.compile(regex);
-
-        // Match the string against the pattern
-        Matcher matcher = pattern.matcher(stockholmFile.getName());
         String result = "";
-        int blockStart = 0;
+        if(MAFFT) {
+            // Regular expression to capture the desired parts
+            String regex = "alifold_(\\d+)_(\\d+)";
+            Pattern pattern = Pattern.compile(regex);
 
-        // Parse the filename and extract the first and second parts
-        if (matcher.find()) {
-            // Extract the first part (e.g., 3 or 4)
-            String firstPart = matcher.group(1);
-            // Extract the second part and strip leading zeros
-            String secondPart = matcher.group(2).replaceFirst("^0+", "");
-            // Combine to get the desired format, e.g., "3_1", "4_100"
-            result = secondPart+ "_" +firstPart  ;
+            // Match the string against the pattern
+            Matcher matcher = pattern.matcher(stockholmFile.getName());
 
-            // Get the blockStart from the blockStartMap
-            blockStart = blockStartMap.getOrDefault(result, 0); // Default to 0 if not found
+            int blockStart = 0;
 
-        } else {
-            System.out.println("Error: Filename does not match expected pattern: " + stockholmFile.getName());
-            return; // Exit the method early if the filename does not match the expected format
-        }
+            // Parse the filename and extract the first and second parts
+            if (matcher.find()) {
+                // Extract the first part (e.g., 3 or 4)
+                String firstPart = matcher.group(1);
+                // Extract the second part and strip leading zeros
+                String secondPart = matcher.group(2).replaceFirst("^0+", "");
+                // Combine to get the desired format, e.g., "3_1", "4_100"
+                result = secondPart + "_" + firstPart;
 
-        // Open and process the Stockholm file
-        try (BufferedReader reader = new BufferedReader(new FileReader(stockholmFile))) {
-            String currentLine;
-            String[] arrayName = new String[5];
-            String gcReference = "", gcSScons = "";
+                // Get the blockStart from the blockStartMap
+                blockStart = blockStartMap.getOrDefault(result, 0); // Default to 0 if not found
 
-            while ((currentLine = reader.readLine()) != null) {
-                if (currentLine.startsWith("#=GF ID ")) {
-                    arrayName = currentLine.split("[_.]");
-                    associativeList = new ArrayList<>();
-                } else if (currentLine.startsWith("#=GC RF")) {
-                    gcReference = extractValue(currentLine);
-                } else if (currentLine.startsWith("#=GC SS_cons")) {
-                    gcSScons = extractValue(currentLine);
-                } else if (!currentLine.startsWith("#") && !currentLine.equals("") && !currentLine.startsWith("//")) {
-                    associativeList.add(processSpeciesLine(currentLine));
-                }
-
-                if (!associativeList.isEmpty() && currentLine.startsWith("//")) {
-                    // Adjust motif coordinates using blockStart and pass it to processMotif
-                    processMotif(mafTabTemp, arrayName, associativeList, gcReference, gcSScons, futures, multiThreads, result);
-                }
+            } else {
+                System.out.println("Error: Filename does not match expected pattern: " + stockholmFile.getName());
+                return; // Exit the method early if the filename does not match the expected format
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            // Regular expression to capture the desired parts
+            String regex = "alifold_(\\d+)";
+            Pattern pattern = Pattern.compile(regex);
+
+            // Match the string against the pattern
+            Matcher matcher = pattern.matcher(stockholmFile.getName());
+
+            int blockStart = 0;
+
+            // Parse the filename and extract the first and second parts
+            if (matcher.find()) {
+
+                // Extract the second part and strip leading zeros
+                String secondPart = matcher.group(1).replaceFirst("^0+", "");
+
+                result = secondPart;
+
+
+            }
         }
+            // Open and process the Stockholm file
+            try (BufferedReader reader = new BufferedReader(new FileReader(stockholmFile))) {
+                String currentLine;
+                String[] arrayName = new String[5];
+                String gcReference = "", gcSScons = "";
+
+                while ((currentLine = reader.readLine()) != null) {
+                    if (currentLine.startsWith("#=GF ID ")) {
+                        arrayName = currentLine.split("[_.]");
+                        associativeList = new ArrayList<>();
+                    } else if (currentLine.startsWith("#=GC RF")) {
+                        gcReference = extractValue(currentLine);
+                    } else if (currentLine.startsWith("#=GC SS_cons")) {
+                        gcSScons = extractValue(currentLine);
+                    } else if (!currentLine.startsWith("#") && !currentLine.equals("") && !currentLine.startsWith("//")) {
+                        associativeList.add(processSpeciesLine(currentLine));
+                    }
+
+                    if (!associativeList.isEmpty() && currentLine.startsWith("//")) {
+                        // Adjust motif coordinates using blockStart and pass it to processMotif
+                        processMotif(mafTabTemp, arrayName, associativeList, gcReference, gcSScons, futures, multiThreads, result);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
     }
 
 
@@ -468,14 +501,24 @@ public class ECSFinder {
                                      String gcReference, String gcSScons, List<Future<?>> futures,
                                      ExecutorService multiThreads, String result) {
         // Adjust the motif start position by adding blockStart to ensure correct coordinates
-        int[] cordMotif = getRealCoordinates(Integer.parseInt(arrayName[4]), mafTabTemp, associativeList.get(0)[1], result);
+        int[] cordMotif;
+        if (MAFFT) {
+           cordMotif = getRealCoordinates(Integer.parseInt(arrayName[4]), mafTabTemp, associativeList.get(0)[1], result);
+        } else {
+            cordMotif = getRealCoordinates(Integer.parseInt(arrayName[3]), mafTabTemp, associativeList.get(0)[1], result);
+        }
 
         String loci = Arrays.toString(cordMotif);
         String chrom = mafTabTemp[1].substring((mafTabTemp[1].lastIndexOf(".") + 1));
-
-        // Add blockStart to adjust loci positions properly
-        String lociChrm = chrom + ", " + loci.substring(1, loci.length() - 1) + ", " + mafTabTemp[4] + ", "
-                + arrayName[4] + ", " + arrayName[5] + ", " + gcReference + ", " + gcSScons;
+        String lociChrm ="";
+        if (MAFFT) {
+            // Add blockStart to adjust loci positions properly
+             lociChrm = chrom + ", " + loci.substring(1, loci.length() - 1) + ", " + mafTabTemp[4] + ", "
+                    + arrayName[4] + ", " + arrayName[5] + ", " + gcReference + ", " + gcSScons;
+        } else {
+             lociChrm = chrom + ", " + loci.substring(1, loci.length() - 1) + ", " + mafTabTemp[4] + ", "
+                    + arrayName[3] + ", " + arrayName[4] + ", " + gcReference + ", " + gcSScons;
+        }
 
         String[] arrayLociChrm = lociChrm.split(", ");
 
@@ -512,6 +555,9 @@ public class ECSFinder {
     private static String[] processSpeciesLine(String line) {
         String[] species = line.split(" ", 2);
         species[1] = species[1].trim();
+        if (line == null || line.trim().isEmpty()) {
+            return null;  // Handle invalid lines
+        }
         return species;
     }
 
@@ -927,14 +973,39 @@ public class ECSFinder {
                     inputFilePath             // Input MAF file path
             );
         }
-
         ProcessBuilder pb = new ProcessBuilder(command);
         pb.directory(new File(outputFilePath));
 
         // Start the RNALalifold process
         Process process = pb.start();
+
+        // Handle stdout and stderr
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+
+        // Create threads to handle both streams
+        Thread outputThread = new Thread(() -> {
+            // Read stdout but do not print it
+            reader.lines().forEach(line -> {
+
+            });
+        });
+
+        Thread errorThread = new Thread(() -> {
+            errorReader.lines().forEach(line -> {
+
+            });
+        });
+
+
+        // Start both threads
+        outputThread.start();
+        errorThread.start();
         int exitCode = process.waitFor();
 
+        // Ensure the threads have finished reading
+        outputThread.join();
+        errorThread.join();
         if (exitCode != 0) {
             throw new IOException("RNALalifold exited with error code: " + exitCode);
         }
@@ -947,17 +1018,23 @@ public class ECSFinder {
     private static int[] getRealCoordinates(int start, String[] mafCord, String motifHuman, String blockPartKey) {
         int[] cordFinal = new int[2];
         int[] cordFinalPlus1 = new int[2];
+        int nuc=0;
+        int nuclStockholm=0;
+        if(MAFFT) {
+            // Retrieve the Homo sapiens realigned sequence and the block start
+            String homoSapiensSequence = homoSapiensSequences.get(blockPartKey);
+            String homoRealigned = homoSapiensSequence.substring(0, start);
+             nuclStockholm = homoRealigned.replaceAll("-", "").length();  // Nucleotide count up to 'start'
 
-        // Retrieve the Homo sapiens realigned sequence and the block start
-        String homoSapiensSequence = homoSapiensSequences.get(blockPartKey);
-        String homoRealigned = homoSapiensSequence.substring(0, start);
-        int nuclStockholm = homoRealigned.replaceAll("-", "").length();  // Nucleotide count up to 'start'
-
-        int blockStart = blockStartMap.getOrDefault(blockPartKey, 0);
-        // Get the corresponding original MAF sequence (ignoring gaps)
-        String withoutGap = mafCord[6].substring(0, blockStart);
-        int nuc = withoutGap.replaceAll("-", "").length();  // Count nucleotides without gaps from the original sequence
-
+            int blockStart = blockStartMap.getOrDefault(blockPartKey, 0);
+            // Get the corresponding original MAF sequence (ignoring gaps)
+            String withoutGap = mafCord[6].substring(0, blockStart);
+             nuc = withoutGap.replaceAll("-", "").length();  // Count nucleotides without gaps from the original sequence
+        } else{
+            String withoutGap = mafCord[6].substring(0, start);
+            nuc = withoutGap.replaceAll("-", "").length();
+            nuclStockholm=0;
+        }
         // Forward strand case
         if (mafCord[4].equals("+")) {
             int lociStart = Integer.parseInt(mafCord[2]) + nuc+nuclStockholm;  // Adjust with original MAF nucleotide count
