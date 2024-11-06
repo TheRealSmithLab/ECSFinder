@@ -64,17 +64,12 @@ public class ECSFinder {
 
         // run RNALalifold and process results
         runRNALalifoldAndProcessResults();
-        // Now check for the existence of the output file
         String nameOutputECS= "predicted_ECS.csv";
-
-        callRScript(OUT_PATH + "/structure_input_sense.csv", OUT_PATH + "/"+nameOutputECS);
-        callRScript(OUT_PATH + "/structure_input_antisense.csv", OUT_PATH + "/"+nameOutputECS);
+        mergeLogFiles(OUT_PATH + "/csv/", OUT_PATH + "/merged_hits.csv");
+        callRScript(OUT_PATH + "/merged_hits.csv", OUT_PATH + "/"+nameOutputECS);
 
         File outputFile = new File(OUT_PATH + "/"+nameOutputECS);
-        if (!outputFile.exists()) {
-            System.out.println("No ECS were found.");
-            System.exit(0); // Exit the program if the file doesn't exist
-        } else {
+
             try {
                 // Open the CSV file
                 BufferedReader reader = new BufferedReader(new FileReader(outputFile));
@@ -104,11 +99,19 @@ public class ECSFinder {
                         String nameFileWithUnderscores = parts[0];
 
                         // Construct the full path to the .aln file
-                        File fileToDelete = new File(path, nameFileWithUnderscores + ".aln");
+                        File fileToDelete = new File(OUT_PATH+"/aln", nameFileWithUnderscores + ".aln");
 
                         // Check if the file exists and delete it
                         if (fileToDelete.exists()) {
                             fileToDelete.delete();
+                        }
+                    }
+
+                    if (new File(OUT_PATH+"/aln").isDirectory()) {
+                        if (new File(OUT_PATH+"/aln").list() != null && new File(OUT_PATH+"/aln").list().length == 0) {
+                            System.out.println("No predicted ECS.");
+                            new File(OUT_PATH+"/aln").delete();
+
                         }
                     }
 
@@ -122,17 +125,15 @@ public class ECSFinder {
             }
 
             // Also delete the structure_input_sense.csv file
-            File senseCsvFile = new File(OUT_PATH, "structure_input_sense.csv");
-            File antisenseCsvFile = new File(OUT_PATH, "structure_input_antisense.csv");
+            File CsvFile = new File(OUT_PATH, "csv");
+
             // Check if the CSV file exists and delete it
-            if (senseCsvFile.exists()) {
-                senseCsvFile.delete();
-            }
-            if (antisenseCsvFile.exists()){
-                antisenseCsvFile.delete();
+            if (CsvFile.exists()) {
+                CsvFile.delete();
             }
 
-        }
+
+
 
     }
 
@@ -298,7 +299,7 @@ public class ECSFinder {
                 runRNALalifold(realignedOutput.getAbsolutePath());  // Run RNA folding on the realigned blocks
             }
         }
-        cleanUpFolder(outputDir);  // Optionally remove temporary files after processing
+      //  cleanUpFolder(outputDir);  // Optionally remove temporary files after processing
     }
 
 
@@ -309,11 +310,10 @@ public class ECSFinder {
         StringBuilder temp = new StringBuilder();
         ExecutorService multiThreads = Executors.newFixedThreadPool(NTHREDS);
         List<Future<?>> futures = new ArrayList<>();
-        path = new File(OUT_PATH + "/aln/");
-        if (!path.isDirectory()) {
-            path.mkdirs();  // Create the directory if it doesn't exist
-        }
-
+        String path_aln = OUT_PATH + "/aln/";
+        createDirectory(path_aln);
+        String path_csv = OUT_PATH + "/csv/";
+        createDirectory(path_csv);
         String line;
         while ((line = readFile.readLine()) != null) {
             if (line.length() >= 1 && line.charAt(0) != '#') {
@@ -431,11 +431,11 @@ public class ECSFinder {
 
             // Parse the filename and extract the first and second parts
             if (matcher.find()) {
-                // Extract the first part (e.g., 3 or 4)
+
                 String firstPart = matcher.group(1);
                 // Extract the second part and strip leading zeros
                 String secondPart = matcher.group(2).replaceFirst("^0+", "");
-                // Combine to get the desired format, e.g., "3_1", "4_100"
+
                 result = secondPart + "_" + firstPart;
 
                 // Get the blockStart from the blockStartMap
@@ -528,7 +528,7 @@ public class ECSFinder {
         }
 
         // Create the ScanItFast task and submit it to the thread pool
-        ScanItFast aln = new ScanItFast(associativeList, arrayLociChrm, path, SSZBINARY, VERBOSE);
+        ScanItFast aln = new ScanItFast(associativeList, arrayLociChrm, new File(OUT_PATH), SSZBINARY, VERBOSE);
         aln.setSszR(SSZR);
         aln.setGap(GAPS);
         Future<?> future = multiThreads.submit(aln);
@@ -756,43 +756,6 @@ public class ECSFinder {
     }
 
 
-
-    /**
-     * Writes a block of sequences to a FASTA file, with truncation to the specified block size.
-     *
-     * @param outputDirPath     The directory to save the output FASTA file.
-     * @param blockCount        The current block number (used for naming the file).
-     * @param speciesSequences  The map of species IDs to their sequences.
-     * @param blockLength       The length of the current block.
-     * @param maxBlockSize      The maximum allowed block size.
-     * @param overlapLength     The overlap length between blocks.
-     * @throws IOException If an I/O error occurs.
-     */
-    private static void writeBlockToFile(String outputDirPath, int blockCount, Map<String, StringBuilder> speciesSequences,
-                                         int blockLength, int maxBlockSize, int overlapLength) throws IOException {
-
-        String blockFileName = outputDirPath + "/block_" + blockCount + ".fasta";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(blockFileName))) {
-            for (Map.Entry<String, StringBuilder> entry : speciesSequences.entrySet()) {
-                String sequenceId = entry.getKey();
-                String sequence = entry.getValue().toString();
-
-                // Truncate the sequence if it exceeds the maxBlockSize
-                if (sequence.length() > maxBlockSize) {
-                    sequence = sequence.substring(0, maxBlockSize);
-                }
-
-                writer.write(">" + sequenceId + "\n");
-                writer.write(sequence + "\n");
-            }
-        }
-
-        System.out.println("Wrote block " + blockCount + " to: " + blockFileName);
-    }
-
-
-
-
     /**
      * Realigns sequences using MAFFT and writes the output directly to a FASTA file.
      * @param inputFilePath    The path to the input FASTA file.
@@ -879,40 +842,6 @@ public class ECSFinder {
     }
 
 
-
-    /**
-     * Saves the realigned sequences to a new FASTA file.
-     *
-     * @param realignedSequences The map of realigned sequences to save.
-     * @param outputFilePath     The path to the output FASTA file.
-     * @throws IOException
-     */
-    public static void saveRealignedSequences(Map<String, String> realignedSequences, String outputFilePath) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath))) {
-            for (Map.Entry<String, String> entry : realignedSequences.entrySet()) {
-                writer.write(">" + entry.getKey() + "\n");
-                writer.write(entry.getValue() + "\n");
-            }
-            System.out.println("Realigned sequences saved to: " + outputFilePath);
-        }
-    }
-    /**
-     * Realigns all FASTA files in the given directory using MAFFT.
-     *
-     * @throws IOException           If an I/O error occurs.
-     * @throws InterruptedException  If the MAFFT process is interrupted.
-     */
-    private static void realignFastaFilesWithMafft() throws IOException, InterruptedException {
-        File outputDir = new File(OUT_PATH + "/output_fasta_dir");
-        File[] fastaFiles = outputDir.listFiles((dir, name) -> name.endsWith(".fasta"));
-
-        if (fastaFiles != null) {
-            for (File fastaFile : fastaFiles) {
-
-                realignSequences(fastaFile, outputDir);
-            }
-        }
-    }
     /**
      * Executes RNALalifold on the given input file (MAF or FASTA) and writes the result to a unique Stockholm file.
      * For MAF, it automatically generates files like alifold_0001.stk, alifold_0002.stk, etc.
@@ -1053,7 +982,36 @@ public class ECSFinder {
         return cordFinalPlus1;
     }
 
+    public static void mergeLogFiles(String logDirPath, String finalCsvPath) {
+        File logDir = new File(logDirPath);
+        File[] logFiles = logDir.listFiles((dir, name) ->  name.endsWith(".csv"));
 
+        if (logFiles != null && logFiles.length > 0) {
+            try (BufferedWriter finalWriter = new BufferedWriter(new FileWriter(finalCsvPath))) {
+                finalWriter.write("name_file,min_energy,pseudo_energy,log_min_evalue,covarying_bp,MPI,average_MFE_sample,sd_sample,zscore\n");
+
+                for (File logFile : logFiles) {
+                    try (BufferedReader logReader = new BufferedReader(new FileReader(logFile))) {
+                        String line;
+                        while ((line = logReader.readLine()) != null) {
+                            finalWriter.write(line);
+                            finalWriter.newLine();
+                        }
+                    } catch (IOException e) {
+                        System.err.println("Error reading log file: " + logFile.getName());
+                        e.printStackTrace();
+                    }
+                    // Delete the log file after merging
+                    logFile.delete();
+                }
+            } catch (IOException e) {
+                System.err.println("Error writing to final CSV file.");
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("No log files found to merge.");
+        }
+    }
 
 
 }

@@ -33,7 +33,7 @@ public class ScanItFast implements Runnable {
 
     ScanItFast(ArrayList<String[]> associativeList, String[] key, File Path,
                String SSZBINARY, boolean VERBOSE) {
-        ScanItFast.Path = String.valueOf(Path);
+        ScanItFast.Path = Path+"/aln/";
         ScanItFast.SSZBINARY = SSZBINARY;
         ScanItFast.VERBOSE = VERBOSE;
         this.associativeList = associativeList;
@@ -223,10 +223,18 @@ public class ScanItFast implements Runnable {
             return;
         }
 
-        if (VERBOSE && intTab.size() <= 3) {
-            System.out.println("-> Not Enough seqs in this window!");
+        if (intTab.size() <= 3) {
+            if(VERBOSE)
+                System.out.println("-> Not Enough seqs in this window!");
             return;
         }
+
+        if (!(nameTab[0].contains("homo"))) {
+            if(VERBOSE)
+                System.out.println("-> No human in this alignment block");
+            return;
+        }
+
 
 
         /*********************************************************************
@@ -364,10 +372,10 @@ public class ScanItFast implements Runnable {
         if (VERBOSE)
             System.out.println("Pre SISSIz bed file: \n" + " " + BedFile);
         int random = (int) ((double) 10000 * Math.random());
-        File Aln = new File(Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + random),    //
-                AlnRC = new File(Path + "/" + BedFile.replaceAll("\t", "_") + "rc.aln." + random);  //
+        File Aln = new File(Path  + BedFile.replaceAll("\t", "_") + ".aln." + random),    //
+                AlnRC = new File(Path  + BedFile.replaceAll("\t", "_") + "rc.aln." + random);  //
         // v v v v v v v v    INCLUSION STATS     v v v v v v v v v v v v v
-        //MPI greater or equal than 50 and Gap content smaller than 75
+        //MPI greater or equal than 50 and Gap content smaller or equal than 50
         if (stats[4] <= GAP_THRESHOLD && stats[0] >= 50) {
             // Write Sequences to ALN Format
             try (BufferedWriter WriteClustal = new BufferedWriter(new FileWriter(Aln));
@@ -489,10 +497,10 @@ public class ScanItFast implements Runnable {
                     throw new RuntimeException(e);
                 }
 
-                String csvPath = ECSFinder.OUT_PATH+"/structure_input_sense.csv";
+                String path_csv = ECSFinder.OUT_PATH+"/csv/"+fileNameBed+".csv";
 
                 try {
-                    writeFeaturesToCSV(array_variates, csvPath,String.valueOf(theDir));
+                    writeFeaturesToCSV(array_variates, path_csv,String.valueOf(theDir));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -577,9 +585,9 @@ public class ScanItFast implements Runnable {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                String csvPathAntisense = ECSFinder.OUT_PATH+"/structure_input_antisense.csv";
+                String path_csv = ECSFinder.OUT_PATH+"/csv/"+fileNameBedRc+".csv";
                 try {
-                    writeFeaturesToCSV(array_variates, csvPathAntisense, String.valueOf(theDir));
+                    writeFeaturesToCSV(array_variates, path_csv, String.valueOf(theDir));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -822,10 +830,6 @@ public class ScanItFast implements Runnable {
     private static void writeFeaturesToCSV(double[] data, String csvPath, String nameFile) throws IOException {
         boolean fileExists = new File(csvPath).exists();
         BufferedWriter writer = new BufferedWriter(new FileWriter(csvPath, true)); // Enable append mode
-
-        if (!fileExists) {
-            writer.write("name_file,min_energy,pseudo_energy,log_min_evalue,covarying_bp,MPI,average_MFE_sample,sd_sample,zscore\n");
-        }
             String fileName = nameFile.substring(nameFile.lastIndexOf('/') + 1);
             writer.write((fileName) + ",");
             for (int i = 0; i < data.length; i++) {
