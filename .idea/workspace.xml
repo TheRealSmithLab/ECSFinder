@@ -9,11 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="fixed formating issue in README">
+    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="check whether homo sapiens is in aln">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ECSFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ECSFinder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ScanItFast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScanItFast.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/ECSFinder.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ECSFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ECSFinder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ScanItFast.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ScanItFast.class" afterDir="false" />
     </list>
@@ -75,7 +74,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-11-openjdk-amd64" />
       <option name="MAIN_CLASS_NAME" value="ECSFinder" />
       <module name="ECSFinder" />
-      <option name="PROGRAM_PARAMETERS" value="-sszr -1.0 -o RFAM -mafft -i $PROJECT_DIR$/../hybridBlocks/RFAM_50MPI_65MPI_10species/" />
+      <option name="PROGRAM_PARAMETERS" value="-sszr -3.0 -o RFAM -mafft -i $PROJECT_DIR$/target/test-classes/" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -346,7 +345,23 @@
       <option name="project" value="LOCAL" />
       <updated>1729695538116</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="check whether homo sapiens is in aln">
+      <option name="closed" value="true" />
+      <created>1730907286710</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1730907286710</updated>
+    </task>
+    <task id="LOCAL-00034" summary="check whether homo sapiens is in aln">
+      <option name="closed" value="true" />
+      <created>1730907313117</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1730907313117</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -380,7 +395,8 @@
     <MESSAGE value="fixed issue with coordinates" />
     <MESSAGE value="fixing empty array" />
     <MESSAGE value="fixed formating issue in README" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed formating issue in README" />
+    <MESSAGE value="check whether homo sapiens is in aln" />
+    <option name="LAST_COMMIT_MESSAGE" value="check whether homo sapiens is in aln" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -392,12 +408,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
-          <line>488</line>
+          <line>492</line>
           <option name="timeStamp" value="236" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
-          <line>728</line>
+          <line>736</line>
           <option name="timeStamp" value="253" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -409,6 +425,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
           <line>517</line>
           <option name="timeStamp" value="266" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
+          <line>131</line>
+          <option name="timeStamp" value="267" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

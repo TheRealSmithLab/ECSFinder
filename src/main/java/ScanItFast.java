@@ -26,10 +26,13 @@ public class ScanItFast implements Runnable {
     private  double sampled_sd;
     private  double sampled_MFE;
     private  double zscore;
+    private double sci;
 
     private double sampled_sd_rc;   // For reverse complement
     private double sampled_MFE_rc;  // For reverse complement
     private double zscore_rc;       // For reverse complement
+
+    private double sci_rc;
 
     ScanItFast(ArrayList<String[]> associativeList, String[] key, File Path,
                String SSZBINARY, boolean VERBOSE) {
@@ -448,6 +451,7 @@ public class ScanItFast implements Runnable {
 
 
             } else {
+                sci= Double.parseDouble(SissizOutTab[7]);
                 sampled_MFE = Double.parseDouble(SissizOutTab[10]);
                 sampled_sd = Double.parseDouble(SissizOutTab[11]);
                 zscore = Double.parseDouble(SissizOutTab[12]);
@@ -486,7 +490,8 @@ public class ScanItFast implements Runnable {
                         ((double) (int) (10 * stats[0]) / 10),
                         sampled_MFE / len_prediction,
                         sampled_sd,
-                        zscore
+                        zscore,
+                        sci,
                 };
 
                 try {
@@ -533,6 +538,7 @@ public class ScanItFast implements Runnable {
 
                 //    System.out.println(FinalBedFileRC.replaceAll("_", "\t"));
             } else {
+                sci_rc= Double.parseDouble(SissizOutTab[7]);
                 sampled_MFE_rc = Double.parseDouble(SissizOutTab[10]);
                 sampled_sd_rc = Double.parseDouble(SissizOutTab[11]);
                 zscore_rc = Double.parseDouble(SissizOutTab[12]);
@@ -574,7 +580,9 @@ public class ScanItFast implements Runnable {
                         ((double) (int) (10 * stats[0]) / 10),
                         sampled_MFE_rc / len_prediction,
                         sampled_sd_rc,
-                        zscore_rc
+                        zscore_rc,
+                        sci_rc
+
                 };
 
                 try {
@@ -614,7 +622,7 @@ public class ScanItFast implements Runnable {
         String Command = SSZBINARY;
 
 
-        Command = Command + " -j -t " + Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + id; // RIBOSUM scoring
+        Command = Command + " -j -t --sci" + Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + id; // RIBOSUM scoring
 
         try {
             long now = System.currentTimeMillis();
@@ -622,7 +630,7 @@ public class ScanItFast implements Runnable {
             long finish = now + timeoutInMillis;
             // launch initial SISSIz call
             String name = Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + id;
-            ProcessBuilder pb = new ProcessBuilder(SSZBINARY, "-j", "-t", name);
+            ProcessBuilder pb = new ProcessBuilder(SSZBINARY, "-j", "-t", "--sci", name);
             Process Sissiz = pb.start();
             try (BufferedReader SissizErr = new BufferedReader(new InputStreamReader(Sissiz.getErrorStream()))) {
                 if (VERBOSE) {

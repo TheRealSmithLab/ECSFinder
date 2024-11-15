@@ -102,9 +102,9 @@ public class ECSFinder {
                         File fileToDelete = new File(OUT_PATH+"/aln", nameFileWithUnderscores + ".aln");
 
                         // Check if the file exists and delete it
-                        if (fileToDelete.exists()) {
-                            fileToDelete.delete();
-                        }
+                     //   if (fileToDelete.exists()) {
+                      //      fileToDelete.delete();
+                      //  }
                     }
 
                     if (new File(OUT_PATH+"/aln").isDirectory()) {
@@ -988,7 +988,7 @@ public class ECSFinder {
 
         if (logFiles != null && logFiles.length > 0) {
             try (BufferedWriter finalWriter = new BufferedWriter(new FileWriter(finalCsvPath))) {
-                finalWriter.write("name_file,min_energy,pseudo_energy,log_min_evalue,covarying_bp,MPI,average_MFE_sample,sd_sample,zscore\n");
+                finalWriter.write("name_file,min_energy,pseudo_energy,log_min_evalue,covarying_bp,MPI,average_MFE_sample,sd_sample,zscore,sci\n");
 
                 for (File logFile : logFiles) {
                     try (BufferedReader logReader = new BufferedReader(new FileReader(logFile))) {
