@@ -65,74 +65,89 @@ public class ECSFinder {
         // run RNALalifold and process results
         runRNALalifoldAndProcessResults();
         String nameOutputECS= "predicted_ECS.csv";
+        File mergedHitsFile = new File(OUT_PATH + "/merged_hits.csv");
         mergeLogFiles(OUT_PATH + "/csv/", OUT_PATH + "/merged_hits.csv");
+        if (mergedHitsFile.exists()) {
         callRScript(OUT_PATH + "/merged_hits.csv", OUT_PATH + "/"+nameOutputECS);
 
         File outputFile = new File(OUT_PATH + "/"+nameOutputECS);
 
-            try {
-                // Open the CSV file
-                BufferedReader reader = new BufferedReader(new FileReader(outputFile));
-                String line;
+        try {
+            // Open the CSV file
+            BufferedReader reader = new BufferedReader(new FileReader(outputFile));
+            String line;
 
-                // Read the header line and skip
-                reader.readLine();
-                int first=0;
-                // Process each line
-                while ((line = reader.readLine()) != null) {
-                    // Split the line by commas
-                    String[] parts = line.split(",");
+            // Read the header line and skip
+            reader.readLine();
+            int first=0;
+            // Process each line
+            while ((line = reader.readLine()) != null) {
+                // Split the line by commas
+                String[] parts = line.split(",");
 
-                    // Check if Predicted_Class is "TP"
-                    if (parts.length >= 3 && "TP".equals(parts[2])) {
-                        // Replace underscores with tabs in name_file (the first column)
-                        String nameFileWithTabs = parts[0].replace('_', '\t');
-                        if(first==0){
-                            System.out.println("chrm\tstart\tend\tNum_species\tMPI\tsd\tmean_shannon\tgc\tgap\tzscore\tstrand\tprob");
-                        }
-                        // Print the name_file and probability to the terminal
-                        System.out.println(nameFileWithTabs + "\t" + parts[1]);
-                        first+=1;
+                // Check if Predicted_Class is "TP"
+                if (parts.length >= 3 && "TP".equals(parts[2])) {
+                    // Replace underscores with tabs in name_file (the first column)
+                    String nameFileWithTabs = parts[0].replace('_', '\t');
+                    if(first==0){
+                        System.out.println("chrm\tstart\tend\tNum_species\tMPI\tsd\tmean_shannon\tgc\tgap\tzscore\tstrand\tprob");
                     }
-                    else if (parts.length >= 3 && "FP".equals(parts[2])) {
-                        // Use the original file name
-                        String nameFileWithUnderscores = parts[0];
+                    // Print the name_file and probability to the terminal
+                    System.out.println(nameFileWithTabs + "\t" + parts[1]);
+                    first+=1;
+                }
+                else if (parts.length >= 3 && "FP".equals(parts[2])) {
+                    // Use the original file name
+                    String nameFileWithUnderscores = parts[0];
 
-                        // Construct the full path to the .aln file
-                        File fileToDelete = new File(OUT_PATH+"/aln", nameFileWithUnderscores + ".aln");
+                    // Construct the full path to the .aln file
+                    File fileToDelete = new File(OUT_PATH+"/aln", nameFileWithUnderscores + ".aln");
 
-                        // Check if the file exists and delete it
-                     //   if (fileToDelete.exists()) {
-                      //      fileToDelete.delete();
-                      //  }
-                    }
-
-                    if (new File(OUT_PATH+"/aln").isDirectory()) {
-                        if (new File(OUT_PATH+"/aln").list() != null && new File(OUT_PATH+"/aln").list().length == 0) {
-                            System.out.println("No predicted ECS.");
-                            new File(OUT_PATH+"/aln").delete();
-
-                        }
-                    }
-
-
+                    // Check if the file exists and delete it
+                    //   if (fileToDelete.exists()) {
+                    //      fileToDelete.delete();
+                    //  }
                 }
 
-                // Close the reader
-                reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+                if (new File(OUT_PATH+"/aln").isDirectory()) {
+                    if (new File(OUT_PATH+"/aln").list() != null && new File(OUT_PATH+"/aln").list().length == 0) {
+                        System.out.println("No predicted ECS.");
+                        new File(OUT_PATH+"/aln").delete();
+
+                    }
+                }
+
+
             }
 
-            // Also delete the structure_input_sense.csv file
-            File CsvFile = new File(OUT_PATH, "csv");
+            // Close the reader
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            // Check if the CSV file exists and delete it
-            if (CsvFile.exists()) {
-                CsvFile.delete();
-            }
+        // Also delete the structure_input_sense.csv file
+        File CsvFile = new File(OUT_PATH, "csv");
+
+        // Check if the CSV file exists and delete it
+        if (CsvFile.exists()) {
+            CsvFile.delete();
+        }
+
+        } else {
+            System.out.println("No ECS were found.");
+            return; // or System.exit(0);
+        }
+
+        File alnDir = new File(OUT_PATH + "/aln");
+        File csvDir = new File(OUT_PATH + "/csv");
+        File outputFastaDir = new File(OUT_PATH + "/outputFastaDir");
 
 
+        // Clean up the directories and their contents
+        deleteDirectoryRecursively(alnDir);
+        cleanUpFolder(csvDir);
+        cleanUpFolder(outputFastaDir);
 
 
     }
@@ -284,7 +299,7 @@ public class ECSFinder {
         convertMafToSeparateFastas(inputFile, OUT_PATH);  // Converts to smaller blocks with overlap
 
         // Realign each block individually to avoid memory issues
-        File outputDir = new File(OUT_PATH + "/output_fasta_dir");
+        File outputDir = new File(OUT_PATH + "/outputFastaDir");
         File[] fastaFiles = outputDir.listFiles((dir, name) -> name.endsWith(".fasta"));
 
         if (fastaFiles != null) {
@@ -299,7 +314,7 @@ public class ECSFinder {
                 runRNALalifold(realignedOutput.getAbsolutePath());  // Run RNA folding on the realigned blocks
             }
         }
-      //  cleanUpFolder(outputDir);  // Optionally remove temporary files after processing
+        //  cleanUpFolder(outputDir);  // Optionally remove temporary files after processing
     }
 
 
@@ -412,7 +427,7 @@ public class ECSFinder {
                 processStockholmFile(file, mafTabTemp, associativeList, futures, multiThreads);
             }
 
-            }
+        }
     }
 
 
@@ -466,32 +481,32 @@ public class ECSFinder {
 
             }
         }
-            // Open and process the Stockholm file
-            try (BufferedReader reader = new BufferedReader(new FileReader(stockholmFile))) {
-                String currentLine;
-                String[] arrayName = new String[5];
-                String gcReference = "", gcSScons = "";
+        // Open and process the Stockholm file
+        try (BufferedReader reader = new BufferedReader(new FileReader(stockholmFile))) {
+            String currentLine;
+            String[] arrayName = new String[5];
+            String gcReference = "", gcSScons = "";
 
-                while ((currentLine = reader.readLine()) != null) {
-                    if (currentLine.startsWith("#=GF ID ")) {
-                        arrayName = currentLine.split("[_.]");
-                        associativeList = new ArrayList<>();
-                    } else if (currentLine.startsWith("#=GC RF")) {
-                        gcReference = extractValue(currentLine);
-                    } else if (currentLine.startsWith("#=GC SS_cons")) {
-                        gcSScons = extractValue(currentLine);
-                    } else if (!currentLine.startsWith("#") && !currentLine.equals("") && !currentLine.startsWith("//")) {
-                        associativeList.add(processSpeciesLine(currentLine));
-                    }
-
-                    if (!associativeList.isEmpty() && currentLine.startsWith("//")) {
-                        // Adjust motif coordinates using blockStart and pass it to processMotif
-                        processMotif(mafTabTemp, arrayName, associativeList, gcReference, gcSScons, futures, multiThreads, result);
-                    }
+            while ((currentLine = reader.readLine()) != null) {
+                if (currentLine.startsWith("#=GF ID ")) {
+                    arrayName = currentLine.split("[_.]");
+                    associativeList = new ArrayList<>();
+                } else if (currentLine.startsWith("#=GC RF")) {
+                    gcReference = extractValue(currentLine);
+                } else if (currentLine.startsWith("#=GC SS_cons")) {
+                    gcSScons = extractValue(currentLine);
+                } else if (!currentLine.startsWith("#") && !currentLine.equals("") && !currentLine.startsWith("//")) {
+                    associativeList.add(processSpeciesLine(currentLine));
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                if (!associativeList.isEmpty() && currentLine.startsWith("//")) {
+                    // Adjust motif coordinates using blockStart and pass it to processMotif
+                    processMotif(mafTabTemp, arrayName, associativeList, gcReference, gcSScons, futures, multiThreads, result);
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -503,7 +518,7 @@ public class ECSFinder {
         // Adjust the motif start position by adding blockStart to ensure correct coordinates
         int[] cordMotif;
         if (MAFFT) {
-           cordMotif = getRealCoordinates(Integer.parseInt(arrayName[4]), mafTabTemp, associativeList.get(0)[1], result);
+            cordMotif = getRealCoordinates(Integer.parseInt(arrayName[4]), mafTabTemp, associativeList.get(0)[1], result);
         } else {
             cordMotif = getRealCoordinates(Integer.parseInt(arrayName[3]), mafTabTemp, associativeList.get(0)[1], result);
         }
@@ -513,10 +528,10 @@ public class ECSFinder {
         String lociChrm ="";
         if (MAFFT) {
             // Add blockStart to adjust loci positions properly
-             lociChrm = chrom + ", " + loci.substring(1, loci.length() - 1) + ", " + mafTabTemp[4] + ", "
+            lociChrm = chrom + ", " + loci.substring(1, loci.length() - 1) + ", " + mafTabTemp[4] + ", "
                     + arrayName[4] + ", " + arrayName[5] + ", " + gcReference + ", " + gcSScons;
         } else {
-             lociChrm = chrom + ", " + loci.substring(1, loci.length() - 1) + ", " + mafTabTemp[4] + ", "
+            lociChrm = chrom + ", " + loci.substring(1, loci.length() - 1) + ", " + mafTabTemp[4] + ", "
                     + arrayName[3] + ", " + arrayName[4] + ", " + gcReference + ", " + gcSScons;
         }
 
@@ -562,17 +577,35 @@ public class ECSFinder {
     }
 
 
-    private static void cleanUpFolder(File stockholmFolder) {
-        String[] entries = stockholmFolder.list();
-        if (entries != null && entries.length > 0) {
-            for (String entry : entries) {
-                File currentFile = new File(stockholmFolder.getPath(), entry);
-                currentFile.delete();
+    private static void cleanUpFolder(File folder) {
+        if (folder.exists() && folder.isDirectory()) {
+            String[] entries = folder.list();
+            if (entries != null && entries.length > 0) {
+                for (String entry : entries) {
+                    File currentFile = new File(folder.getPath(), entry);
+                    currentFile.delete();
+                }
             }
+            folder.delete();
         }
-        stockholmFolder.delete();
     }
 
+    // Method to delete a directory and all its contents, regardless of whether it contains files
+    private static void deleteDirectoryRecursively(File directory) {
+        if (directory.exists()) {
+            File[] files = directory.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        deleteDirectoryRecursively(file);
+                    } else {
+                        file.delete();
+                    }
+                }
+            }
+            directory.delete();
+        }
+    }
 
     public static List<Double> callRScript(String inputCsv, String outputCsv) throws IOException, InterruptedException {
 
@@ -641,10 +674,14 @@ public class ECSFinder {
      * @param outputDirPath Directory to output separate FASTA files.
      */
     public static void convertMafToSeparateFastas(String mafFilePath, String outputDirPath) {
-        String fastaOutput = "output_fasta_dir";  // Directory where the FASTA files will be saved
+        String fastaOutput = "outputFastaDir";  // Directory where the FASTA files will be saved
         int blockCount = 0;  // To track the block number
         int overlapLength = 299; // Set overlap length to 299 bases
         int maxBlockSize = 5000;  // Define the maximum block size for each sequence
+        int startAln =0;
+        int lengthAln=0;
+        int endAln =0;
+        String orientation ="+";
 
         try (BufferedReader reader = new BufferedReader(new FileReader(mafFilePath))) {
             // Create the directory if it does not exist
@@ -666,7 +703,7 @@ public class ECSFinder {
                     // When starting a new alignment block, reset and write the previous block if it exists
                     if (!speciesSequences.isEmpty()) {
                         blockCount++;
-                        splitAndWriteBlocks(outputDirPath, blockCount, speciesSequences, maxBlockSize, overlapLength);
+                        splitAndWriteBlocks(outputDirPath, blockCount, speciesSequences, maxBlockSize, overlapLength,startAln,orientation, lengthAln,endAln);
                         speciesSequences.clear();  // Clear for the next block
                     }
                     currentBlockLength = 0;  // Reset block length
@@ -675,7 +712,13 @@ public class ECSFinder {
                     String[] tokens = line.split("\\s+");
                     String sequenceId = tokens[1];  // Sequence ID
                     String sequence = tokens[tokens.length - 1];  // Aligned sequence with gaps
+                    if (line.contains("homo")){
+                        startAln = Integer.parseInt(tokens[2]);
+                        lengthAln= Integer.parseInt(tokens[3]);
+                        orientation= tokens[4];
+                        endAln= Integer.parseInt(tokens[5]);
 
+                    }
                     // Add or append the sequence to the current block for the species
                     speciesSequences.computeIfAbsent(sequenceId, k -> new StringBuilder()).append(sequence);
                     currentBlockLength = Math.max(currentBlockLength, speciesSequences.get(sequenceId).length());
@@ -683,9 +726,9 @@ public class ECSFinder {
             }
 
             // Write the last block if any sequences remain
-            if (!speciesSequences.isEmpty()) {
+            if (!speciesSequences.isEmpty() ) {
                 blockCount++;
-                splitAndWriteBlocks(outputDirPath, blockCount, speciesSequences, maxBlockSize, overlapLength);
+                splitAndWriteBlocks(outputDirPath, blockCount, speciesSequences, maxBlockSize, overlapLength,startAln,orientation, lengthAln, endAln);
             }
 
         } catch (IOException e) {
@@ -708,43 +751,95 @@ public class ECSFinder {
 
 
     private static void splitAndWriteBlocks(String outputDirPath, int blockCount, Map<String, StringBuilder> speciesSequences,
-                                            int maxBlockSize, int overlapLength) throws IOException {
+                                            int maxBlockSize, int overlapLength, int startAln, String orientation,
+                                            int lengthAln, int chromosomeLength) throws IOException {
 
-        int blockPart = 1;  // Keep track of block part (if we split it)
+        int blockPart = 1;  // Track the block part
         boolean isSplit = false;
 
-        // Get the length of sequences (they should all have the same length)
+        // Determine the length of the sequences (all should have the same length)
         int fullLength = speciesSequences.values().iterator().next().length();
-        int blockStart = 0;  // This will track the starting position of each part within the block
+
+        // Find the Homo sapiens sequence and extract chromosome number
+        String homoSequence = null;
+        String homoSpeciesId = null;
+        String chromosomeNumber = null;
+        for (String key : speciesSequences.keySet()) {
+            if (key.toLowerCase().contains("homo")) {
+                homoSequence = speciesSequences.get(key).toString();
+                homoSpeciesId = key;
+                // Extract chromosome number from the species ID
+                String[] parts = homoSpeciesId.split("\\.");
+                if (parts.length > 1) {
+                    chromosomeNumber = parts[1];
+                } else {
+                    throw new IllegalArgumentException("Chromosome number not found in Homo sapiens species ID: " + homoSpeciesId);
+                }
+                break;
+            }
+        }
+
+        if (homoSequence == null) {
+            throw new IllegalArgumentException("Homo sapiens sequence not found in speciesSequences.");
+        }
 
         for (int i = 0; i < fullLength; i += (maxBlockSize - overlapLength)) {
-            String blockFileName = outputDirPath + "/output_fasta_dir/block_" + blockCount + "_part_" + blockPart + ".fasta";
-            blockStart = i;  // Track the start position for this part
+            int blockStartIndex = i;
+            int blockEndIndex = Math.min(i + maxBlockSize, fullLength);
 
-            File blockFile = new File(blockFileName);
+            // Extract sub-sequence for the current block
+            String homoSubSequence = homoSequence.substring(blockStartIndex, blockEndIndex);
 
-            // Store the block start and block part in the maps for later use
-            blockStartMap.put(blockCount+"_"+blockPart, blockStart);
+            // Calculate nucleotides excluding gaps
+            int nucleotidesUpToStart = homoSequence.substring(0, blockStartIndex).replaceAll("-", "").length();
+            int blockNucleotideLength = homoSubSequence.replaceAll("-", "").length();
 
+            int genomicStart, genomicEnd;
+
+            if (orientation.equals("+")) {
+                // Positive strand
+                genomicStart = startAln + nucleotidesUpToStart+1;
+                genomicEnd = genomicStart + blockNucleotideLength - 1;
+            } else if (orientation.equals("-")) {
+                // Negative strand
+                genomicEnd = chromosomeLength - startAln - nucleotidesUpToStart;
+                genomicStart = genomicEnd - blockNucleotideLength + 1;
+            } else {
+                throw new IllegalArgumentException("Invalid orientation: " + orientation);
+            }
+
+            // Do not adjust for 0-based coordinates
+            int adjustedGenomicStart = genomicStart; // No adjustment
+            int adjustedGenomicEnd = genomicEnd;     // No adjustment
+
+            // Ensure start is less than or equal to end
+            if (adjustedGenomicStart > adjustedGenomicEnd) {
+                int temp = adjustedGenomicStart;
+                adjustedGenomicStart = adjustedGenomicEnd;
+                adjustedGenomicEnd = temp;
+            }
+
+            // Include chromosome number in the file name
+            String blockFileName = outputDirPath + "/outputFastaDir/block_" + blockCount + "_part_" + blockPart + "_chr"
+                    + chromosomeNumber + "_" + adjustedGenomicStart + "_" + adjustedGenomicEnd + "_" + orientation + ".fasta";
+
+            // Write the block sequences to FASTA file
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(blockFileName))) {
                 for (Map.Entry<String, StringBuilder> entry : speciesSequences.entrySet()) {
                     String speciesId = entry.getKey();
                     String sequence = entry.getValue().toString();
+                    String subSequence = sequence.substring(blockStartIndex, blockEndIndex);
 
-                    // Extract the sub-sequence for this part
-                    int end = Math.min(i + maxBlockSize, sequence.length());
-                    String subSequence = sequence.substring(i, end);
-
-                    // Write the sub-sequence to the FASTA file
                     writer.write(">" + speciesId + "\n");
                     writer.write(subSequence + "\n");
                 }
             }
-            if(VERBOSE) {
-                System.out.println("Wrote block part: " + blockFileName + " starting at position: " + blockStart);
-            }
-            blockPart++;  // Increment the block part for the next segment
 
+            if (VERBOSE) {
+                System.out.println("Wrote block part: " + blockFileName + " starting at position: " + blockStartIndex);
+            }
+
+            blockPart++;  // Increment block part
             if (i + maxBlockSize < fullLength) {
                 isSplit = true;
             }
@@ -754,6 +849,8 @@ public class ECSFinder {
             System.out.println("Block " + blockCount + " was split into " + (blockPart - 1) + " parts.");
         }
     }
+
+
 
 
     /**
@@ -767,17 +864,18 @@ public class ECSFinder {
     public static void realignSequences(File inputFilePath, File outputFilePath) throws IOException, InterruptedException {
         String realignedFilePath = inputFilePath.getAbsolutePath().replace(".fasta", "_realigned.fasta");
         // Regular expression to extract the block number and part number
-        String regex = "block_(\\d+)_part_(\\d+)_realigned\\.fasta";
+        String regex = "block_(\\d+)_part_(\\d+)_chr(\\w+)_(\\d+)_(\\d+)_([+-])(?:_\\w+)?\\.fasta";
+
+
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(realignedFilePath);
         String result="";
         if (matcher.find()) {
-            // Extract the block number and part number
+            // Extract the block number, part number, and coordinates
             String blockNumber = matcher.group(1);
             String partNumber = matcher.group(2);
-
             // Combine them in the desired format
-             result = blockNumber + "_" + partNumber;
+            result = blockNumber + "_" + partNumber;
 
         } else {
             System.out.println("No match found.");
@@ -844,7 +942,6 @@ public class ECSFinder {
 
     /**
      * Executes RNALalifold on the given input file (MAF or FASTA) and writes the result to a unique Stockholm file.
-     * For MAF, it automatically generates files like alifold_0001.stk, alifold_0002.stk, etc.
      * For FASTA, we manually handle unique filenames by appending block numbers.
      *
      * @param inputFilePath  Path to the input alignment file (either MAF or FASTA)
@@ -860,7 +957,8 @@ public class ECSFinder {
 
         // If input is a FASTA file, use --id-start to specify blockNumber
         if (inputFilePath.endsWith(".fasta")) {
-            String regex = "block_(\\d+)_part_(\\d+)_realigned";
+            String regex = "block_(\\d+)_part_(\\d+)_chr(\\w+)_(\\d+)_(\\d+)_([+-])(?:_realigned)?\\.fasta";
+
 
             // Compile the pattern
             Pattern pattern = Pattern.compile(regex);
@@ -953,12 +1051,12 @@ public class ECSFinder {
             // Retrieve the Homo sapiens realigned sequence and the block start
             String homoSapiensSequence = homoSapiensSequences.get(blockPartKey);
             String homoRealigned = homoSapiensSequence.substring(0, start);
-             nuclStockholm = homoRealigned.replaceAll("-", "").length();  // Nucleotide count up to 'start'
+            nuclStockholm = homoRealigned.replaceAll("-", "").length();  // Nucleotide count up to 'start'
 
             int blockStart = blockStartMap.getOrDefault(blockPartKey, 0);
             // Get the corresponding original MAF sequence (ignoring gaps)
             String withoutGap = mafCord[6].substring(0, blockStart);
-             nuc = withoutGap.replaceAll("-", "").length();  // Count nucleotides without gaps from the original sequence
+            nuc = withoutGap.replaceAll("-", "").length();  // Count nucleotides without gaps from the original sequence
         } else{
             String withoutGap = mafCord[6].substring(0, start);
             nuc = withoutGap.replaceAll("-", "").length();
@@ -1008,8 +1106,6 @@ public class ECSFinder {
                 System.err.println("Error writing to final CSV file.");
                 e.printStackTrace();
             }
-        } else {
-            System.out.println("No log files found to merge.");
         }
     }
 
