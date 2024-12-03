@@ -141,14 +141,12 @@ public class ECSFinder {
 
         File alnDir = new File(OUT_PATH + "/aln");
         File csvDir = new File(OUT_PATH + "/csv");
-        File outputFastaDir = new File(OUT_PATH + "/outputFastaDir");
+
 
 
         // Clean up the directories and their contents
         deleteDirectoryRecursively(alnDir);
         cleanUpFolder(csvDir);
-        cleanUpFolder(outputFastaDir);
-
 
     }
 
