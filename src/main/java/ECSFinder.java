@@ -64,80 +64,82 @@ public class ECSFinder {
 
         // run RNALalifold and process results
         runRNALalifoldAndProcessResults();
-        String nameOutputECS= "predicted_ECS.csv";
+        String nameOutputECS = "predicted_ECS.csv";
         File mergedHitsFile = new File(OUT_PATH + "/merged_hits.csv");
         mergeLogFiles(OUT_PATH + "/csv/", OUT_PATH + "/merged_hits.csv");
+
+// Check if the merged hits file exists before attempting to process it
         if (mergedHitsFile.exists()) {
-        callRScript(OUT_PATH + "/merged_hits.csv", OUT_PATH + "/"+nameOutputECS);
+            callRScript(OUT_PATH + "/merged_hits.csv", OUT_PATH + "/" + nameOutputECS);
 
-        File outputFile = new File(OUT_PATH + "/"+nameOutputECS);
+            File outputFile = new File(OUT_PATH + "/" + nameOutputECS);
 
-        try {
-            // Open the CSV file
-            BufferedReader reader = new BufferedReader(new FileReader(outputFile));
-            String line;
-
-            // Read the header line and skip
-            reader.readLine();
-            int first=0;
-            // Process each line
-            while ((line = reader.readLine()) != null) {
-                // Split the line by commas
-                String[] parts = line.split(",");
-
-                // Check if Predicted_Class is "TP"
-                if (parts.length >= 3 && "TP".equals(parts[2])) {
-                    // Replace underscores with tabs in name_file (the first column)
-                    String nameFileWithTabs = parts[0].replace('_', '\t');
-                    if(first==0){
-                        System.out.println("chrm\tstart\tend\tNum_species\tMPI\tsd\tmean_shannon\tgc\tgap\tzscore\tstrand\tprob");
-                    }
-                    // Print the name_file and probability to the terminal
-                    System.out.println(nameFileWithTabs + "\t" + parts[1]);
-                    first+=1;
-                }
-                else if (parts.length >= 3 && "FP".equals(parts[2])) {
-                    // Use the original file name
-                    String nameFileWithUnderscores = parts[0];
-
-                    // Construct the full path to the .aln file
-                    File fileToDelete = new File(OUT_PATH+"/aln", nameFileWithUnderscores + ".aln");
-
-                    // Check if the file exists and delete it
-                    //   if (fileToDelete.exists()) {
-                    //      fileToDelete.delete();
-                    //  }
-                }
-
-                if (new File(OUT_PATH+"/aln").isDirectory()) {
-                    if (new File(OUT_PATH+"/aln").list() != null && new File(OUT_PATH+"/aln").list().length == 0) {
-                        System.out.println("No predicted ECS.");
-                        new File(OUT_PATH+"/aln").delete();
-
-                    }
-                }
-
-
+            // Check if the predicted_ECS.csv file exists
+            if (!outputFile.exists()) {
+                System.err.println("Error: Predicted ECS file not found: " + outputFile.getAbsolutePath());
+                System.out.println("No ECS were found.");
+                return; // Exit gracefully
             }
 
-            // Close the reader
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try {
+                // Open the CSV file
+                BufferedReader reader = new BufferedReader(new FileReader(outputFile));
+                String line;
 
-        // Also delete the structure_input_sense.csv file
-        File CsvFile = new File(OUT_PATH, "csv");
+                // Read the header line and skip
+                reader.readLine();
+                int first = 0;
 
-        // Check if the CSV file exists and delete it
-        if (CsvFile.exists()) {
-            CsvFile.delete();
-        }
+                // Process each line
+                while ((line = reader.readLine()) != null) {
+                    // Split the line by commas
+                    String[] parts = line.split(",");
 
+                    // Check if Predicted_Class is "TP"
+                    if (parts.length >= 3 && "TP".equals(parts[2])) {
+                        // Replace underscores with tabs in name_file (the first column)
+                        String nameFileWithTabs = parts[0].replace('_', '\t');
+                        if (first == 0) {
+                            System.out.println("chrm\tstart\tend\tNum_species\tMPI\tsd\tmean_shannon\tgc\tgap\tzscore\tstrand\tprob");
+                        }
+                        // Print the name_file and probability to the terminal
+                        System.out.println(nameFileWithTabs + "\t" + parts[1]);
+                        first += 1;
+                    } else if (parts.length >= 3 && "FP".equals(parts[2])) {
+                        // Use the original file name
+                        String nameFileWithUnderscores = parts[0];
+
+                        // Construct the full path to the .aln file
+                        File fileToDelete = new File(OUT_PATH + "/aln", nameFileWithUnderscores + ".aln");
+
+                        // Check if the file exists and delete it
+                        if (fileToDelete.exists()) {
+                            fileToDelete.delete();
+                        }
+                    }
+
+                    File alnDir = new File(OUT_PATH + "/aln");
+                    if (alnDir.isDirectory() && alnDir.list() != null && alnDir.list().length == 0) {
+                        System.out.println("No predicted ECS.");
+                        alnDir.delete();
+                    }
+                }
+
+                // Close the reader
+                reader.close();
+            } catch (IOException e) {
+                System.err.println("Error reading predicted ECS file: " + e.getMessage());
+                e.printStackTrace();
+            }
+
+            // Delete temporary files
+            File csvDir = new File(OUT_PATH, "csv");
+            cleanUpFolder(csvDir);
         } else {
             System.out.println("No ECS were found.");
-            return; // or System.exit(0);
+            return; // Exit gracefully
         }
+
 
         File alnDir = new File(OUT_PATH + "/aln");
         File csvDir = new File(OUT_PATH + "/csv");

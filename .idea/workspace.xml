@@ -9,13 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="added sci feature">
+    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="modified jar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ECSFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ECSFinder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/ECSFinder.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ScanItFast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScanItFast.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ECSFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ECSFinder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/FilterOutput.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FilterOutput.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/MergeNFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/MergeNFilter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ScanItFast.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ScanItFast.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -76,7 +74,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-11-openjdk-amd64" />
       <option name="MAIN_CLASS_NAME" value="ECSFinder" />
       <module name="ECSFinder" />
-      <option name="PROGRAM_PARAMETERS" value="-sszr -2.0 -o RFAM -mafft -i $PROJECT_DIR$/../test" />
+      <option name="PROGRAM_PARAMETERS" value="-sszr -0.0 -o block_198_output -mafft -i $PROJECT_DIR$/../block_198" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -395,7 +393,31 @@
       <option name="project" value="LOCAL" />
       <updated>1731733530719</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="deleting aln, keeping coordinates of fasta">
+      <option name="closed" value="true" />
+      <created>1733247006039</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1733247006039</updated>
+    </task>
+    <task id="LOCAL-00040" summary="deleting aln, keeping coordinates of fasta">
+      <option name="closed" value="true" />
+      <created>1733247045114</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1733247045114</updated>
+    </task>
+    <task id="LOCAL-00041" summary="modified jar">
+      <option name="closed" value="true" />
+      <created>1733247089880</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1733247089880</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -423,7 +445,6 @@
     <MESSAGE value="remove redundant files" />
     <MESSAGE value="Using SISSIz version 3.0" />
     <MESSAGE value="getbinarypath modified" />
-    <MESSAGE value="modified jar" />
     <MESSAGE value="add the option to realign the alignments using MAFFT" />
     <MESSAGE value="cut the fasta file to deal with memory overload" />
     <MESSAGE value="fixed issue with coordinates" />
@@ -431,7 +452,9 @@
     <MESSAGE value="fixed formating issue in README" />
     <MESSAGE value="check whether homo sapiens is in aln" />
     <MESSAGE value="added sci feature" />
-    <option name="LAST_COMMIT_MESSAGE" value="added sci feature" />
+    <MESSAGE value="deleting aln, keeping coordinates of fasta" />
+    <MESSAGE value="modified jar" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified jar" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -445,11 +468,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
           <line>492</line>
           <option name="timeStamp" value="236" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
-          <line>120</line>
-          <option name="timeStamp" value="268" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
@@ -470,6 +488,21 @@
           <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
           <line>465</line>
           <option name="timeStamp" value="329" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
+          <line>567</line>
+          <option name="timeStamp" value="330" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
+          <line>565</line>
+          <option name="timeStamp" value="331" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
+          <line>780</line>
+          <option name="timeStamp" value="332" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

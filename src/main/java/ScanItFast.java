@@ -759,13 +759,12 @@ public class ScanItFast implements Runnable {
                     "--lancaster",
                     "--nofigures",
                     "-s",
-                    directoryPath+"/"+ stkFile
+                    directoryPath + "/" + stkFile
             );
             pb.directory(new File(directoryPath));
 
             Process process = pb.start();
 
-            // Capture and print the input stream
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             while ((line = reader.readLine()) != null) {
@@ -774,11 +773,14 @@ public class ScanItFast implements Runnable {
                 }
             }
 
-            // Capture and print the error stream
             BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             String errorLine;
             while ((errorLine = errorReader.readLine()) != null) {
                 System.err.println(errorLine);
+                if (errorLine.contains("Fatal exception") || errorLine.contains("IncompleteGamma")) {
+                    System.err.println("R-scape encountered a numerical issue and will skip this alignment.");
+                    return; // Exit gracefully for this alignment
+                }
             }
 
             int exitCode = process.waitFor();
@@ -789,6 +791,7 @@ public class ScanItFast implements Runnable {
             e.printStackTrace();
         }
     }
+
 
     // Copy .aln files to the target directory
     public static void copyAlnFiles(File sourceDir, String targetDir) throws IOException {
