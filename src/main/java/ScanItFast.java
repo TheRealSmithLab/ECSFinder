@@ -474,8 +474,15 @@ public class ScanItFast implements Runnable {
 
                 runRNAalifold(clustalFilePath,fileNameBed, String.valueOf(theDir));
 
-                // Run R-scape
-                runRScape(fileNameBed+".stk", String.valueOf(theDir));
+                // Suppose we call runRScape(...)
+                boolean rScapeResult = runRScape(fileNameBed + ".stk", String.valueOf(theDir));
+
+// If R-scape returns false, skip alignment
+                if (!rScapeResult) {
+                    System.err.println("Skipping alignment because R-scape failed or encountered a fatal error.");
+                    // Clean up or return early
+                    return;
+                }
                 FilterOutput filterOutput = new FilterOutput();
 
                 double eval = filterOutput.processFilesWithSuffix(String.valueOf(theDir), "helixcov", "E-value: ");
@@ -610,76 +617,75 @@ public class ScanItFast implements Runnable {
      SISSIz scan & parse						*
      //*********************************************************************/
     // sissiz-di       cluster.109999_step.aln  8       150     0.8759  0.8542  0.0094  -13.88  -8.20   3.48    -1.63
-    protected static String[] ScanSSZ(String Path, String BedFile, int id) throws
-            IOException {
-        //stats[0] Mean Pairwise ID
-        //stats[1] Variance
-        //stats[2] Normalized Shannon entropy
-        //stats[3] GC content
-        //stats[4] GAP content
+    protected static String[] ScanSSZ(String Path, String BedFile, int id) throws IOException {
         String[] SissizOutTab = new String[12];
-        String Output, Error = "";
         String Command = SSZBINARY;
+        Command += " -j -t --sci " + Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + id;
 
+        // Build the process
+        String name = Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + id;
+        ProcessBuilder pb = new ProcessBuilder(SSZBINARY, "-j", "-t", "--sci", name);
 
-        Command = Command + " -j -t --sci" + Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + id; // RIBOSUM scoring
-
-        try {
-            long now = System.currentTimeMillis();
-            long timeoutInMillis = 1000L * 300;                          // max 5 minutes
-            long finish = now + timeoutInMillis;
-            // launch initial SISSIz call
-            String name = Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + id;
-            ProcessBuilder pb = new ProcessBuilder(SSZBINARY, "-j", "-t", "--sci", name);
-            Process Sissiz = pb.start();
-            try (BufferedReader SissizErr = new BufferedReader(new InputStreamReader(Sissiz.getErrorStream()))) {
-                if (VERBOSE) {
-                    System.out.println(": Running " + Command);
-                }
-                while (isAlive(Sissiz)) {
-                    Thread.sleep(100);
-                    if (System.currentTimeMillis() > finish) {
-                        if (VERBOSE) {
-                            System.out.println("SISSIz failed to run within time :-(");
-                        }
-                        Sissiz.destroy();
-                        return null;
-                    }
-                }
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();  // Handle any exceptions that occur
-            }
-
-            // get Output if process didn't complete in recursion
-            if (SissizOutTab[0] == null) {
-                BufferedReader SissizOut = new BufferedReader(new InputStreamReader(Sissiz.getInputStream()));
-                while ((Output = SissizOut.readLine()) != null) {
-                    // Check if the line starts with "TREE"
-                    if (Output.startsWith("TREE")) {
-                        String[] Output_new = Output.split(";");
-                        if (Output_new.length > 1 && Output_new[1].startsWith("sissiz")) {
-                            if (VERBOSE) {
-                                System.out.println(Output_new[1]);
-                            }
-                            SissizOutTab = Output_new[1].split("\\s");
-
-                            // You can modify elements in SissizOutTab as needed
-                            // Example: SissizOutTab[1] = "r";
-                        }
-                    }
-                }
-                SissizOut.close();
-            }
-
-
-        } catch (Exception err) {
-            System.out.println(" Not enough nucleotides in the column " + Command + "\n  counter--> ");
-            System.err.println("Not enough nucleotides in the column " + Command + "\n  counter--> ");
-            err.printStackTrace();
-            System.err.println("===============================");
+        if (VERBOSE) {
+            System.out.println(": Running " + Command);
         }
+
+        // Start the process
+        Process Sissiz = pb.start();
+        long now = System.currentTimeMillis();
+        long timeoutInMillis = 1000L * 300; // 5 minutes
+        long finish = now + timeoutInMillis;
+
+        // Use one try-with-resources block to read BOTH output and error streams
+        try (
+                BufferedReader sissizOut = new BufferedReader(new InputStreamReader(Sissiz.getInputStream()));
+                BufferedReader sissizErr = new BufferedReader(new InputStreamReader(Sissiz.getErrorStream()))
+        ) {
+            // Poll until the process finishes or the timeout is reached
+            while (isAlive(Sissiz)) {
+                Thread.sleep(100);
+                if (System.currentTimeMillis() > finish) {
+                    if (VERBOSE) {
+                        System.out.println("SISSIz failed to run within time :-(");
+                    }
+                    // Forcefully kill the process if it times out
+                    Sissiz.destroyForcibly();
+                    return null;
+                }
+            }
+
+            // Now that the process has ended, parse the error stream if you wish (optional):
+            while (sissizErr.ready()) {
+                String errLine = sissizErr.readLine();
+                if (VERBOSE && errLine != null) {
+                    System.err.println("SISSIz ERR: " + errLine);
+                }
+            }
+
+            // Finally, parse the output
+            String line;
+            while ((line = sissizOut.readLine()) != null) {
+                // We look for the "TREE" line in SISSIz output
+                if (line.startsWith("TREE")) {
+                    String[] Output_new = line.split(";");
+                    if (Output_new.length > 1 && Output_new[1].startsWith("sissiz")) {
+                        if (VERBOSE) {
+                            System.out.println(Output_new[1]);
+                        }
+                        SissizOutTab = Output_new[1].split("\\s");
+                    }
+                }
+            }
+
+        } catch (InterruptedException e) {
+            // If the sleep or process check was interrupted
+            e.printStackTrace();
+        }
+
+        // Return the parsed results
         return SissizOutTab;
     }
+
 
     //*********************************************************************
     //						Sample process						*
@@ -718,79 +724,121 @@ public class ScanItFast implements Runnable {
     }
     // Function to run RNAalifold
     private void runRNAalifold(String clustalFile, String noExt, String directoryPath) {
+        ProcessBuilder pb = new ProcessBuilder(
+                ECSFinder.RNAALIFOLD,
+                "--noLP",
+                "-r",
+                "--noPS",
+                "--aln-stk=" + noExt,
+                "--id-prefix=" + noExt,
+                clustalFile
+        );
+        pb.directory(new File(directoryPath));
+
         try {
-            ProcessBuilder pb = new ProcessBuilder(
-                    ECSFinder.RNAALIFOLD,
-                    "--noLP",
-                    "-r",
-                    "--noPS",
-                    "--aln-stk=" + noExt,
-                    "--id-prefix=" + noExt,
-                    clustalFile
-            );
-            pb.directory(new File(directoryPath));
             Process process = pb.start();
-
-            // Capture and print the input stream
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            BufferedWriter writer = new BufferedWriter(new FileWriter(directoryPath+"/"+noExt+".txt"));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (VERBOSE) {
-                    System.out.println(line);
+            // read the normal output in one try-with-resources
+            try (
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(directoryPath + "/" + noExt + ".txt"))
+            ) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (VERBOSE) {
+                        System.out.println(line);
+                    }
+                    writer.write(line);
+                    writer.newLine();
                 }
-                writer.write(line);
-                writer.newLine();
             }
-
-            writer.close();
-            reader.close();
-            process.waitFor();
+            // read the error stream in a separate try-with-resources
+            try (BufferedReader errReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+                while (true) {
+                    String errLine = errReader.readLine();
+                    if (errLine == null) break;
+                    if (VERBOSE) {
+                        System.err.println("RNAalifold ERR: " + errLine);
+                    }
+                }
+            }
+            // Finally, wait for the process to exit
+            int exitCode = process.waitFor();
+            if (VERBOSE) {
+                System.out.println("RNAalifold exited with code: " + exitCode);
+            }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    // Function to run R-scape
-    private void runRScape(String stkFile, String directoryPath) {
-        try {
-            ProcessBuilder pb = new ProcessBuilder(
-                    "R-scape",
-                    "--lancaster",
-                    "--nofigures",
-                    "-s",
-                    directoryPath + "/" + stkFile
-            );
-            pb.directory(new File(directoryPath));
 
+    /**
+     * Run R-scape on the given .stk file inside directoryPath.
+     *
+     * @param stkFile The filename of the .stk file (without the directory prefix).
+     * @param directoryPath The directory where the .stk file resides.
+     * @return true if R-scape completed without fatal errors, false otherwise.
+     */
+    private boolean runRScape(String stkFile, String directoryPath) {
+        ProcessBuilder pb = new ProcessBuilder(
+                "R-scape",
+                "--lancaster",
+                "--nofigures",
+                "-s",
+                directoryPath + "/" + stkFile
+        );
+        pb.directory(new File(directoryPath));
+
+        try {
             Process process = pb.start();
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (VERBOSE) {
-                    System.out.println(line);
+            // 1) Read R-scape's standard output in a try-with-resources
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (VERBOSE) {
+                        System.out.println(line);
+                    }
                 }
             }
 
-            BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-            String errorLine;
-            while ((errorLine = errorReader.readLine()) != null) {
-                System.err.println(errorLine);
-                if (errorLine.contains("Fatal exception") || errorLine.contains("IncompleteGamma")) {
-                    System.err.println("R-scape encountered a numerical issue and will skip this alignment.");
-                    return; // Exit gracefully for this alignment
+            // 2) Read R-scape's standard error in another try-with-resources
+            boolean fatalErrorFound = false;
+            try (BufferedReader errorReader = new BufferedReader(
+                    new InputStreamReader(process.getErrorStream()))) {
+                String errorLine;
+                while ((errorLine = errorReader.readLine()) != null) {
+                    System.err.println(errorLine);
+                    // If R-scape encounters a fatal error, mark it for skipping
+                    if (errorLine.contains("Fatal exception")
+                            || errorLine.contains("IncompleteGamma")) {
+                        System.err.println("R-scape encountered a numerical issue and will skip this alignment.");
+                        fatalErrorFound = true;
+                    }
                 }
             }
 
+            // 3) Wait for the process to exit
             int exitCode = process.waitFor();
             if (VERBOSE) {
                 System.out.println("R-scape exited with code: " + exitCode);
             }
+
+            // If there was a fatal error or non-zero exit code, return false
+            if (fatalErrorFound || exitCode != 0) {
+                return false;
+            }
+
+            // Otherwise, everything went fine
+            return true;
+
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            return false;  // Also indicate failure if an exception occurred
         }
     }
+
 
 
     // Copy .aln files to the target directory
