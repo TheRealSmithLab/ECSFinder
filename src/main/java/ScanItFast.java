@@ -792,7 +792,6 @@ public class ScanItFast implements Runnable {
         try {
             Process process = pb.start();
 
-            // 1) Read R-scape's standard output in a try-with-resources
             try (BufferedReader reader = new BufferedReader(
                     new InputStreamReader(process.getInputStream()))) {
                 String line;
@@ -803,7 +802,6 @@ public class ScanItFast implements Runnable {
                 }
             }
 
-            // 2) Read R-scape's standard error in another try-with-resources
             boolean fatalErrorFound = false;
             try (BufferedReader errorReader = new BufferedReader(
                     new InputStreamReader(process.getErrorStream()))) {
@@ -819,7 +817,6 @@ public class ScanItFast implements Runnable {
                 }
             }
 
-            // 3) Wait for the process to exit
             int exitCode = process.waitFor();
             if (VERBOSE) {
                 System.out.println("R-scape exited with code: " + exitCode);
