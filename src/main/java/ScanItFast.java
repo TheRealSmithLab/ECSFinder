@@ -5,10 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.Math.log10;
 
@@ -617,74 +614,38 @@ public class ScanItFast implements Runnable {
      SISSIz scan & parse						*
      //*********************************************************************/
     // sissiz-di       cluster.109999_step.aln  8       150     0.8759  0.8542  0.0094  -13.88  -8.20   3.48    -1.63
-    protected static String[] ScanSSZ(String Path, String BedFile, int id) throws IOException {
-        String[] SissizOutTab = new String[12];
-        String Command = SSZBINARY;
-        Command += " -j -t --sci " + Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + id;
+    protected static String[] ScanSSZ(String path, String bedFile, int id) throws IOException {
+        String name = path + "/" + bedFile.replaceAll("\t", "_") + ".aln." + id;
+        List<String> command = Arrays.asList(SSZBINARY, "-j", "-t", "--sci", name);
 
-        // Build the process
-        String name = Path + "/" + BedFile.replaceAll("\t", "_") + ".aln." + id;
-        ProcessBuilder pb = new ProcessBuilder(SSZBINARY, "-j", "-t", "--sci", name);
-
-        if (VERBOSE) {
-            System.out.println(": Running " + Command);
-        }
-
-        // Start the process
-        Process Sissiz = pb.start();
-        long now = System.currentTimeMillis();
-        long timeoutInMillis = 1000L * 300; // 5 minutes
-        long finish = now + timeoutInMillis;
-
-        // Use one try-with-resources block to read BOTH output and error streams
-        try (
-                BufferedReader sissizOut = new BufferedReader(new InputStreamReader(Sissiz.getInputStream()));
-                BufferedReader sissizErr = new BufferedReader(new InputStreamReader(Sissiz.getErrorStream()))
-        ) {
-            // Poll until the process finishes or the timeout is reached
-            while (isAlive(Sissiz)) {
-                Thread.sleep(100);
-                if (System.currentTimeMillis() > finish) {
-                    if (VERBOSE) {
-                        System.out.println("SISSIz failed to run within time :-(");
-                    }
-                    // Forcefully kill the process if it times out
-                    Sissiz.destroyForcibly();
-                    return null;
-                }
-            }
-
-            // Now that the process has ended, parse the error stream if you wish (optional):
-            while (sissizErr.ready()) {
-                String errLine = sissizErr.readLine();
-                if (VERBOSE && errLine != null) {
-                    System.err.println("SISSIz ERR: " + errLine);
-                }
-            }
-
-            // Finally, parse the output
-            String line;
-            while ((line = sissizOut.readLine()) != null) {
-                // We look for the "TREE" line in SISSIz output
-                if (line.startsWith("TREE")) {
-                    String[] Output_new = line.split(";");
-                    if (Output_new.length > 1 && Output_new[1].startsWith("sissiz")) {
-                        if (VERBOSE) {
-                            System.out.println(Output_new[1]);
-                        }
-                        SissizOutTab = Output_new[1].split("\\s");
-                    }
-                }
-            }
-
+        long timeoutMs = 300_000;  // 5 minutes
+        List<String> output;
+        try {
+            output = ECSFinder.runExternalCommand(command, new File(path), timeoutMs, VERBOSE);
         } catch (InterruptedException e) {
-            // If the sleep or process check was interrupted
             e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
 
-        // Return the parsed results
-        return SissizOutTab;
+        // parse the output
+        String[] sissizOutTab = new String[12];
+        for (String line : output) {
+            if (line.startsWith("TREE")) {
+                String[] parts = line.split(";");
+                if (parts.length > 1 && parts[1].startsWith("sissiz")) {
+                    if (VERBOSE) {
+                        System.out.println(parts[1]);
+                    }
+                    sissizOutTab = parts[1].split("\\s");
+                }
+            }
+        }
+        return sissizOutTab;
     }
+
 
 
     //*********************************************************************
@@ -724,7 +685,8 @@ public class ScanItFast implements Runnable {
     }
     // Function to run RNAalifold
     private void runRNAalifold(String clustalFile, String noExt, String directoryPath) {
-        ProcessBuilder pb = new ProcessBuilder(
+        // Build the RNAalifold command
+        List<String> cmd = Arrays.asList(
                 ECSFinder.RNAALIFOLD,
                 "--noLP",
                 "-r",
@@ -733,108 +695,86 @@ public class ScanItFast implements Runnable {
                 "--id-prefix=" + noExt,
                 clustalFile
         );
-        pb.directory(new File(directoryPath));
+
+
+        long timeoutMs = 300_000;  // 5 * 60 * 1000
 
         try {
-            Process process = pb.start();
-            // read the normal output in one try-with-resources
-            try (
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(directoryPath + "/" + noExt + ".txt"))
-            ) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    if (VERBOSE) {
-                        System.out.println(line);
-                    }
+
+            List<String> outputLines = ECSFinder.runExternalCommand(
+                    cmd,
+                    new File(directoryPath),
+                    timeoutMs,
+                    VERBOSE
+            );
+
+            // If you want to capture stdout in a .txt file:
+            File outputTextFile = new File(directoryPath, noExt + ".txt");
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputTextFile))) {
+                for (String line : outputLines) {
                     writer.write(line);
                     writer.newLine();
                 }
             }
-            // read the error stream in a separate try-with-resources
-            try (BufferedReader errReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
-                while (true) {
-                    String errLine = errReader.readLine();
-                    if (errLine == null) break;
-                    if (VERBOSE) {
-                        System.err.println("RNAalifold ERR: " + errLine);
-                    }
-                }
-            }
-            // Finally, wait for the process to exit
-            int exitCode = process.waitFor();
-            if (VERBOSE) {
-                System.out.println("RNAalifold exited with code: " + exitCode);
-            }
+
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
 
+
     /**
      * Run R-scape on the given .stk file inside directoryPath.
      *
-     * @param stkFile The filename of the .stk file (without the directory prefix).
-     * @param directoryPath The directory where the .stk file resides.
+     * @param stkFile        The filename of the .stk file (without the directory prefix).
+     * @param directoryPath  The directory where the .stk file resides.
      * @return true if R-scape completed without fatal errors, false otherwise.
      */
     private boolean runRScape(String stkFile, String directoryPath) {
-        ProcessBuilder pb = new ProcessBuilder(
+        // Build the R-scape command
+        List<String> cmd = Arrays.asList(
                 "R-scape",
                 "--lancaster",
                 "--nofigures",
                 "-s",
                 directoryPath + "/" + stkFile
         );
-        pb.directory(new File(directoryPath));
+
+
+        long timeoutMs = 300_000;  // 5 minutes
 
         try {
-            Process process = pb.start();
+            // Run the command with the helper method
+            List<String> outputLines = ECSFinder.runExternalCommand(
+                    cmd,
+                    new File(directoryPath),
+                    timeoutMs,
+                    VERBOSE
+            );
 
-            try (BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream()))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    if (VERBOSE) {
-                        System.out.println(line);
-                    }
-                }
-            }
-
+            // Check the lines for any fatal error markers
             boolean fatalErrorFound = false;
-            try (BufferedReader errorReader = new BufferedReader(
-                    new InputStreamReader(process.getErrorStream()))) {
-                String errorLine;
-                while ((errorLine = errorReader.readLine()) != null) {
-                    System.err.println(errorLine);
-                    // If R-scape encounters a fatal error, mark it for skipping
-                    if (errorLine.contains("Fatal exception")
-                            || errorLine.contains("IncompleteGamma")) {
-                        System.err.println("R-scape encountered a numerical issue and will skip this alignment.");
-                        fatalErrorFound = true;
-                    }
+            for (String line : outputLines) {
+                // If R-scape encounters a fatal error, mark it for skipping
+                if (line.contains("Fatal exception") || line.contains("IncompleteGamma")) {
+                    System.err.println("R-scape encountered a numerical issue and will skip this alignment.");
+                    fatalErrorFound = true;
                 }
             }
 
-            int exitCode = process.waitFor();
-            if (VERBOSE) {
-                System.out.println("R-scape exited with code: " + exitCode);
-            }
-
-            // If there was a fatal error or non-zero exit code, return false
-            if (fatalErrorFound || exitCode != 0) {
-                return false;
-            }
-
-            // Otherwise, everything went fine
-            return true;
+            // If a fatal error was found, or an exception was thrown
+            // due to a non-zero exit code,
+            // we handle that here:
+            return !fatalErrorFound;
 
         } catch (IOException | InterruptedException e) {
+            // If there's an error or a non-zero exit code, we log and return false
             e.printStackTrace();
-            return false;  // Also indicate failure if an exception occurred
+            return false;
         }
     }
+
 
 
 

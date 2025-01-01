@@ -166,17 +166,19 @@ public class ECSFinder {
     }
 
     private static String getBinaryPath(String binaryName) throws IOException {
-        ProcessBuilder pbCmd = new ProcessBuilder("which", binaryName);
-        Process pbCmdProcess = pbCmd.start();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(pbCmdProcess.getInputStream()));
-        String binaryPath = reader.readLine();
-        if (binaryPath == null) {
-            System.out.println("Please install " + binaryName + " and link it to your $PATH");
-            System.exit(0);
+        List<String> command = Arrays.asList("which", binaryName);
+        try {
+            List<String> lines = runExternalCommand(command, null, 10_000, VERBOSE);
+            if (lines.isEmpty()) {
+                throw new IOException("Cannot find " + binaryName + " in PATH");
+            }
+            return lines.get(0).trim();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException("Interrupted while locating " + binaryName, e);
         }
-        reader.close();
-        return binaryPath;
     }
+
 
     private static void parseArguments(String[] args) {
         for (int i = 0; i < args.length; i++) {
@@ -1108,6 +1110,95 @@ public class ECSFinder {
             }
         }
     }
+
+    public static List<String> runExternalCommand(List<String> command, File workingDir, long timeoutMs, boolean verbose)
+            throws IOException, InterruptedException {
+        // This will read lines from the process’s stdout
+        List<String> outputLines = new ArrayList<>();
+
+        ProcessBuilder pb = new ProcessBuilder(command);
+        if (workingDir != null) {
+            pb.directory(workingDir);
+        }
+        Process process = null;
+
+        try {
+            process = pb.start();
+
+            try (BufferedReader stdOut = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                 BufferedReader stdErr = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+
+                long startTime = System.currentTimeMillis();
+                boolean finished = false;
+
+                // Poll until the process finishes or time is up
+                while (true) {
+                    // Drain any available stdout
+                    while (stdOut.ready()) {
+                        String line = stdOut.readLine();
+                        if (line == null) break;
+                        if (verbose) System.out.println("CMD-OUT: " + line);
+                        outputLines.add(line);
+                    }
+                    // Drain any available stderr
+                    while (stdErr.ready()) {
+                        String line = stdErr.readLine();
+                        if (line == null) break;
+                        if (verbose) System.err.println("CMD-ERR: " + line);
+                    }
+
+                    // Check if process has exited
+                    try {
+                        int exitVal = process.exitValue();
+                        // If we get here, process has finished
+                        finished = true;
+                        if (exitVal != 0) {
+                            throw new IOException("Process exited with error code: " + exitVal);
+                        }
+                        break;
+                    } catch (IllegalThreadStateException e) {
+                        // still running
+                    }
+
+                    // Check timeout
+                    if (System.currentTimeMillis() - startTime > timeoutMs) {
+                        if (verbose) {
+                            System.err.println("Process timed out, destroying...");
+                        }
+                        process.destroyForcibly();
+                        throw new IOException("Process timed out after " + timeoutMs + " ms: " + command);
+                    }
+                    Thread.sleep(100);
+                }
+
+                // Ensure we read any last lines (after finishing)
+                while (stdOut.ready()) {
+                    String line = stdOut.readLine();
+                    if (line != null) {
+                        outputLines.add(line);
+                        if (verbose) System.out.println("CMD-OUT: " + line);
+                    }
+                }
+                while (stdErr.ready()) {
+                    String line = stdErr.readLine();
+                    if (verbose) System.err.println("CMD-ERR: " + line);
+                }
+
+                if (!finished) {
+                    // If for some reason it never sets finished = true
+                    throw new IOException("Process ended unexpectedly without a proper finish.");
+                }
+            }
+        } finally {
+            // If something goes wrong or if the process is still alive, force-kill it.
+            if (process != null && process.isAlive()) {
+                process.destroyForcibly();
+            }
+        }
+
+        return outputLines;
+    }
+
 
 
 }
