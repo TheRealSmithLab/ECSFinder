@@ -9,9 +9,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="preventing file-descriptor leaks">
+    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="eliminate leftover processes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ECSFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ECSFinder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ScanItFast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScanItFast.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ECSFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ECSFinder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ScanItFast.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ScanItFast.class" afterDir="false" />
@@ -49,18 +48,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;11&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/vandalovejoy/ECSFinder&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.29477197&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.30972224&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "jdk.selected.JAVA_MODULE": "11",
+    "last_opened_file_path": "/home/vandalovejoy/ECSFinder",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.29477197",
+    "project.structure.side.proportion": "0.30972224",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -74,7 +73,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-11-openjdk-amd64" />
       <option name="MAIN_CLASS_NAME" value="ECSFinder" />
       <module name="ECSFinder" />
-      <option name="PROGRAM_PARAMETERS" value="-sszr -0.0 -o block_23_output -mafft -i $PROJECT_DIR$/../new_test" />
+      <option name="PROGRAM_PARAMETERS" value="-sszr -0.0 -o test -v -mafft -i $PROJECT_DIR$/../test" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -449,7 +448,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735018133033</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="eliminate leftover processes">
+      <option name="closed" value="true" />
+      <created>1735758173542</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1735758173542</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -488,7 +495,8 @@
     <MESSAGE value="modified jar" />
     <MESSAGE value="deals with error issues from R-scape" />
     <MESSAGE value="preventing file-descriptor leaks" />
-    <option name="LAST_COMMIT_MESSAGE" value="preventing file-descriptor leaks" />
+    <MESSAGE value="eliminate leftover processes" />
+    <option name="LAST_COMMIT_MESSAGE" value="eliminate leftover processes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -500,7 +508,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
-          <line>496</line>
+          <line>495</line>
           <option name="timeStamp" value="236" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -522,6 +530,21 @@
           <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
           <line>467</line>
           <option name="timeStamp" value="329" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
+          <line>542</line>
+          <option name="timeStamp" value="333" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
+          <line>279</line>
+          <option name="timeStamp" value="335" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
+          <line>324</line>
+          <option name="timeStamp" value="337" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

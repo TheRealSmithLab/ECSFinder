@@ -471,13 +471,12 @@ public class ScanItFast implements Runnable {
 
                 runRNAalifold(clustalFilePath,fileNameBed, String.valueOf(theDir));
 
-                // Suppose we call runRScape(...)
                 boolean rScapeResult = runRScape(fileNameBed + ".stk", String.valueOf(theDir));
 
 // If R-scape returns false, skip alignment
                 if (!rScapeResult) {
                     System.err.println("Skipping alignment because R-scape failed or encountered a fatal error.");
-                    // Clean up or return early
+
                     return;
                 }
                 FilterOutput filterOutput = new FilterOutput();
@@ -525,11 +524,7 @@ public class ScanItFast implements Runnable {
         } catch (IOException Err) {
             Err.printStackTrace();
             System.err.println("ScanSSZ failed in RC with ");
-            for (int y = 0; y != goodSeqs; y++) {
-                //  if (!isNotUnique[y]) {
-                //   System.err.println(outAln[y]);
-                // }
-            }
+
             AlnRC.delete();
         }
         if (SissizOutTab == null || SissizOutTab[12] == null) {
@@ -567,8 +562,15 @@ public class ScanItFast implements Runnable {
                 runRNAalifold(clustalFilePath,fileNameBedRc, String.valueOf(theDir));
 
                 // Run R-scape
-                runRScape(fileNameBedRc+".stk", String.valueOf(theDir));
 
+                boolean rScapeResult = runRScape(fileNameBedRc + ".stk", String.valueOf(theDir));
+
+// If R-scape returns false, skip alignment
+                if (!rScapeResult) {
+                    System.err.println("Skipping alignment because R-scape failed or encountered a fatal error.");
+
+                    return;
+                }
                 FilterOutput filterOutput = new FilterOutput();
                 double eval = filterOutput.processFilesWithSuffix(String.valueOf(theDir), "helixcov", "E-value: ");
                 double cov= filterOutput.processFilesWithSuffix(String.valueOf(theDir), "power", "# BPAIRS observed to covary ");
