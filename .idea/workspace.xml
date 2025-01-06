@@ -9,10 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="eliminate leftover processes">
+    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="eliminate leftover processes in negative strands">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ScanItFast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScanItFast.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ECSFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ECSFinder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ScanItFast.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ScanItFast.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -456,7 +455,31 @@
       <option name="project" value="LOCAL" />
       <updated>1735758173542</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="eliminate leftover processes in negative strands">
+      <option name="closed" value="true" />
+      <created>1735971968985</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1735971968985</updated>
+    </task>
+    <task id="LOCAL-00048" summary="eliminate leftover processes in negative strands">
+      <option name="closed" value="true" />
+      <created>1735972004540</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1735972004540</updated>
+    </task>
+    <task id="LOCAL-00049" summary="eliminate leftover processes in negative strands">
+      <option name="closed" value="true" />
+      <created>1735972031044</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1735972031044</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -471,7 +494,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="new version with jar files" />
     <MESSAGE value="removed directory" />
     <MESSAGE value="change the model from a GLM to a RFM" />
     <MESSAGE value="modified the explanations for the README file" />
@@ -496,7 +518,8 @@
     <MESSAGE value="deals with error issues from R-scape" />
     <MESSAGE value="preventing file-descriptor leaks" />
     <MESSAGE value="eliminate leftover processes" />
-    <option name="LAST_COMMIT_MESSAGE" value="eliminate leftover processes" />
+    <MESSAGE value="eliminate leftover processes in negative strands" />
+    <option name="LAST_COMMIT_MESSAGE" value="eliminate leftover processes in negative strands" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -505,11 +528,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
           <line>538</line>
           <option name="timeStamp" value="173" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
-          <line>495</line>
-          <option name="timeStamp" value="236" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
@@ -533,18 +551,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
-          <line>542</line>
-          <option name="timeStamp" value="333" />
+          <line>1167</line>
+          <option name="timeStamp" value="338" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
-          <line>279</line>
-          <option name="timeStamp" value="335" />
+          <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
+          <line>477</line>
+          <option name="timeStamp" value="339" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ECSFinder.java</url>
-          <line>324</line>
-          <option name="timeStamp" value="337" />
+          <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
+          <line>569</line>
+          <option name="timeStamp" value="340" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
+          <line>619</line>
+          <option name="timeStamp" value="343" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

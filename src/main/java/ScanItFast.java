@@ -617,7 +617,7 @@ public class ScanItFast implements Runnable {
      //*********************************************************************/
     // sissiz-di       cluster.109999_step.aln  8       150     0.8759  0.8542  0.0094  -13.88  -8.20   3.48    -1.63
     protected static String[] ScanSSZ(String path, String bedFile, int id) throws IOException {
-        String name = path + "/" + bedFile.replaceAll("\t", "_") + ".aln." + id;
+        String name = path + bedFile.replaceAll("\t", "_") + ".aln." + id;
         List<String> command = Arrays.asList(SSZBINARY, "-j", "-t", "--sci", name);
 
         long timeoutMs = 300_000;  // 5 minutes
