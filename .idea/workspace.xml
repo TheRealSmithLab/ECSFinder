@@ -9,9 +9,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="eliminate leftover processes in negative strands">
+    <list default="true" id="8872925c-7b16-4079-839c-2557a044c4a3" name="Changes" comment="correcting path variable">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/main/java/DataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/RfamConcealer/src/main/java/DataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/main/java/RfamConcealer.java" beforeDir="false" afterPath="$PROJECT_DIR$/RfamConcealer/src/main/java/RfamConcealer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RfamConcealer/src/main/java/SequenceSampler.java" beforeDir="false" afterPath="$PROJECT_DIR$/RfamConcealer/src/main/java/SequenceSampler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ScanItFast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ScanItFast.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ECSFinder.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ScanItFast.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ScanItFast.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -47,18 +51,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "jdk.selected.JAVA_MODULE": "11",
-    "last_opened_file_path": "/home/vandalovejoy/ECSFinder",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.29477197",
-    "project.structure.side.proportion": "0.30972224",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;11&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/vandalovejoy/ECSFinder&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.29477197&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.30972224&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -72,7 +76,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-11-openjdk-amd64" />
       <option name="MAIN_CLASS_NAME" value="ECSFinder" />
       <module name="ECSFinder" />
-      <option name="PROGRAM_PARAMETERS" value="-sszr -0.0 -o test -v -mafft -i $PROJECT_DIR$/../test" />
+      <option name="PROGRAM_PARAMETERS" value="-sszr -0.0 -o test -v -c 5 -mafft -i $PROJECT_DIR$/../test" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -86,22 +90,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1723820029334</updated>
-    </task>
-    <task id="LOCAL-00001" summary="new version with jar files">
-      <option name="closed" value="true" />
-      <created>1723827021275</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1723827021275</updated>
-    </task>
-    <task id="LOCAL-00002" summary="removed directory">
-      <option name="closed" value="true" />
-      <created>1723827116308</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1723827116308</updated>
     </task>
     <task id="LOCAL-00003" summary="change the model from a GLM to a RFM">
       <option name="closed" value="true" />
@@ -479,7 +467,23 @@
       <option name="project" value="LOCAL" />
       <updated>1735972031044</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="correcting path variable">
+      <option name="closed" value="true" />
+      <created>1736134730968</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1736134730969</updated>
+    </task>
+    <task id="LOCAL-00051" summary="correcting path variable">
+      <option name="closed" value="true" />
+      <created>1736134740639</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1736134740639</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -494,7 +498,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed directory" />
     <MESSAGE value="change the model from a GLM to a RFM" />
     <MESSAGE value="modified the explanations for the README file" />
     <MESSAGE value="name of directory modified in README" />
@@ -519,7 +522,8 @@
     <MESSAGE value="preventing file-descriptor leaks" />
     <MESSAGE value="eliminate leftover processes" />
     <MESSAGE value="eliminate leftover processes in negative strands" />
-    <option name="LAST_COMMIT_MESSAGE" value="eliminate leftover processes in negative strands" />
+    <MESSAGE value="correcting path variable" />
+    <option name="LAST_COMMIT_MESSAGE" value="correcting path variable" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -563,11 +567,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
           <line>569</line>
           <option name="timeStamp" value="340" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ScanItFast.java</url>
-          <line>619</line>
-          <option name="timeStamp" value="343" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

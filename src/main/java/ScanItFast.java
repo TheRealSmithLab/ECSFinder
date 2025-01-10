@@ -617,50 +617,115 @@ public class ScanItFast implements Runnable {
      //*********************************************************************/
     // sissiz-di       cluster.109999_step.aln  8       150     0.8759  0.8542  0.0094  -13.88  -8.20   3.48    -1.63
     protected static String[] ScanSSZ(String path, String bedFile, int id) throws IOException {
-        String name = path + bedFile.replaceAll("\t", "_") + ".aln." + id;
-        List<String> command = Arrays.asList(SSZBINARY, "-j", "-t", "--sci", name);
 
-        long timeoutMs = 300_000;  // 5 minutes
-        List<String> output;
+        // Example command line:  sissiz -j -t --sci <alignment-file>
+        String name = path + bedFile.replaceAll("\t", "_") + ".aln." + id;
+        String command = SSZBINARY + " -j -t --sci " + name;  // build a single command string
+
+        // Prepare to store the parsed output
+        String[] sissizOutTab = new String[12];
+
+        // Start the SISSIz process
+        Process sissiz;
         try {
-            output = ECSFinder.runExternalCommand(command, new File(path), timeoutMs, VERBOSE);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return null;
+            sissiz = Runtime.getRuntime().exec(command, null, new File(path));
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+            return null; // Could not start the process
         }
 
-        // parse the output
-        String[] sissizOutTab = new String[12];
-        for (String line : output) {
-            if (line.startsWith("TREE")) {
-                String[] parts = line.split(";");
-                if (parts.length > 1 && parts[1].startsWith("sissiz")) {
+        // Timeout in milliseconds (5 minutes)
+        long timeoutMs = 300_000;
+        long finish = System.currentTimeMillis() + timeoutMs;
+
+        // Create readers for stdout and stderr
+        try (
+                BufferedReader sissizOut = new BufferedReader(new InputStreamReader(sissiz.getInputStream()));
+                BufferedReader sissizErr = new BufferedReader(new InputStreamReader(sissiz.getErrorStream()))
+        ) {
+            // We’ll loop until the process finishes or hits the timeout
+            while (isAlive(sissiz)) {
+
+                // Check for timeout
+                if (System.currentTimeMillis() > finish) {
                     if (VERBOSE) {
-                        System.out.println(parts[1]);
+                        System.err.println("SISSIz timed out after " + (timeoutMs / 1000) + " seconds.");
                     }
-                    sissizOutTab = parts[1].split("\\s");
+                    sissiz.destroy();
+                    return null;
+                }
+
+                // Drain stdout if there's anything ready to read
+                while (sissizOut.ready()) {
+                    String line = sissizOut.readLine();
+                    if (line != null && line.startsWith("TREE")) {
+                        String[] parts = line.split(";");
+                        if (parts.length > 1 && parts[1].startsWith("sissiz")) {
+                            if (VERBOSE) {
+                                System.out.println(parts[1]);
+                            }
+                            sissizOutTab = parts[1].split("\\s");
+                        }
+                    }
+                }
+
+                // Drain stderr if there's anything ready to read
+                while (sissizErr.ready()) {
+                    String errLine = sissizErr.readLine();
+                    if (VERBOSE) {
+                        System.err.println("SISSIz-ERR: " + errLine);
+                    }
+                }
+
+                // Sleep briefly to avoid busy-waiting
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
+
+
+            while (sissizOut.ready()) {
+                String line = sissizOut.readLine();
+                if (line != null && line.startsWith("TREE")) {
+                    String[] parts = line.split(";");
+                    if (parts.length > 1 && parts[1].startsWith("sissiz")) {
+                        if (VERBOSE) {
+                            System.out.println(parts[1]);
+                        }
+                        sissizOutTab = parts[1].split("\\s");
+                    }
+                }
+            }
+
         }
+        try {
+            int exitCode = sissiz.waitFor();
+            if (exitCode != 0 && VERBOSE) {
+                System.err.println("SISSIz exited with non-zero code: " + exitCode);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            sissiz.destroy();
+        }
+
         return sissizOutTab;
     }
 
 
-
-    //*********************************************************************
-    //						Sample process						*
-    //*********************************************************************
+    /**
+     * Helper method to see if a Process is still running.
+     */
     private static boolean isAlive(Process p) {
         try {
             p.exitValue();
-            return false;
+            return false;  // If exitValue() doesn’t throw, process has finished
         } catch (IllegalThreadStateException e) {
-            return true;
+            return true;   // Still running
         }
     }
+
 
     public void setSszR(double newValue) {
         SSZR_THRESHOLD = newValue;
