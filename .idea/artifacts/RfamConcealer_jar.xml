@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="RfamConcealer:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/RfamConcealer_jar</output-path>
-    <root id="archive" name="RfamConcealer.jar">
-      <element id="module-output" name="RfamConcealer" />
-    </root>
-  </artifact>
-</component>
