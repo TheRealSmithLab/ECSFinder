@@ -17,11 +17,11 @@ The result is a robust framework that not only identifies but also validates con
 ## Table of Contents
 
 - [Installation](#installation)
-  - [SISSIz](#sissiz)
-  - [RNALalifold](#rnalalifold)
-  - [ECSFinder](#ecsfinder)
-  - [R-scape](#r-scape)
-  - [R](#r)
+    - [SISSIz](#sissiz)
+    - [RNALalifold](#rnalalifold)
+    - [ECSFinder](#ecsfinder)
+    - [R-scape](#r-scape)
+    - [R](#r)
 - [Usage](#usage)
 - [Output](#output)
 - [Example](#example)
@@ -35,7 +35,8 @@ Follow README instructions
 Authors:  
 Tanja Gesell <tanja.gesell@univie.ac.at>  
 Stefan Washietl <wash@tbi.univie.ac.at>  
-Lorenz Perschy <NA>  
+Lorenz Perschy <NA>
+
 ### RNALalifold
 Download the package on the ViennaRNA package [website](https://www.tbi.univie.ac.at/RNA/) and follow the [instructions](https://www.tbi.univie.ac.at/RNA/documentation.html#install)
 ```
@@ -76,11 +77,10 @@ Three types of results are produced:
 * `output.maf` file containing the merged MAF file with the ancestor sequences and duplicate species removed.
 * `predicted_ECS.csv` file with predictions made.
 * A directory called `aln` containing:
-  * A clustal file, e.g., `out_directory/aln/X_9958021_9958096_11_92.2_0.1_0.16_66.8_0.4_304_+.aln`.
-     
- ### File Name:
+    * A clustal file, e.g., `out_directory/aln/X_9958021_9958096_11_92.2_0.1_0.16_66.8_0.4_304_+.aln`.
+
+### File Name:
 ***
-     
      1. Name of chromosome (X)
      2. Start loci (9958021)
      3. End loci (9958096)
@@ -93,9 +93,9 @@ Three types of results are produced:
     10. Z-score multiplied by -100 (304)
     11. Direction of the strand (+)
  ***   
-     
-   *  The genomic coordinates (.bed format) of ECSs are also written to the SDOUT
-                                    
+
+*  The genomic coordinates (.bed format) of ECSs are also written to the SDOUT
+
 ## Example
  ```
 java -jar target/ECSFinder.jar -sszr 0.0 -o TEST -i src/test/resources
